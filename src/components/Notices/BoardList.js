@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import BoardListItem from "./BoardListItem";
+import Topbar from "../Topbar";
 import {Row, Col, Collection} from 'react-materialize';
 
 export class NoticeBoard extends Component {
@@ -61,9 +62,7 @@ export class NoticeBoard extends Component {
   render() {
     return (
       <div className="content">
-        <Row>
-          <Col s={12}>Topbar</Col>
-        </Row>
+        <Topbar name="Notice Boards" showBack={true} backTo="/BOBO"/>
         <Row>
           <Col s={12}>Search</Col>
         </Row>
@@ -72,11 +71,11 @@ export class NoticeBoard extends Component {
         </Row>
         <Row>
           <Col s={12}>
-            <div className="collection">
+            <Collection>
               {this.state.Boards.map(_board => {
                 return <BoardListItem name={_board.name}/>
               })}
-            </div>
+            </Collection>
           </Col>
         </Row>
       </div>

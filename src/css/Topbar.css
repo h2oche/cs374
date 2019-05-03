@@ -1,0 +1,13 @@
+#topbar-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+#topbar {
+  font-weight: 700;
+  font-size: 2em;
+}
+
+#topbar-back-btn {
+  float: left;
+}
