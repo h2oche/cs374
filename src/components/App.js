@@ -4,10 +4,10 @@ import {BrowserRouter as Router, Route} from 'react-router-dom';
 import '../css/App.css'
 
 import Menu from './Menu';
-import StudentList from "./StudentList";
-import ClassRecord from "./ClassRecord";
-import NoticeBoard from "./NoticeBoard";
-import Settings from "./Settings";
+import StudentList from "./Students/StudentList";
+import ClassRecord from "./UploadClassRecord/ClassRecord";
+import NoticeBoard from "./Notices/NoticeBoard";
+import Settings from "./Settings/Settings";
 
 function App() {
   return (
