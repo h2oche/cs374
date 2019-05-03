@@ -13,10 +13,10 @@ function App() {
   return (
     <Router>
       <div className="container">
-        <Route exact path="/" component={StudentList}/>
-        <Route exact path="/classRecord" component={ClassRecord}/>
-        <Route exact path="/notice" component={NoticeBoard}/>
-        <Route exact path="/settings" component={Settings}/>
+        <Route exact path="/BOBO" component={StudentList}/>
+        <Route exact path="/BOBO/classRecord" component={ClassRecord}/>
+        <Route exact path="/BOBO/notice" component={NoticeBoard}/>
+        <Route exact path="/BOBO/settings" component={Settings}/>
         <Menu/>
       </div>
     </Router>
