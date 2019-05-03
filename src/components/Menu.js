@@ -6,10 +6,10 @@ export class Menu extends Component {
   render() {
     return (
       <div className="menu">
-        <div className="menu-item"><Link to="/">Student List</Link></div>
-        <div className="menu-item"><Link to="/classRecord">Class Record</Link></div>
-        <div className="menu-item"><Link to="/notice">Notice</Link></div>
-        <div className="menu-item"><Link to="/settings">Settings</Link></div>
+        <div className="menu-item"><Link to="/BOBO">Student List</Link></div>
+        <div className="menu-item"><Link to="/BOBO/classRecord">Class Record</Link></div>
+        <div className="menu-item"><Link to="/BOBO/notice">Notice</Link></div>
+        <div className="menu-item"><Link to="/BOBO/settings">Settings</Link></div>
       </div>
     )
   }
