@@ -1,0 +1,8 @@
+#notice-list-search-row, #notice-list-search-row div, #notice-list-search{
+  margin-bottom: 0px;
+  margin-top: 0px;
+}
+
+#notice-list-search-row > .helper-text {
+  min-height: 0;
+}
