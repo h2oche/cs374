@@ -2,6 +2,21 @@ import React, { Component } from 'react'
 import {Button, Textarea, Icon} from 'react-materialize';
 import Topbar from "../Topbar";
 import '../../css/ClassRecord.css';
+import Popup from "reactjs-popup";
+
+const PopupExample =  () => (
+  <Popup trigger={<Button>Cancel</Button>} position="top left">
+    {close => (
+      <div>
+        Will you really cancel?
+        <a className="close" onClick={close}>
+          &times;
+        </a>
+      </div>
+    )}
+  </Popup>
+)
+
 export class ClassRecord extends Component {
   state={
     textname: '',
@@ -22,7 +37,6 @@ export class ClassRecord extends Component {
   handlefileChange(e) {
   this.setState({file:e.target.files[0]});
   }
-
   doneonClick()
   {
     if(this.state.file!=null)
@@ -58,9 +72,8 @@ export class ClassRecord extends Component {
           onChange={this.handlecontentChange} value={this.state.textcontent}/>
 
           <div className="row">
-            <Button >
-              Cancel
-            </Button>
+            <PopupExample/>
+
             <Button waves="light" onClick={this.doneonClick.bind(this)}
               className="buttonright">
               Done
