@@ -1,0 +1,45 @@
+#add-notice-name-row, #add-notice-name-row div, #add-notice-name, #add-notice-info-row .input-field{
+  margin-bottom: 0px;
+  margin-top: 0px;
+}
+
+#add-notice-name-row .helper-text, #add-notice-info-row .helper-text {
+  min-height: 0;
+}
+
+#noticeContent {
+  min-height: 230px;
+  max-height: 230px;
+  overflow: scroll;
+}
+
+#add-notice-info-row {
+  padding: 0 10.5px;
+}
+
+#add-notice-type-col {
+  padding: 6px;
+}
+
+[type="radio"]:not(:checked) + span, [type="radio"]:checked + span {
+  padding-left: 23px;
+}
+
+#add-notice-info-row .input-field {
+  padding: 0px;
+  margin-top: 14px;
+}
+
+#add-notice-info-row .input-field.col label {
+  left: 0;
+}
+
+#add-notice-info-row .datepicker {
+  height: 30px;
+  font-size: 14px;
+}
+
+/* #add-notice-user-list-row div.row {
+  overflow: scroll;
+  max-height: 250px;
+} */
