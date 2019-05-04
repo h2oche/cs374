@@ -5,7 +5,7 @@ export class BoardListItem extends Component {
   render() {
     return (
       <CollectionItem href="#">
-        {this.props.name}
+        {this.props.data.name}
       </CollectionItem>
     )
   }
