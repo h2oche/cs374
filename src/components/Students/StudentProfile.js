@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import '../../css/StudentProfile.css'
 import Topbar from '../Topbar';
 import logo from './profile_pic.JPG'
-import {Row, Col} from 'react-materialize'
+import {Button, Row, Col} from 'react-materialize'
+import {Link} from 'react-router-dom'
 
 export class StudentProfile extends Component {
   render() {
@@ -12,6 +12,11 @@ export class StudentProfile extends Component {
         <hr style = {{width: "360px", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
         <Demographic />
         <hr style = {{width: "360px", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
+        <div className="ButtonContainer">
+            <button className="Button" onClick={function() {window.location.href="/BOBO/StudentProfile/ClassRecord/"}}>Class Record</button>
+            <br/>
+            <button className="Button">Instructor's Note</button>
+        </div>
       </div>
     )
   }
@@ -27,14 +32,14 @@ class Demographic extends Component {
     render() {
         return (
             <div className="DemographicContainer">
-                <Row style={{marginTop: '15px', marginBotton: '15px'}}>
-                    <Col s={5} style={{alignItems: 'center'}}>
-                        <img className="ProfileImage" src={logo} alt="logo"></img>
+                <Row className="DemographicRow" style={{paddingTop: '15px', paddingBottom: '15px'}}>
+                    <Col className="DemographicCol" s={5}>
+                        <div className="ProfileImage" alt="logo"></div>
                     </Col>
-                    <Col s={7}>
-                        <div className="Parent">
+                    <Col className="DemographicCol" s={7}>
+                        <div className="ProfileTextWrapper">
                             <div className="ProfileText">
-                                <span>{'Name:' + this.state.Name}</span>
+                                <span> Name: {this.state.Name}</span>
                                 <br/>
                                 <span>Class: {this.state.Class}</span>
                                 <br/>
@@ -45,18 +50,7 @@ class Demographic extends Component {
                         </div>
                     </Col>
                 </Row>
-                    {/* <img className="ProfileImage" src={logo} alt="logo"></img>
-                    <div className="ProfileText">
-                        <span>{'Name:' + this.state.Name}</span>
-                        <br/>
-                        <span>Class: {this.state.Class}</span>
-                        <br/>
-                        <span>Age: {this.state.Age}</span>
-                        <br/>
-                        <span>Tel: {this.state.Tel}</span>
-                    </div> */}
             </div>
-            
         )
     }
 }
