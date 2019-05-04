@@ -4,16 +4,17 @@ import Topbar from "../Topbar";
 import '../../css/ClassRecord.css';
 import Popup from "reactjs-popup";
 import {Link} from 'react-router-dom';
+import {Row, Col} from 'react-materialize'
 
 const PopupExample =  () => (
-  <Popup trigger={<Button>Cancel</Button>} position="top left">
+  <Popup trigger={<Button className="pinkcancelbutton buttonleft" >Cancel</Button>} position="top left">
     {close => (
       <div>
         <p>Are you sure to cancel?<br></br><br></br></p>
 
-          <Button className="close" onClick={close}>No</Button>
+          <Button className="close pinkcancelbutton" onClick={close}>No</Button>
           <Link to="/BOBO">
-            <Button className="close" style={{float:"right"}} onClick={ClassRecord.doneonClick}>
+            <Button className="close pinkcancelbutton" style={{float:"right"}} onClick={ClassRecord.doneonClick}>
               Yes
             </Button>
           </Link>
@@ -21,14 +22,11 @@ const PopupExample =  () => (
     )}
   </Popup>
 )
-
-
 export class ClassRecord extends Component {
   state={
     textname: '',
     textcontent:'',
     file:null,
-
   }
   handlenameChange = e =>
   {
@@ -39,16 +37,22 @@ export class ClassRecord extends Component {
     this.setState({textcontent : e.target.value});
   }
   handlefileChange(e) {
-  this.setState({file:e.target.files[0]});
+  this.setState({file:e.target.files});
   }
   doneonClick = () =>
   {
-    console.log("E");
+
     if(this.state.file!=null)
     {
+      let filenames="";
+      for(var i=0;i<this.state.file.length;i++)
+      {
+        filenames += "File_name : " + this.state.file[i].name + " File_modified : "
+        + this.state.file[i].name + "\n";
+      }
       alert('Student : ' + this.state.textname + '  Content : ' + this.state.textcontent
-    + '  file_name :' + this.state.file.name + '  file_modified_date : '+ this.state.file.LastModifiedDate
-   + ' file_size : ' + this.state.file.size);
+        + '  files :' + filenames);
+
     }
     else
     {
@@ -59,40 +63,43 @@ export class ClassRecord extends Component {
     return (
       <div className="content">
         <Topbar name="Upload Class Record" showBack={true} backTo="/BOBO"/>
-        <div>
-          Students :
-         <textarea name="name" id="upload_studentsname"
-           value = {this.state.textname} placeholder="Write students' name.."
-           style={{width:400}} className="materialize-textarea"
-           onChange={this.handlenameChange}/>
-       </div><br></br>
-     <div >
-        <form action="#">
-          <div className="btn">
-            <input type="file" onChange={this.handlefileChange.bind(this)}/>
-            <input type="file" accept="image/*;capture=camera"/>
-            <input type="file" accept="image/*" capture="camera"/>
+       <div className="row">
+        <div className="col s12">
+          Students:
+          <div className="input-field inline">
+            <input type="text"/>
+            <label>Write student's name</label>
           </div>
-        </form>
+        </div>
       </div>
+       <div className="buttons">
+         <form action="#" >
+            <div className="btn pinkbutton buttonleft">
+              <input type="file" id="File" onChange={this.handlefileChange.bind(this)} multiple/>
+              <label htmlFor="File" className="bigfont">File</label>
+            </div>           <div className="btn pinkbutton">
+              <input type="file" id="Camera" accept="image/*" capture="camera"/>
+              <label htmlFor="Camera" className="bigfont">Camera</label>
+            </div>           <div className="btn pinkbutton">
+              <input type="file" id="Gallery" accept="image/*;capture=camera"/>
+              <label htmlFor="Gallery" className="bigfont">Gallery</label>
+            </div>
+          </form>
+        </div>
         <hr className="bottommargin" color="#d3d3d3"></hr>
         <div className="bottommargin">
           <Textarea placeholder="Write class records..
-            #classs #amy" style={{height:200}}
+            #classs #amy"
             onChange={this.handlecontentChange} value={this.state.textcontent}/>
-
             <div className="row">
               <PopupExample/>
-
               <Button waves="light" onClick={this.doneonClick.bind(this)}
-                className="buttonright">
+                className="buttonright pinkcancelbutton">
                 Done
               </Button>
             </div>
           </div>
       </div>
-
-
     )
   }
 }
