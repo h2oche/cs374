@@ -1,0 +1,21 @@
+div
+{
+    align-items: center;
+}
+
+.ButtonContainer
+{
+    text-align: center;
+}
+
+.Button
+{
+    margin-top:40px;
+    background-color:lightgray;
+    border:none;
+    width:220px;
+    height:60px;
+    font-size:20px;
+    font-weight:bold;
+    letter-spacing: 0.5px;
+}

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Topbar from "../Topbar";
 import {Row, Col, Collection, Autocomplete} from 'react-materialize';
 import StudentListItem from './StudentListItem';
+import {Redirect} from 'react-router';
+
 
 import "../../css/Students/StudentList.css"
 export class StudentList extends Component {
@@ -50,6 +52,12 @@ export class StudentList extends Component {
     this.setState({...this.state, autocompleteData, showAutocomplete:true});
   }
 
+  onAutocomplete = (_studentName) => {
+    var student = this.state.Students.find(_student => _student.name === _studentName) //FIXME: id instead name
+    this.setState({ ...this.state, redirect: true, redirectTo: "/BOBO/StudentList/Profile/"}); 
+    //FIXME: "/BOBO/StudentList/Profile/" + student.id
+  }
+
   renderStudentList = () => {
     return this.state.Students.map(_student => {
       return <StudentListItem data = {_student} />
@@ -57,6 +65,9 @@ export class StudentList extends Component {
   }
 
   render() {
+    if(this.state.redirect)
+      return <Redirect to={this.state.redirectTo} />
+
     return (
       <div className="content">
         <Topbar name="Student List" showBack={true} backTo="/BOBO"/>
@@ -74,10 +85,11 @@ export class StudentList extends Component {
         {/* show student list */}
         <Row>
           <Col s={12}>
-            <Collection>{this.renderStudentList()}</Collection>
+            <Collection /*style={{alignItems: 'center'}}*/>
+              {this.renderStudentList()}
+            </Collection>
           </Col>
         </Row>
-        StudentList :p
       </div>
     )
   }

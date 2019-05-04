@@ -6,3 +6,34 @@
 #notice-list-search-row > .helper-text {
   min-height: 0;
 }
+
+
+.student
+{
+  display: table;
+  height: 100%;
+}
+.studentChild
+{
+  display: table;
+  vertical-align: middle;
+}
+
+
+.studentItem
+{
+  display: table;
+  height: 100%;
+}
+.studentItemChild
+{
+  display: table-cell;
+  vertical-align: middle;
+  font-size: 18px;
+  width: 210px;
+}
+
+.studentName
+{
+  font-weight: 700;
+}
