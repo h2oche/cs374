@@ -8,7 +8,7 @@ export class Menu extends Component {
       <div className="menu">
         <div className="menu-item"><Link to="/BOBO">Student List</Link></div>
         <div className="menu-item"><Link to="/BOBO/classRecord">Class Record</Link></div>
-        <div className="menu-item"><Link to="/BOBO/notice">Notice</Link></div>
+        <div className="menu-item"><Link to="/BOBO/board">Notice</Link></div>
         <div className="menu-item"><Link to="/BOBO/settings">Settings</Link></div>
       </div>
     )

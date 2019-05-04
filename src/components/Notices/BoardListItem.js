@@ -4,7 +4,7 @@ import {CollectionItem} from 'react-materialize';
 export class BoardListItem extends Component {
   render() {
     return (
-      <CollectionItem href="#">
+      <CollectionItem href={"/BOBO/board/" + this.props.data.id}>
         {this.props.data.name}
       </CollectionItem>
     )

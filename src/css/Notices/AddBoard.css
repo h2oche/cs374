@@ -1,0 +1,14 @@
+#add-board-name-row, #add-board-name-row div, #add-board-name{
+  margin-bottom: 0px;
+  margin-top: 0px;
+}
+
+#add-board-name-row .helper-text {
+  min-height: 0;
+}
+
+#add-board-user-list-row div.row {
+  overflow: scroll;
+  max-height: 250px;
+}
+  

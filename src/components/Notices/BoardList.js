@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import BoardListItem from "./BoardListItem";
 import Topbar from "../Topbar";
-import {Row, Col, Collection, Autocomplete} from 'react-materialize';
+import {Row, Col, Collection, Autocomplete, Button} from 'react-materialize';
+import {Redirect} from 'react-router';
 
 import "../../css/Notices/BoardList.css"
 
@@ -61,6 +62,8 @@ export class NoticeBoard extends Component {
       }],
       validBoards: [],
       autocompleteData: {Test:null, Test2:null},
+      redirect: false,
+      redirectTo: -1,
     }
   }
 
@@ -78,6 +81,11 @@ export class NoticeBoard extends Component {
     this.setState({...this.state, validBoards, autocompleteData, showAutocomplete:true});
   }
 
+  onAutocomplete = (_boardName) => {
+    var board = this.state.validBoards.find(_board => _board.name === _boardName);
+    this.setState({...this.state, redirect: true, redirectTo: "/BOBO/board/" + board.id});
+  }
+
   renderBoardList = () => {
     return this.state.validBoards.map(_board => {
       return <BoardListItem data={_board}/>
@@ -85,14 +93,30 @@ export class NoticeBoard extends Component {
   }
 
   render() {
+    if(this.state.redirect)
+      return <Redirect to={this.state.redirectTo}/>
+
     return (
       <div className="content">
-        <Topbar name="Notice Boards" showBack={true} backTo="/BOBO"/>
-        <Row id="notice-list-search-row">
+        <Topbar
+          name="Notice Boards"
+          showOptional={true}
+          optionalComponent={<Button
+                              id="board-list-add-btn"
+                              node="a"
+                              floating small
+                              className="red"
+                              waves="light"
+                              icon="add"
+                              href={"/BOBO/addBoard"}/>}/>
+        <Row id="board-list-search-row">
           <Col s={12}>
             {/* <TextInput id="notice-list-search" s={12} icon="search" placeholder="Search notice board name."/> */}
             {this.state.showAutocomplete ?
-              <Autocomplete options={{data: this.state.autocompleteData}} placeholder="Search notice board name" icon="search" s={12}/> :
+              <Autocomplete
+                options={{data: this.state.autocompleteData, onAutocomplete:this.onAutocomplete}}
+                placeholder="Search notice board name"
+                icon="search" s={12}/> :
               <span></span>
             }
           </Col>
