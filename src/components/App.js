@@ -7,22 +7,24 @@ import '../css/App.css'
 
 import Menu from './Menu';
 import StudentList from "./Students/StudentList";
-import ClassRecord from "./UploadClassRecord/ClassRecord";
+import UploadClassRecord from "./UploadClassRecord/ClassRecord";
 import NoticeBoard from "./Notices/BoardList";
 import Settings from "./Settings/Settings";
 import Board from './Notices/Board';
 import AddBoard from "./Notices/AddBoard";
 import StudentProfile from "./Students/StudentProfile";
 import InstructorsNote from "./Students/InstructorsNote";
+import ClassRecord from "./Students/ClassRecord";
 
 function App() {
   return (
     <Router>
       <div className="container">
         <Route exact path="/BOBO" component={StudentList}/>
-        <Route path="/BOBO/studentProfile/:id" component={StudentProfile}/>
+        <Route path="/BOBO/studentProfile/main/:id" component={StudentProfile}/>
         <Route path="/BOBO/studentProfile/instructorsNote/:id" component={InstructorsNote}/>
-        <Route exact path="/BOBO/classRecord" component={ClassRecord}/>
+        <Route path="/BOBO/studentProfile/classRecord/:id" component={ClassRecord}/>
+        <Route exact path="/BOBO/classRecord" component={UploadClassRecord}/>
         <Route exact path="/BOBO/addBoard" component={AddBoard}/>
         <Route exact path="/BOBO/board" component={NoticeBoard}/>
         <Route path="/BOBO/board/:id" component={Board}/>
