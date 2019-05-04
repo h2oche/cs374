@@ -1,0 +1,26 @@
+#board-pagination-row {
+  text-align: center;
+}
+
+#board-pagination-row .pagination {
+  display: inline;
+}
+
+#board-notice-list {
+  height: 70%;
+  padding: 0 10px;
+}
+
+#board-notice-list .collection-item {
+  padding: 6px 7px;
+}
+
+.notice-list-item {
+  background-color: black;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  padding-left: 6px;
+}

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Row, Col, Button} from 'react-materialize';
 import "../css/Topbar.css";
+import {browserHistory} from 'react-router';
 
 export class Topbar extends Component {
   render() {

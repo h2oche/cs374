@@ -12,6 +12,8 @@ import NoticeBoard from "./Notices/BoardList";
 import Settings from "./Settings/Settings";
 import Board from './Notices/Board';
 import AddBoard from "./Notices/AddBoard";
+import Notice from './Notices/Notice';
+import AddNotice from './Notices/AddNotice';
 import StudentProfile from "./Students/StudentProfile";
 import InstructorsNote from "./Students/InstructorsNote";
 import ClassRecord from "./Students/ClassRecord";
@@ -27,7 +29,9 @@ function App() {
         <Route exact path="/BOBO/classRecord" component={UploadClassRecord}/>
         <Route exact path="/BOBO/addBoard" component={AddBoard}/>
         <Route exact path="/BOBO/board" component={NoticeBoard}/>
-        <Route path="/BOBO/board/:id" component={Board}/>
+        <Route exact path="/BOBO/board/:id/addNotice" component={AddNotice}/>
+        <Route exact path="/BOBO/board/:id" component={Board}/>
+        <Route path="/BOBO/notice/:id" component={Notice}/>
         <Route exact path="/BOBO/settings" component={Settings}/>
         <Menu/>
       </div>
