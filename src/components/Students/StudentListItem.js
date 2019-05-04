@@ -8,7 +8,7 @@ import photo from './student_photo.jpeg'
 export class StudentListItem extends Component {
   render() {
     return (
-      <CollectionItem className="student" href="#">
+      <CollectionItem className="student" href={"/BOBO/studentProfile/main/"+this.props.data.id}>
         <Row className="studentChild" style={{ marginTop: '0px', marginBotton: '0px', height: '70px' }}>
           <Col s={3} style={{ alignItems: 'center' }}>
             <img className="ProfileImage" src={photo} alt="photo" width='70px' height='70px'></img>
