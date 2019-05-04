@@ -1,7 +1,58 @@
 .buttonright {
-  float:right
+  float:right;
+  margin-right: 8%;
+}
+.buttonleft {
+  margin-left: 6%;
 }
 .bottommargin {
   margin-top: 65px;
 
+}
+.inline-block {
+    display: inline;
+    width:100%;
+
+ }
+
+ #studenttextarea, #studentstext{
+     float:left;
+ }
+ ul { list-style-type: none; }
+ input[type="file"] {
+   opacity: 0;
+   position: absolute;
+   pointer-events: none;
+
+   width: 1px;
+   height: 1px;
+
+ }
+input[type="file"]+label {
+
+  color:white;
+}
+
+.pinkbutton {
+  background-color: #f39ca0;
+  font-weight: bold;
+  width: 25%;
+  margin-right: 4%;
+} .pinkbutton:hover {
+  background: #f39ca0;
+}
+
+.bigfont {
+  font-size:14px;
+}
+
+.buttons {
+  margin:auto;
+}
+
+.pinkcancelbutton {
+  background-color: #f39ca0;
+  font-weight: bold;
+}.pinkcancelbutton:hover {
+  background: #f39ca0;
 }
