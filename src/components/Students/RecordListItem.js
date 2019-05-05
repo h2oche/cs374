@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { CollectionItem } from 'react-materialize';
+import { CollectionItem, Color } from 'react-materialize';
 import { Row, Col } from 'react-materialize'
 
 import "../../css/Students/ClassRecord.css"
@@ -9,7 +9,15 @@ export class RecordListItem extends Component {
     console.log(this.props.data)
     return (
       <CollectionItem>
-     hello
+        <Row>
+          <Col style={{ color:'#ad1457'/*pink darken-3*/}}>{this.props.data.Date}</Col>
+          <Col style={{ color: '#88024f' /* pink darken-4*/}}>{"wrote by: " +  this.props.data.Instructor}</Col>
+        </Row>
+        <Row>
+          <Col>
+            {this.props.data.Text}
+          </Col>
+        </Row>
       </CollectionItem>
     )
   }
