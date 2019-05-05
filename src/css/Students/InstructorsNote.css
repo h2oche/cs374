@@ -45,11 +45,11 @@
 
 .NoteDeleteTitle
 {
+    color: #b71c1c;
     display: table-row;
     text-align: center;
     font-size: 35px;
     font-weight: bold;
-    color: black;
 }
 
 .NoteDeleteContainer [type="checkbox"]:checked + span:not(.lever):before {
@@ -72,7 +72,17 @@
 {
     font-size: 18px;
     line-height: 150%;
+    font-weight: bold;
 }
+
+.NoteDeleteWarningTextImportant
+{
+    font-size: 18px;
+    line-height: 150%;
+    font-weight: bold;
+    color: #b71c1c;
+}
+
 
 .AddButtonContainer
 {
