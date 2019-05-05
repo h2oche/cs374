@@ -108,6 +108,7 @@ export class StudentList extends Component {
   }
 
   renderStudentFilteredList = () => {
+    console.log('renderfilter:', this.state.studentFiltered)
     return this.state.studentFiltered.map(_student => {
       return <StudentListItem data={_student} />
     });
@@ -156,10 +157,10 @@ export class StudentList extends Component {
         {/* show student list */}
         <Row id="show-student-list-row">
           <Col className="showStudentList" s={12}>
-            {this.showSelectClass ?
+            {this.state.showSelectClass ?
             <Collection>
             {this.renderStudentFilteredList()}
-          </Collection>
+            </Collection>
             :
             <Collection>
               {this.renderStudentList()}
