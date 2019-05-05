@@ -4,3 +4,7 @@
   max-height: 450px;
 }
 
+.who-wrote-col {
+  color: #88024f; /* pink darken-4*/
+  text-align: right;
+}
