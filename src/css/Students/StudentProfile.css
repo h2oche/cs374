@@ -1,3 +1,9 @@
+.StudentProfileContent
+{
+    display:flex;
+    flex-direction: column;
+}
+
 .ButtonContainer
 {
     text-align: center;

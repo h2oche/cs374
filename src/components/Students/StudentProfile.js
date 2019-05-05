@@ -24,7 +24,7 @@ export class StudentProfile extends Component {
         if(this.state.redirect)
             return (<Redirect to={this.state.target}></Redirect>);
         return (
-        <div style = {{width:"100%"}} className="content">
+        <div style = {{width:"100%"}} className="content studentProfileContent">
             <Topbar name="Profile" showBack={true} backTo = "/BOBO/"></Topbar>
             <hr style = {{width: "360px", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
             <Demographic />
