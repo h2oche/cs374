@@ -4,6 +4,10 @@
   max-height: 450px;
 }
 
+.board-list-add-btn {
+  background-color: palevioletred;
+}
+
 .who-wrote-col {
   color: #88024f; /* pink darken-4*/
   text-align: right;

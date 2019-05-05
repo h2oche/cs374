@@ -131,7 +131,6 @@ export class NoticeBoard extends Component {
                               id="board-list-add-btn"
                               node="a"
                               floating small
-                              className="red"
                               waves="light"
                               icon="add"
                               href={"/BOBO/addBoard"}/>}/>

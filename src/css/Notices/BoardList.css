@@ -8,5 +8,6 @@
 }
 
 #board-list-add-btn {
+  background-color: palevioletred;
   float:right;
 }
