@@ -33,6 +33,12 @@ input[type="file"]+label {
   color:white;
 }
 
+#hash-span {
+  color: #db98a5;
+  /*color:#8d192b; */ /* rose color */
+}
+
+
 .pinkbutton {
   background-color: #f39ca0;
   font-weight: bold;

@@ -172,7 +172,7 @@ class Hash extends Component {
 
   render() {
     return (
-      <span onClick={this.onHashtagSelection}>{'#' + this.props.data + ' '}</span>
+      <span id='hash-span' onClick={this.onHashtagSelection}>{'#' + this.props.data + ' '}</span>
     );
   }
 }

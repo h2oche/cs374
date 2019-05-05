@@ -86,7 +86,7 @@ export class StudentList extends Component {
 
   onAutocomplete = (_studentName) => {
     var student = this.state.Students.find(_student => _student.name === _studentName)
-    this.setState({ ...this.state, redirect: true, redirectTo: "/BOBO/StudentProfile/main/tommy" }); //FIXME: id instead tommy
+    this.setState({ ...this.state, redirect: true, redirectTo: "/BOBO/studentProfile/main/2/2" }); //FIXME: id instead tommy
     console.log('tommy')
   }
 
