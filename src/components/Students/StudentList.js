@@ -4,7 +4,7 @@ import { Row, Col, Collection, Autocomplete, Button, Dropdown, Select, Divider }
 import StudentListItem from './StudentListItem';
 import ClassListItem from './ClassListItem';
 import { Redirect } from 'react-router';
-
+import { getFireDB_arr } from '../../config/fire'
 
 import "../../css/Students/StudentList.css"
 export class StudentList extends Component {
@@ -80,6 +80,8 @@ export class StudentList extends Component {
       return { ..._acc, [_student.name]: null };
     }, {});
     this.setState({ ...this.state, autocompleteData, showAutocomplete: true});
+    getFireDB_arr('User/',this,'Students','type','parent');
+
   }
 
   onAutocomplete = (_studentName) => {

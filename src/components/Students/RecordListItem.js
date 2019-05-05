@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { CollectionItem, Color } from 'react-materialize';
 import { Row, Col } from 'react-materialize'
 
+import Hashtag from './Hashtag';
 import "../../css/Students/ClassRecord.css"
 
 export class RecordListItem extends Component {
@@ -16,6 +17,11 @@ export class RecordListItem extends Component {
         <Row>
           <Col>
             {this.props.data.Text}
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Hashtag data={this.props.data.Hashtag} />
           </Col>
         </Row>
       </CollectionItem>

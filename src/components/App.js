@@ -17,15 +17,19 @@ import AddNotice from './Notices/AddNotice';
 import StudentProfile from "./Students/StudentProfile";
 import InstructorsNote from "./Students/InstructorsNote";
 import ClassRecord from "./Students/ClassRecord";
+import InstructorsNoteAddModify from './Students/InstructorsNoteAddModify';
 
+import { fire} from '../config/fire';
 function App() {
+  fire();
   return (
     <Router>
       <div className="container">
         <Route exact path="/BOBO" component={StudentList}/>
-        <Route path="/BOBO/studentProfile/main/:id" component={StudentProfile}/>
-        <Route path="/BOBO/studentProfile/instructorsNote/:id" component={InstructorsNote}/>
-        <Route path="/BOBO/studentProfile/classRecord/:id" component={ClassRecord}/>
+        <Route path="/BOBO/studentProfile/main/:instructor_id/:student_id" component={StudentProfile}/>
+        <Route path="/BOBO/studentProfile/instructorsNote/:instructor_id/:student_id" component={InstructorsNote}/>
+        <Route path="/BOBO/studentProfile/instructorsNoteAddModify/:instructor_id/:student_id" component={InstructorsNoteAddModify}/>
+        <Route path="/BOBO/studentProfile/classRecord/:id" component={ClassRecord}/>"
         <Route exact path="/BOBO/classRecord" component={UploadClassRecord}/>
         <Route exact path="/BOBO/addBoard" component={AddBoard}/>
         <Route exact path="/BOBO/board" component={NoticeBoard}/>

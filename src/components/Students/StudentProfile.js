@@ -11,12 +11,14 @@ export class StudentProfile extends Component {
     }
 
     redirectToClassRecord = () => {
-        this.setState({target:"/BOBO/studentProfile/classRecord/"+this.props.match.params.id,
+        this.setState({target:"/BOBO/studentProfile/classRecord/"+this.props.match.params.instructor_id
+                                  + '/' +this.props.match.params.student_id,
                         redirect:true});
     }
 
     redirectToInstructorsNote = () => {
-        this.setState({target:"/BOBO/studentProfile/instructorsNote/"+this.props.match.params.id,
+        this.setState({target:"/BOBO/studentProfile/instructorsNote/"+this.props.match.params.instructor_id
+                                  +'/'+this.props.match.params.student_id,
                         redirect:true});
     }
 
@@ -26,9 +28,9 @@ export class StudentProfile extends Component {
         return (
         <div style = {{width:"100%"}} className="content studentProfileContent">
             <Topbar name="Profile" showBack={true} backTo = "/BOBO/"></Topbar>
-            <hr style = {{width: "360px", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
+            <hr style = {{width: "100%", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
             <Demographic />
-            <hr style = {{width: "360px", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
+            <hr style = {{width: "100%", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
             <div className="ButtonContainer">
                 <button className="Button" 
                         onClick={this.redirectToClassRecord}>
