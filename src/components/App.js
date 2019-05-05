@@ -19,7 +19,9 @@ import InstructorsNote from "./Students/InstructorsNote";
 import ClassRecord from "./Students/ClassRecord";
 import InstructorsNoteAddModify from './Students/InstructorsNoteAddModify';
 
+import { fire} from '../config/fire';
 function App() {
+  fire();
   return (
     <Router>
       <div className="container">

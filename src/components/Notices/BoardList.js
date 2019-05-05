@@ -3,82 +3,108 @@ import BoardListItem from "./BoardListItem";
 import Topbar from "../Topbar";
 import {Row, Col, Collection, Autocomplete, Button} from 'react-materialize';
 import {Redirect} from 'react-router';
+import { fire, getFireDB} from '../../config/fire';
 
 import "../../css/Notices/BoardList.css"
 
 export class NoticeBoard extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      Boards : [ {
-          id: 1,
-          name: "Class A",
-        },{
-          id: 2,
-          name: "Class B",
-        },{
-          id: 3,
-          name: "Class C"
-        },{
-          id: 4,
-          name: "Class D",
-        },{
-          id: 5,
-          name: "Class E",
-        },{
-          id: 6,
-          name: "Class F"
-        }
-      ],
-      BoardUserMap : [{
-        userId: 1,
-        boardId: 1
-      }, {
-        userId: 1,
-        boardId: 2
-      }, {
-        userId: 2,
-        boardId: 1
-      }, {
-        userId: 1,
-        boardId: 4
-      }],
-      CurrentUser : {
-        id: 1,
-        name: "안승민"
-      },
-      UnreadPosts : [{
-        userId: 1,
-        postId: 34,
-        boardId: 1 
-      }, {
-        userId: 1,
-        postId: 35,
-        boardId: 2
-      }, {
-        userId: 1,
-        postId: 36,
-        boardId: 1
-      }],
-      validBoards: [],
-      autocompleteData: {Test:null, Test2:null},
-      redirect: false,
-      redirectTo: -1,
+  state = {
+    Boards: [],
+    BoardUserMap: [],
+    validBoards: [],
+    autocompleteData: {Test:null, Test2:null},
+    redirect: false,
+    redirectTo: -1,
+    CurrentUser: {
+      id: 1,
+      name: "안승민"
     }
   }
 
-  componentDidMount = () => {
-    var validBoardIds = this.state.BoardUserMap.filter(_mapElem => {
-      return _mapElem.userId === this.state.CurrentUser.id;
-    }).map(_mapElem => {
-      return _mapElem.boardId;
-    });
+  constructor(props) {
+    super(props);
+    fire();
+    // this.state = {
+    //   Boards : [ {
+    //       id: 1,
+    //       name: "Class A",
+    //     },{
+    //       id: 2,
+    //       name: "Class B",
+    //     },{
+    //       id: 3,
+    //       name: "Class C"
+    //     },{
+    //       id: 4,
+    //       name: "Class D",
+    //     },{
+    //       id: 5,
+    //       name: "Class E",
+    //     },{
+    //       id: 6,
+    //       name: "Class F"
+    //     }
+    //   ],
+    //   BoardUserMap : [{
+    //     userId: 1,
+    //     boardId: 1
+    //   }, {
+    //     userId: 1,
+    //     boardId: 2
+    //   }, {
+    //     userId: 2,
+    //     boardId: 1
+    //   }, {
+    //     userId: 1,
+    //     boardId: 4
+    //   }],
+    //   CurrentUser : {
+    //     id: 1,
+    //     name: "안승민"
+    //   },
+    //   UnreadPosts : [{
+    //     userId: 1,
+    //     postId: 34,
+    //     boardId: 1 
+    //   }, {
+    //     userId: 1,
+    //     postId: 35,
+    //     boardId: 2
+    //   }, {
+    //     userId: 1,
+    //     postId: 36,
+    //     boardId: 1
+    //   }],
+    //   validBoards: [],
+    //   autocompleteData: {Test:null, Test2:null},
+    //   redirect: false,
+    //   redirectTo: -1,
+    // }
+  }
 
-    var validBoards = this.state.Boards.filter(_board => validBoardIds.indexOf(_board.id)>-1);
-    var autocompleteData = validBoards.reduce( (_acc, _board) => {
-      return {..._acc, [_board.name]:null};
-    }, {});
-    this.setState({...this.state, validBoards, autocompleteData, showAutocomplete:true});
+  componentDidMount = () => {
+    getFireDB()
+    .then(res =>{
+      console.log(res.val());
+      let DB = res.val();
+      var Boards = [];
+      for( var key in DB.Board ) Boards.push(DB.Board[key]);
+      
+      var BoardUserMap = [];
+      for( var key in DB.BoardUserMap) BoardUserMap.push(DB.BoardUserMap[key]);
+
+      var validBoardIds = BoardUserMap.filter(_mapElem => {
+        return _mapElem.userId === this.state.CurrentUser.id;
+      }).map(_mapElem => {
+        return _mapElem.boardId;
+      });
+  
+      var validBoards = Boards.filter(_board => validBoardIds.indexOf(_board.id)>-1);
+      var autocompleteData = validBoards.reduce( (_acc, _board) => {
+        return {..._acc, [_board.name]:null};
+      }, {});
+      this.setState({...this.state, validBoards, autocompleteData, showAutocomplete:true});
+    });
   }
 
   onAutocomplete = (_boardName) => {
