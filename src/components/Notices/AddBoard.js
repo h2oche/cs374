@@ -3,6 +3,7 @@ import Topbar from '../Topbar';
 import {TextInput, Row, Col, Tabs, Tab, Checkbox, Button} from 'react-materialize';
 import "../../css/Notices/AddBoard.css";
 import {Redirect} from 'react-router';
+import { fire, getFireDB} from '../../config/fire';
 
 export class AddBoard extends Component {
   state = {
@@ -12,22 +13,36 @@ export class AddBoard extends Component {
     redirectTo: "/BOBO/board"
   }
 
-  componentDidMount = () => {
-    var salt = []; var types = ["instructor", "parent"];
-    for(var i = 0 ; i < 20; i++) salt.push(i);
-    var id = 0;
-    var users = [];
-    types.forEach(_type => {
-      salt.forEach(_salt => {
-        users.push({
-          name:_type + " " + _salt,
-          id: id++,
-          type: _type
-        });
-      });
-    });
+  constructor(props) {
+    super(props);
+    fire();
+  }
 
-    this.setState({Users: users});
+  componentDidMount = () => {
+    // var salt = []; var types = ["instructor", "parent"];
+    // for(var i = 0 ; i < 20; i++) salt.push(i);
+    // var id = 0;
+    // var users = [];
+    // types.forEach(_type => {
+    //   salt.forEach(_salt => {
+    //     users.push({
+    //       name:_type + " " + _salt,
+    //       id: id++,
+    //       type: _type
+    //     });
+    //   });
+    // });
+
+    // this.setState({Users: users});
+
+    getFireDB()
+    .then(_res => {
+      let DB = _res.val();
+      var Users = [];
+      for(var key in DB.User) Users.push(DB.User[key]);
+      
+      this.setState({...this.state, Users});
+    });
   }
 
   onChkBoxChange = (e) => {
