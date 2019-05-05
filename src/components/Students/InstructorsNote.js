@@ -28,10 +28,14 @@ class DeletePopup extends Component {
     window.location.reload();
   }
 
+  closing = () => {
+    this.setState({checked: false})
+  }
+
 
   render() {
     return (
-      <Popup contentStyle={{width: '80%'}} trigger={<button>Delete</button>} position="top right">
+      <Popup contentStyle={{width: '80%'}} trigger={<button>Delete</button>} position="top right" onClose={this.closing}>
         { close => (
           <div className="NoteDeleteContainer">
               <span className="NoteDeleteTitle">
@@ -91,7 +95,7 @@ export class InstructorsNote extends Component {
     }
 
     renderNoteList = () => {
-        var  myNoteExists = false;
+        var myNoteExists = false;
         var i =0;
         var noteList = this.state.Notes.map(_note => {
             if(_note.Instructor!==this.props.match.params.instructor_id)
