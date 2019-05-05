@@ -14,6 +14,43 @@ export const fire = () => {
     }
   database = firebase.database()
 }
-export const getFireDB = () => {
-  return database.ref('/').once('value')
+export const getFireDB = (dir) => {
+  if (dir===null)
+    dir = '/';
+  return database.ref(dir).once('value')
+}
+
+export const getFireDB_arr = (dir, _this, target, type, want) => {
+  if (dir===null)
+    dir = '/';
+  var targetref = database.ref(dir);
+  var temparr = [];
+  console.log('in', type, want)
+  targetref.once('value', function(snapshot) {
+    snapshot.forEach(function(child){
+      
+      if(type)
+      {
+        console.log(child.val().id, [type], [want])
+        console.log(child.val()[type])
+        if(child.val()[type] === want)
+        {
+          temparr.push(
+        
+            {"id":child.val().id, "name":child.val().name,
+          "class":child.val().class}
+          );
+          _this.setState({[target]:temparr});
+          console.log(temparr)
+
+        }
+
+
+      }
+
+      
+    })
+  })
+  
+  return temparr
 }
