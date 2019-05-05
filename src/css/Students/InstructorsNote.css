@@ -38,6 +38,41 @@
     float:right;
 }
 
+.NoteDeleteContainer
+{
+    display:table;
+}
+
+.NoteDeleteTitle
+{
+    display: table-row;
+    text-align: center;
+    font-size: 35px;
+    font-weight: bold;
+    color: black;
+}
+
+.NoteDeleteContainer [type="checkbox"]:checked + span:not(.lever):before {
+    margin-left: 6px;
+    margin-top: 8px;
+}
+
+.NoteDeleteContainer [type="checkbox"] + span:not(.lever):before, [type="checkbox"]:not(.filled-in) + span:not(.lever):after {
+    margin-left: 8px;
+    margin-top: 10px;
+}
+
+.NoteDeleteCheckbox
+{
+    margin-left: 15px;
+    margin-top: 25px;
+}
+
+.NoteDeleteWarningText
+{
+    font-size: 18px;
+    line-height: 150%;
+}
 
 .AddButtonContainer
 {

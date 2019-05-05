@@ -6,23 +6,50 @@ import {Redirect} from 'react-router';
 import Demographic from './Demographic'
 import Popup from 'reactjs-popup'
 import {Link} from 'react-router-dom'
+import {Checkbox} from 'react-materialize'
 
-var DeletePopup =  () => (
-    <Popup trigger={<button>Delete</button>} position="top right">
-      {close => (
-        <div>
-          <p>Are you sure to cancel?<br></br><br></br></p>
-  
-            <button className="close pinkcancelbutton" onClick={close}>No</button>
-            <Link to="/BOBO">
-              <button className="close pinkcancelbutton" style={{float:"right"}}>
-                Yes
-              </button>
-            </Link>
-        </div>
-      )}
-    </Popup>
-)
+class DeletePopup extends Component {
+    state={
+        checked:false
+    }
+
+    check =(event)=> {
+        console.log('pressed');
+        var a = !this.state.checked;
+        this.setState({checked:a});
+        console.log(this.state.checked);
+        this.forceUpdate();
+    }
+
+    render() {
+        return (
+            <Popup contentStyle={{width: '80%'}} trigger={<button>Delete</button>} position="top right">
+              {close => (
+                  <div className="NoteDeleteContainer">
+                      <span className="NoteDeleteTitle">
+                          Delete Note
+                      </span>
+                      <br/>
+                      {/*<input type="checkbox" onChange={this.checked} checked={this.state.checked}></input>*/}
+                      {this.state.checked? (<Checkbox className = "NoteDeleteCheckbox" onChange={this.check} checked/>) : 
+                          (<Checkbox className = "NoteDeleteCheckbox" onChange={this.check}/>)}
+                      <span className="NoteDeleteWarningText">I hereby understand that I can not recover the deleted note.</span>
+                      <br/>
+                      <br/>
+                      <button >No</button>
+                      {this.state.checked? (
+                      <Link to={"/BOBO/studentProfile/instructorsNote/"+this.props.instructor+'/' +this.props.student+'/'}>
+                          <button className="close pinkcancelbutton" style={{float:"right"}} onClick={close+this.check}>
+                              Yes
+                          </button>
+                      </Link>) : null}
+                  </div>
+                )
+              }
+            </Popup>
+        )
+    }
+}
 
 export class InstructorsNote extends Component {
     state={
@@ -84,9 +111,9 @@ export class InstructorsNote extends Component {
             <div>
                 <Topbar name="Instructor's Note" showBack={true} backTo = {"/BOBO/studentProfile/main/"+this.props.match.params.id}></Topbar>
             </div>
-            <hr style = {{width: "360px", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
+            <hr style = {{width: "100%", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
             <Demographic />
-            <hr style = {{width: "360px", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
+            <hr style = {{width: "100%", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
             {this.renderNoteList()}
         </div>
         );
@@ -112,7 +139,7 @@ class MyNote extends Component {
                 <div className="Note">
                     <div className="MyNoteButton">
                         <button>Modify</button>
-                        <DeletePopup/>
+                        <DeletePopup instructor={this.props.data.Instructor} student={this.props.data.Student}/>
                     </div>
                     <span className="NoteInstructor">{'• '+this.props.data.Instructor+'\'s Note'}</span>
                     <br/>
