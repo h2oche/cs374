@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Topbar from "../Topbar";
-import { Row, Col, Collection, Autocomplete, Button, Dropdown, Divider, Icon } from 'react-materialize';
+import { Row, Col, Collection, Autocomplete, Button, Dropdown, Select, Divider } from 'react-materialize';
 import StudentListItem from './StudentListItem';
 import ClassListItem from './ClassListItem';
 import { Redirect } from 'react-router';
@@ -55,32 +55,32 @@ export class StudentList extends Component {
         id: 3,
         className: "class C",
         attendee: ["Yunha", "sangjin", "woo-woo"]
-      },{
+      }, {
         id: 4,
         className: "class D",
         attendee: ["Yunha", "sangjin", "woo-woo"]
-      },{
+      }, {
         id: 5,
         className: "class E",
         attendee: ["Yunha", "sangjin", "woo-woo"]
-      },{
+      }, {
         id: 6,
         className: "class F",
         attendee: ["Yunha", "sangjin", "woo-woo"]
       }
       ],
       autocompleteData: { Test: null, Test2: null },
+      studentFiltered: []
     }
   }
 
   componentDidMount = () => {
+    console.log("here here")
+    console.log(this.state.selectedClass)
     var autocompleteData = this.state.Students.reduce((_acc, _student) => {
       return { ..._acc, [_student.name]: null };
     }, {});
-    var studentFiltered = this.state.Students.reduce((_acc, _student) => {
-      return { ..._acc, [_student.class]: null };
-    }, {});
-    this.setState({ ...this.state, autocompleteData, showAutocomplete: true, studentFiltered });
+    this.setState({ ...this.state, autocompleteData, showAutocomplete: true});
   }
 
   onAutocomplete = (_studentName) => {
@@ -89,8 +89,27 @@ export class StudentList extends Component {
     console.log('tommy')
   }
 
+  onClassSelection = e => {
+    var s = document.getElementById("selection")
+    var op = s.options[s.selectedIndex].text
+    var selectedClass = op
+    var studentFiltered = this.state.Students.filter(_student => {
+      return _student.class === selectedClass
+    })
+    console.log('selected class='+selectedClass)
+    console.log('filtered list=', studentFiltered)
+    this.setState({...this.state, selectedClass, studentFiltered, showSelectClass: true });
+  }
+
+
   renderStudentList = () => {
     return this.state.Students.map(_student => {
+      return <StudentListItem data={_student} />
+    });
+  }
+
+  renderStudentFilteredList = () => {
+    return this.state.studentFiltered.map(_student => {
       return <StudentListItem data={_student} />
     });
   }
@@ -123,22 +142,30 @@ export class StudentList extends Component {
         </Row>
 
         {/* select class */}
-        <Row id="select-class-row">
+        <Row id="select-class-row" style={{ alignItems: 'center' }}>
           <Col s={12}>
-            <Dropdown s={12} trigger={<Button>▼ Select a Class</Button>} >
-              <Collection style={{ height: '200px', overflow: "scroll"}}>
-                {this.renderClassList()}
-              </Collection>
-            </Dropdown>
+            <Select 
+              id = 'selection'
+              onChange={this.onClassSelection}
+              style={{ width: '100%' }}>
+              <option value="" disabled selected>Select a class</option>
+              {this.renderClassList()}
+            </Select>
           </Col>
         </Row>
 
         {/* show student list */}
         <Row id="show-student-list-row">
           <Col className="showStudentList" s={12}>
+            {this.showSelectClass ?
+            <Collection>
+            {this.renderStudentFilteredList()}
+          </Collection>
+            :
             <Collection>
               {this.renderStudentList()}
             </Collection>
+            }
           </Col>
         </Row>
       </div>

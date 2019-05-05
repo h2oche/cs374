@@ -10,13 +10,13 @@
 }
 
 #select-class-row{
-  /* width: 100%; */
+  width: 100%; 
   margin-bottom: 0px;
   margin-top: 0px;
   /* margin-left: 20px; */
 }
 
-#select-class-row .dropdown-trigger {
+#select-class-row .select-dropdown.dropdown-trigger {
   width: 100%;
   margin-bottom: 0px;
   margin-top: 0px;
