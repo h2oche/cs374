@@ -127,8 +127,8 @@ export class StudentList extends Component {
       return <Redirect to={this.state.redirectTo} />
 
     return (
-      <div>
-        <Topbar name="Student List" showBack={true} backTo="/BOBO" />
+      <div className='content student-list-content'>
+        <Topbar id='class-record-topbar' name="Student List" showBack={true} backTo="/BOBO" /> {/*FIXME: fucking width */}
         { /* search */}
         <Row id="student-list-search-row">
           <Col s={12}>

@@ -1,7 +1,13 @@
+.class-record-content
+{
+    display:flex;
+    flex-direction: column;
+}
 
-#record-all {
+.class-record-container {
   overflow: scroll;
-  max-height: 450px;
+  flex: 1;
+  /*max-height: 450px; */
 }
 
 .board-list-add-btn {

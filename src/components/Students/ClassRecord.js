@@ -94,7 +94,7 @@ export class ClassRecord extends Component {
       return <Redirect to={this.state.redirectTo} />
 
     return (
-      <div style = {{ width: "100%" }} className="content">
+      <div style = {{ width: "100%" }} className="content class-record-content">
         <Topbar 
           name="Class Record" 
           showBack={true} 
@@ -108,7 +108,7 @@ export class ClassRecord extends Component {
                               icon="add"
                               href={"/BOBO/classRecord"}/>}></Topbar>
 
-        <div id="record-all">
+        <div className="class-record-container">
           <hr style={{ width: "360px", border: 'none', backgroundColor: 'darkgray', height: '2px' }} />
           <Demographic />
           <hr style={{ width: "360px", border: 'none', backgroundColor: 'darkgray', height: '2px' }} />
