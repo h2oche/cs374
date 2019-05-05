@@ -3,11 +3,15 @@ import Topbar from '../Topbar';
 import {TextInput, Row, Col, Tabs, Tab, Checkbox, Button} from 'react-materialize';
 import "../../css/Notices/AddBoard.css";
 import {Redirect} from 'react-router';
-import { fire, getFireDB} from '../../config/fire';
+import { fire, getFireDB, pushMultipleDB, pushDB} from '../../config/fire';
 
 export class AddBoard extends Component {
   state = {
     Users: [],
+    CurrentUser: {
+      id: 1,
+      name: "안승민"
+    },
     seletedUsers: new Set(),
     redirect: false,
     redirectTo: "/BOBO/board"
@@ -39,9 +43,18 @@ export class AddBoard extends Component {
     .then(_res => {
       let DB = _res.val();
       var Users = [];
-      for(var key in DB.User) Users.push(DB.User[key]);
-      
-      this.setState({...this.state, Users});
+      var nextBoardId = 0;
+      for(var key in DB.User) {
+        if(DB.User[key].id != this.state.CurrentUser.id)
+          Users.push(DB.User[key]);
+      }
+
+      for(var key in DB.Board){
+        var boardId = DB.Board[key].id;
+        if(boardId > nextBoardId) nextBoardId = boardId;
+      }
+      nextBoardId++;
+      this.setState({...this.state, Users, nextBoardId});
     });
   }
 
@@ -58,7 +71,18 @@ export class AddBoard extends Component {
   addBoard = () => {
     console.log(this.state.seletedUsers);
     console.log(this.state.boardName);
-    this.setState({...this.state, redirect: true});
+    var nextBoardId = this.state.nextBoardId;
+    var BUobjs = [{boardId: nextBoardId, userId: this.state.CurrentUser.id}];
+    this.state.seletedUsers.forEach(_userId => {
+      BUobjs.push({boardId: nextBoardId, userId: _userId * 1});
+    });
+    pushDB("Board", {id: nextBoardId, name: this.state.boardName})
+    .then(_res => {
+      return pushMultipleDB("BoardUserMap", BUobjs);
+    })
+    .then(_res => {
+      this.setState({...this.state, redirect: true});
+    });
   }
 
   renderUserCheckbox = (_type) => {

@@ -20,6 +20,24 @@ export const getFireDB = (dir) => {
   return database.ref(dir).once('value')
 }
 
+export const pushDB = (dir, obj) => {
+  return database.ref(dir).push(obj);
+}
+
+export const pushMultipleDB = (dir, objs) => {
+  var updates = {};
+  let ref = database.ref(dir);
+  objs.forEach(_obj => {
+    updates[ref.push().key] = _obj;
+  });
+  // console.log(updates);
+  return ref.update(updates);
+}
+
+export const setDB = (dir, obj) => {
+  return database.ref(dir).set(obj);
+}
+
 export const getFireDB_arr = (dir, _this, target, type, want) => {
   if (dir===null)
     dir = '/';

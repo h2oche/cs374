@@ -16,6 +16,7 @@ export class NoticeListItem extends Component {
   }
 
   formatDate = (_date) => {
+    var _date = new Date(_date);
     var day = _date.getDate();
     var monthIndex = _date.getMonth();
     var year = _date.getFullYear();

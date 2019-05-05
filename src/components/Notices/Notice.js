@@ -3,71 +3,61 @@ import Topbar from '../Topbar';
 import { Row, Col, Textarea, Card, Button } from 'react-materialize';
 import "../../css/Notices/Notice.css";
 import QuestionListItem from './QuestionListItem';
+import { fire, getFireDB, pushMultipleDB, pushDB, setDB} from '../../config/fire';
 
 export class Notice extends Component {
   state = {
-    id: 1,
     type: "homework",
-    name: "DP5 due is extended!",
-    content: `123123
-    123123123123
-    123123123
-    1231234123123
-    123
-    123
-    1
-    1
-    
-    1
-    1
-    1
-    1
-    1
-    1
-    
-    
-    1
-    2
-    
-    3
-    3
-    4
-    5
-    
-    
-    6
-    
-    7
-    8
-    8`,
+    name: "",
+    content: "",
     expireDate: new Date(),
-    questionCnt: 5,
     important: Math.floor(Math.random() * 2) == 1,
     persistent: Math.floor(Math.random() * 2) == 1,
     questions: [],
+    CurrentUser: {
+      id: 1,
+      name: "Now"
+    }
+  }
+
+  constructor(props) {
+    super(props);
+    fire();
+  }
+
+  getNoticeId = () => {
+    return this.props.match.params.id * 1;
   }
 
   componentDidMount() {
-    var genRandomNum = (_max) => {
-      return Math.floor(Math.random() * _max);
-    }
+    getFireDB()
+    .then(_res => {
+      let DB = _res.val();
+      var noticeId = this.getNoticeId();
+      var noticeObj = {};
+      for(var key in DB.Notice) {
+        if(DB.Notice[key].id === noticeId) {
+          noticeObj = DB.Notice[key];
+        }
+      }
 
-    var questions = []; var id = 0;
-    for(var i = 0 ; i < genRandomNum(10) + 3 ; i++) {
-      questions.push({
-        id: id++,
-        userId: 1,
-        userName: "Parent " + i,
-        content: "question content " + i,
-        answer: genRandomNum(3) == 1 ? "" : "answer " + i,
-        createDate: new Date()
-      });
-    }
-
-    this.setState({...this.state, questions});
+      var questions = [];
+      var nextQuestionId = 0;
+      for(var key in DB.Question) {
+        var questionObj = DB.Question[key];
+        if(questionObj.id > nextQuestionId)
+          nextQuestionId = questionObj.id;
+        if(questionObj.noticeId === noticeId)
+          questions.push({...questionObj, key});
+      }
+      nextQuestionId++;
+      this.nextQuestionId = nextQuestionId;
+      this.setState({...noticeObj, questions});
+    });
   }
 
   formatDate = (_date) => {
+    _date = new Date(_date);
     var day = _date.getDate();
     var monthIndex = _date.getMonth();
     var year = _date.getFullYear();
@@ -78,13 +68,34 @@ export class Notice extends Component {
     this.setState({...this.state, newQuestionContent: e.target.value});
   }
 
+  onAnswerBtnClick = (_questionObj) => {
+    console.log(_questionObj);
+    var obj = {..._questionObj};
+    delete obj.key;
+    setDB("Question/" + _questionObj.key, obj);
+  }
+
   onNewQuestionBtnClick = (e) => {
     console.log(this.state.newQuestionContent);
+    var questionObj = {
+      content: this.state.newQuestionContent,
+      userId: this.state.CurrentUser.id,
+      userName: this.state.CurrentUser.name,
+      noticeId: this.getNoticeId(),
+      id: this.nextQuestionId++,
+      createDate: new Date().getTime(),
+      answer: "",
+    };
+
+    var questions = this.state.questions;
+    questions.push(questionObj);
+    this.setState({...this.state, questions, newQuestionContent: ""});
+    pushDB("Question", questionObj);
   }
 
   renderQuestions = () => {
     return this.state.questions.map(_question => {
-      return (<QuestionListItem data={_question}/>); 
+      return (<QuestionListItem data={_question} onAnswer={this.onAnswerBtnClick}/>); 
     });
   }
 
@@ -123,7 +134,11 @@ export class Notice extends Component {
           </Col>
           <Col s={12} id="new-question-row">
             <Card className="white" header={<div className="red accent-2 white-text add-question-header">Leave Question</div>}>
-              <Textarea id="new-question-content" placeholder="What do you want to ask?" onChange={this.onNewQuestionChange}/>
+              <Textarea
+                id="new-question-content"
+                placeholder="What do you want to ask?"
+                onChange={this.onNewQuestionChange}
+                value={this.state.newQuestionContent}/>
               <Button className="red lighten-5 black-text" id="new-question-leave-btn" onClick={this.onNewQuestionBtnClick}>Leave</Button>
             </Card>
           </Col>

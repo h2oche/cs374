@@ -16,7 +16,7 @@ export class NoticeBoard extends Component {
     redirect: false,
     redirectTo: -1,
     CurrentUser: {
-      id: 1,
+      id: 2,
       name: "안승민"
     }
   }

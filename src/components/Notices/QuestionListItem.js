@@ -3,10 +3,13 @@ import { Card, Button, Textarea } from 'react-materialize';
 
 export class QuestionListItem extends Component {
   state = {
-    showAnswerCard: false
+    showAnswerCard: false,
+    showNewAnswer: false,
+    newAnswer: "",
   }
 
   formatDate = (_date) => {
+    _date = new Date(_date);
     var day = _date.getDate();
     var monthIndex = _date.getMonth();
     var year = _date.getFullYear();
@@ -22,13 +25,14 @@ export class QuestionListItem extends Component {
   }
 
   onNewAnswerBtnClick = (e) => {
-    console.log(this.state.answerContent);
+    this.props.onAnswer({...this.props.data, answer: this.state.answerContent});
+    this.setState({...this.state, showAnswerCard: false, showNewAnswer: true, newAnswer: this.state.answerContent});
   }
 
   renderQuestionHeader = () => {
     return (<div className="question-list-item-header grey lighten-2">
       <span className="name">{this.props.data.userName}</span>
-      {this.props.data.answer === "" && !this.state.showAnswerCard ?
+      {this.props.data.answer === "" && this.state.newAnswer === "" && !this.state.showAnswerCard ?
       <Button flat waves="light" onClick={this.onReplyBtnClick}>
         <i className="material-icons">reply</i>
       </Button> : <span/>
@@ -45,7 +49,9 @@ export class QuestionListItem extends Component {
           
           {this.state.showAnswerCard ? 
             <div>
-              <Textarea className="new-answer-content" placeholder="I think ..." onChange={this.onNewAnswerChange}/>
+              <Textarea
+                className="new-answer-content" placeholder="I think ..."
+                onChange={this.onNewAnswerChange}/>
               <Button className="red lighten-5 black-text new-answer-btn" onClick={this.onNewAnswerBtnClick}>Answer</Button>
             </div> : <span/>
           }
@@ -54,6 +60,11 @@ export class QuestionListItem extends Component {
         <Card className={"grey lighten-2 answer-container " + (this.props.data.answer === "" ? "none" : "")}>
           <div><span className="answer-content">{this.props.data.answer}</span></div>
         </Card>
+        {this.state.showNewAnswer ?
+          <Card className="grey lighten-2 answer-container">
+            <div><span className="answer-content">{this.state.newAnswer}</span></div>
+          </Card> : <span/>
+        }
       </div>
     )
   }

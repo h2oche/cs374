@@ -3,6 +3,7 @@ import Topbar from '../Topbar';
 import {TextInput, Row, Col, Textarea, Checkbox, RadioGroup, DatePicker, Button} from 'react-materialize';
 import "../../css/Notices/AddNotice.css";
 import {Redirect} from 'react-router';
+import { fire, getFireDB, pushMultipleDB, pushDB} from '../../config/fire';
 
 export class AddNotice extends Component {
   state = {
@@ -16,12 +17,29 @@ export class AddNotice extends Component {
     redirectTo: "",
   }
 
+  constructor(props) {
+    super(props);
+    fire();
+  }
+
   getBoardId = () => {
     return this.props.match.params.id;
   }
 
   componentDidMount() {
     console.log(this.props);
+    getFireDB().then(_res => {
+      let DB = _res.val();
+      console.log(DB);
+      var nextNoticeId = 0;
+      for(var key in DB.Notice) {
+        var noticeId = DB.Notice[key].id;
+        if(noticeId > nextNoticeId)
+          nextNoticeId = noticeId;
+      }
+      nextNoticeId++;
+      this.nextNoticeId = nextNoticeId;
+    });
   }
 
   onChange = (e) => {
@@ -46,7 +64,25 @@ export class AddNotice extends Component {
 
   onNoticeAdd = () => {
     console.log(this.state);
-    this.setState({...this.state, redirect: true, redirectTo: "/BOBO/board/" + this.getBoardId()});
+    var obj = {...this.state};
+    obj.id = this.nextNoticeId;
+    obj.userId = this.state.CurrentUser.id;
+    obj.expireDate = obj.expireDate.getTime();
+    obj.createDate = new Date().getTime();
+    obj.boardId = this.getBoardId() * 1;
+    obj.name = obj.noticeName;
+    obj.content = obj.noticeContent;
+    
+    delete obj.redirect;
+    delete obj.redirectTo;
+    delete obj.CurrentUser;
+    delete obj.noticeName;
+    delete obj.noticeContent;
+
+    pushDB("Notice", obj)
+    .then(_res => {
+      this.setState({...this.state, redirect: true, redirectTo: "/BOBO/board/" + this.getBoardId()});
+    });
   }
 
   render() {
