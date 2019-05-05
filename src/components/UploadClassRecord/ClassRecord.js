@@ -4,7 +4,9 @@ import Topbar from "../Topbar";
 import '../../css/ClassRecord.css';
 import Popup from "reactjs-popup";
 import {Link} from 'react-router-dom';
-import {Row, Col} from 'react-materialize'
+import {Row, Col} from 'react-materialize';
+import { fire, getFireDB} from '../../config/fire';
+
 
 const PopupExample =  () => (
   <Popup trigger={<Button className="pinkcancelbutton buttonleft" >Cancel</Button>} position="top left">
@@ -22,15 +24,41 @@ const PopupExample =  () => (
     )}
   </Popup>
 )
+
+
+
+const INITIAL_STATE = {
+  textname: '',
+  textcontent:'',
+  file:null,
+  loading:false,
+  users:[],
+};
+
 export class ClassRecord extends Component {
-  state={
-    textname: '',
-    textcontent:'',
-    file:null,
+  constructor(props){
+    super(props);
+    fire();
+    this.state={...INITIAL_STATE}
+
+
   }
+  componentDidMount() {
+    getFireDB()
+    .then(res =>{
+      this.setState({
+        users : res.val().User
+      })
+    });
+  }
+  
+
+  
   handlenameChange = e =>
   {
     this.setState({textname : e.target.value});
+    console.log(this.props.firebase)
+    this.props.firebase.user("note2").set({name:"note222"});
   }
   handlecontentChange = e =>
   {
@@ -41,7 +69,7 @@ export class ClassRecord extends Component {
   }
   doneonClick = () =>
   {
-
+    console.log(this.state);
     if(this.state.file!=null)
     {
       let filenames="";
@@ -59,47 +87,53 @@ export class ClassRecord extends Component {
       alert('Student : ' + this.state.textname + '  Content : ' + this.state.textcontent);
     }
   }
+
+
+  
   render() {
+
     return (
-      <div className="content">
-        <Topbar name="Upload Class Record" showBack={true} backTo="/BOBO"/>
-       <div className="row">
-        <div className="col s12">
-          Students:
-          <div className="input-field inline">
-            <input type="text"/>
-            <label>Write student's name</label>
-          </div>
-        </div>
-      </div>
-       <div className="buttons">
-         <form action="#" >
-            <div className="btn pinkbutton buttonleft">
-              <input type="file" id="File" onChange={this.handlefileChange.bind(this)} multiple/>
-              <label htmlFor="File" className="bigfont">File</label>
-            </div>           <div className="btn pinkbutton">
-              <input type="file" id="Camera" accept="image/*" capture="camera"/>
-              <label htmlFor="Camera" className="bigfont">Camera</label>
-            </div>           <div className="btn pinkbutton">
-              <input type="file" id="Gallery" accept="image/*;capture=camera"/>
-              <label htmlFor="Gallery" className="bigfont">Gallery</label>
-            </div>
-          </form>
-        </div>
-        <hr className="bottommargin" color="#d3d3d3"></hr>
-        <div className="bottommargin">
-          <Textarea placeholder="Write class records..
-            #classs #amy"
-            onChange={this.handlecontentChange} value={this.state.textcontent}/>
-            <div className="row">
-              <PopupExample/>
-              <Button waves="light" onClick={this.doneonClick.bind(this)}
-                className="buttonright pinkcancelbutton">
-                Done
-              </Button>
+        <div className="content">
+          <Topbar name="Upload Class Record" showBack={true} backTo="/BOBO"/>    
+
+        <div className="row">
+          <div className="col s12">
+            Students:
+            <div className="input-field inline">
+              <input type="text" onChange={this.handlenameChange.bind(this)}/>
+              <label>Write student's name</label>
             </div>
           </div>
-      </div>
+        </div>
+        <div className="buttons">
+          <form action="#" >
+              <div className="btn pinkbutton buttonleft">
+                <input type="file" id="File" onChange={this.handlefileChange.bind(this)} multiple/>
+                <label htmlFor="File" className="bigfont">File</label>
+              </div>           <div className="btn pinkbutton">
+                <input type="file" id="Camera" accept="image/*" capture="camera"/>
+                <label htmlFor="Camera" className="bigfont">Camera</label>
+              </div>           <div className="btn pinkbutton">
+                <input type="file" id="Gallery" accept="image/*;capture=camera"/>
+                <label htmlFor="Gallery" className="bigfont">Gallery</label>
+              </div>
+              
+            </form>
+          </div>
+          <hr className="bottommargin" color="#d3d3d3"></hr>
+          <div className="bottommargin">
+            <Textarea placeholder="Write class records..
+              #classs #amy"
+              onChange={this.handlecontentChange} value={this.state.textcontent}/>
+              <div className="row">
+                <PopupExample/>
+                <Button waves="light" onClick={this.doneonClick.bind(this)}
+                  className="buttonright pinkcancelbutton">
+                  Done
+                </Button>
+              </div>
+            </div>
+        </div>
     )
   }
 }
