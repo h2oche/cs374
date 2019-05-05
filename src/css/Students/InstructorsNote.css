@@ -1,0 +1,57 @@
+.InstructorsNoteContent
+{
+    display:flex;
+    flex-direction: column;
+}
+
+.NoteContainer
+{
+    flex:1;
+    overflow: scroll;
+}
+
+.Note
+{
+    margin-left: 30px;
+    margin-right: 30px;
+    margin-top:15px;
+    margin-bottom: 15px;
+}
+
+
+
+.NoteInstructor
+{
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 140%;
+    letter-spacing: 0.7px;
+}
+
+.NoteContent
+{
+    font-size: 18px;
+}
+
+.MyNoteButton
+{
+    float:right;
+}
+
+
+.AddButtonContainer
+{
+    text-align: center;
+}
+
+.AddButton
+{
+    background-color:lightgray;
+    border:none;
+    width:150px;
+    height:40px;
+    font-size:20px;
+    font-weight:bold;
+    letter-spacing: 0.5px;
+    border-radius: 10px;    
+}
