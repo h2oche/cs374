@@ -1,8 +1,10 @@
+//no use
+
 import React, { Component } from 'react';
 import { CollectionItem, Color } from 'react-materialize';
 import { Row, Col } from 'react-materialize'
 
-import Hashtag from './Hashtag';
+//import Hashtag from './Hashtag';
 import "../../css/Students/ClassRecord.css"
 
 export class RecordListItem extends Component {
@@ -19,6 +21,7 @@ export class RecordListItem extends Component {
             {this.props.data.Text}
           </Col>
         </Row>
+        {/* Hashtags */}
         <Row>
           <Col>
             <Hashtag data={this.props.data.Hashtag} />
@@ -26,6 +29,25 @@ export class RecordListItem extends Component {
         </Row>
       </CollectionItem>
     )
+  }
+}
+
+class Hashtag extends Component {
+  render() {
+    console.log('hashtag!', this.props.data)
+    return (
+      this.props.data.map(_elem => {
+        return <Hash data={_elem} />
+      })
+    );
+  }
+}
+
+class Hash extends Component {
+  render() {
+    return (
+      <span>{'#' + this.props.data + ' '}</span>
+    );
   }
 }
 
