@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Topbar from '../Topbar';
 import {Button, Pagination, Row, Col, Collection} from 'react-materialize';
 import NoticeListItem from './NoticeListItem';
-import {Redirect} from 'react-router';
 import "../../css/Notices/Board.css";
 
 export class Board extends Component {
@@ -39,6 +38,7 @@ export class Board extends Component {
     // var boardId = this.getBoardId();
     var query = this.parseQuery();
     var page = query.page ? query.page * 1 : 1;
+    var type = query.type ? query.type : "all";
     var notices = []; var types = ["homework", "schedule", "activity"];
     var id = 0;
 
@@ -57,7 +57,7 @@ export class Board extends Component {
           type: _type,
           name: _type + " " + id,
           questions: [],
-          expireDate: genRandomDate(new Date(2014, 0, 1), new Date()),
+          expireDate: genRandomDate(new Date(2019, 0, 1), new Date(2019, 11, 30)),
           questionCnt: genRandomNum(10),
           important: genRandomNum(3) == 1,
           persistent: genRandomNum(5) == 1, 
@@ -65,18 +65,24 @@ export class Board extends Component {
       });
     }
 
-    var validNotices = JSON.parse(JSON.stringify(notices));
+    var validNotices = notices.filter(_notice => {
+      return _notice.expireDate > new Date();
+    })
+    .filter(_notice=>(type==="all" || _notice.type===type));
 
     var end = Math.min(page*10, validNotices.length);
     var displayNotices = validNotices.slice((page-1) * 10, end);
-    console.log(displayNotices);
-    console.log(validNotices);
+
     this.setState({...this.state,
       Notices: notices,
       validNotices,
       displayNotices,
       page,
       redirect: false});
+  }
+
+  componentWillReceiveProps() {
+    window.location.reload();
   }
 
   onPageSelect = (e) => {
@@ -86,17 +92,29 @@ export class Board extends Component {
       if(key === "page") continue;
       queryString += "&" + encodeURIComponent(key) + "=" + encodeURIComponent(value);
     }
+    
+    this.props.history.push(this.props.location.pathname + queryString);
+    window.location.reload();
+  }
+
+  onTypeClick = (_type) => {
+    var queryString = "?type="+_type;
+    var query = this.parseQuery();
+    for(let [key, value] of Object.entries(query)) {
+      if(key === "type") continue;
+      queryString += "&" + encodeURIComponent(key) + "=" + encodeURIComponent(value);
+    }
 
     this.props.history.push(this.props.location.pathname + queryString);
-    var page = e;
-    var end = Math.min(page*10, this.state.validNotices.length);
-    var displayNotices = this.state.validNotices.slice((page-1) * 10, end);
-    this.setState({...this.state, page: e, displayNotices});
+    window.location.reload();
   }
 
   renderNoticeItems = () => {
     return this.state.displayNotices.map(_notice => {
-      return <NoticeListItem pathname={this.props.location.pathname} data={_notice}/>
+      return <NoticeListItem
+        pathname={this.props.location.pathname}
+        data={_notice}
+        onTypeClick={this.onTypeClick}/>
     });
   }
 

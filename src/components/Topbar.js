@@ -5,7 +5,7 @@ import "../css/Topbar.css";
 export class Topbar extends Component {
   render() {
     return (
-      <Row >
+      <Row id="topbar-row">
         <Col s={12}>
           <div id="topbar-container">
             <span id="topbar">{this.props.name}</span>

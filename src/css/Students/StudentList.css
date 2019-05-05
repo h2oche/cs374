@@ -1,39 +1,61 @@
-#notice-list-search-row, #notice-list-search-row div, #notice-list-search{
+#student-list-search-row, #student-list-search-row div, #student-list-search{
   margin-bottom: 0px;
   margin-top: 0px;
 }
 
-#notice-list-search-row > .helper-text {
+#student-list-search-row > .helper-text {
   min-height: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#select-class-row{
+  width: 100%; 
+  margin-bottom: 0px;
+  margin-top: 0px;
+  /* margin-left: 20px; */
+}
+
+#select-class-row .select-dropdown.dropdown-trigger {
+  width: 100%;
+  margin-bottom: 0px;
+  margin-top: 0px;
+  padding: 0;
+}
+
+#show-student-list-row {
+  overflow: scroll;
+  max-height: 400px;
 }
 
 
-.student
-{
+.profileImage{
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.student{
   display: table;
   height: 100%;
 }
-.studentChild
-{
+.studentChild{
   display: table;
   vertical-align: middle;
 }
 
 
-.studentItem
-{
+.studentItem{
   display: table;
   height: 100%;
 }
-.studentItemChild
-{
+.studentItemChild{
   display: table-cell;
   vertical-align: middle;
   font-size: 18px;
   width: 210px;
 }
 
-.studentName
-{
-  font-weight: 700;
+.studentName{
+  font-weight: bold;
 }
