@@ -9,7 +9,7 @@ export class ClassRecord extends Component {
     render() {
         return (
         <div style = {{width:"100%"}} className="content">
-            <Topbar name="Profile" showBack={true} backTo = {"/BOBO/studentProfile/main/"+this.props.match.params.id}></Topbar>
+            <Topbar name="Class Record" showBack={true} backTo = {"/BOBO/studentProfile/main/"+this.props.match.params.id}></Topbar>
             <hr style = {{width: "360px", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
             <Demographic />
             <hr style = {{width: "360px", border:'none', backgroundColor:'darkgray', height:'2px'}}/>

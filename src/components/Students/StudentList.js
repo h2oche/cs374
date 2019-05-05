@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Topbar from "../Topbar";
-import {Row, Col, Collection, Autocomplete} from 'react-materialize';
+import {Row, Col, Collection, Autocomplete, Button} from 'react-materialize';
 import StudentListItem from './StudentListItem';
 import {Redirect} from 'react-router';
 
@@ -12,27 +12,27 @@ export class StudentList extends Component {
     super(props);
     this.state = {
       Students : [ {
-          id: 1,
+          id: "tommy",
           name: "Yun SangJin",
           class: "class A",
         },{
-          id: 2,
+          id: "runxia",
           name: "Park Yunha",
           class: "class C",
         },{
-          id: 3,
+          id: "heather11",
           name: "Heather Park",
           class: "class C",
         },{
-          id: 4,
+          id: "jinjin",
           name: "Jin Ryu",
           class: "class B",
         },{
-          id: 5,
+          id: "jungwow",
           name: "Woo-Woo",
           class: "class B",
         },{
-          id: 6,
+          id: "mini",
           name: "Min Ahn",
           class: "class A",
         }
@@ -54,8 +54,8 @@ export class StudentList extends Component {
 
   onAutocomplete = (_studentName) => {
     var student = this.state.Students.find(_student => _student.name === _studentName) //FIXME: id instead name
-    this.setState({ ...this.state, redirect: true, redirectTo: "/BOBO/StudentList/Profile/"}); 
-    //FIXME: "/BOBO/StudentList/Profile/" + student.id
+    this.setState({ ...this.state, redirect: true, redirectTo: "/BOBO/StudentProfile/main/tommy"}); 
+    console.log('tommy')
   }
 
   renderStudentList = () => {
@@ -75,7 +75,11 @@ export class StudentList extends Component {
         <Row id="student-list-search-row">
           <Col s={12}>
             {this.state.showAutocomplete ?
-              <Autocomplete options={{data: this.state.autocompleteData}} placeholder="Search by student name" icon="search" s={12}/> :
+              <Autocomplete 
+              options={{data: this.state.autocompleteData, onAutocomplete:this.onAutocomplete}} 
+              placeholder="Search by student name" 
+              icon="search" 
+              s={12}/> :
               <span></span>
             }
           </Col>
