@@ -6,6 +6,7 @@ import { Row, Col, Collection, Autocomplete, Button, Dropdown, Select, Divider }
 import Topbar from '../Topbar';
 import Demographic from './Demographic'
 import RecordListItem from './RecordListItem';
+import Hashtag from './Hashtag';
 
 import '../../css/Students/StudentProfile.css'
 import "../../css/Students/ClassRecord.css"
@@ -18,56 +19,56 @@ export class ClassRecord extends Component {
         StudentID: 'tommy',
         Instructor: 'teacher101',
         Date: '2019/05/03',
-        Text: 'He made a origami pikachu today! #art',
+        Text: 'He made a origami pikachu today!',
         Hashtag: ['art']
       }, {
         StudentID: 'runxia',
         Instructor: 'sam',
         Date: '2019/05/03',
-        Text: 'He made a origami pikachu today! #art',
+        Text: 'He made a origami pikachu today!',
         Hashtag: ['art']
       }, {
         StudentID: 'tommy11',
         Instructor: 'sam',
         Date: '2019/05/08',
-        Text: 'He made a origami pikachu today! #art',
+        Text: 'He made a origami pikachu today!',
         Hashtag: ['art', 'origami']
       }, {
         StudentID: 'jinjin',
         Instructor: 'teacher101',
         Date: '2019/05/09',
-        Text: 'He made a origami pikachu today! #art',
+        Text: 'He made a origami pikachu today!',
         Hashtag: ['art', 'jin']
       }, {
         StudentID: 'woo-woo',
         Instructor: 'sam',
         Date: '2019/05/09',
-        Text: 'He made a origami pikachu today! #art',
+        Text: 'He made a origami pikachu today!',
         Hashtag: ['art', 'pikachu']
       }, {
         StudentID: 'tommy',
         Instructor: 'teacher101',
         Date: '2019/05/10',
-        Text: 'He made a origami pikachu today! \n He tried very hard, but he failed to complete it. TT #art',
-        Hashtag: ['pikapika']
+        Text: 'He made a origami pikachu today! \n He tried very hard, but he failed to complete it. TT ',
+        Hashtag: ['pikapika', 'art']
       }, {
         StudentID: 'tommy',
         Instructor: 'Juho',
         Date: '2019/05/10',
-        Text: 'He made a origami pikachu today! \n He tried very hard, but he failed to complete it. TT #art',
+        Text: 'He made a origami pikachu today! \n He tried very hard, but he failed to complete it. TT ',
         Hashtag: ['pikapika']
       }, {
         StudentID: 'tommy',
         Instructor: 'Juho',
         Date: '2019/05/12',
-        Text: 'He made a origami pikachu today! \n He tried very hard, but he failed to complete it. TT #art',
-        Hashtag: ['pikapika']
+        Text: 'He made a origami pikachu today! \n He tried very hard, but he failed to complete it. TT ',
+        Hashtag: ['pikapika', 'chu', 'art']
       }, {
         StudentID: 'tommy',
         Instructor: 'teacher101',
         Date: '2019/05/14',
-        Text: 'He made a origami pikachu today! \n He tried very hard, but he failed to complete it. TT #art',
-        Hashtag: ['pikapika']
+        Text: 'He made a origami pikachu today! \n He tried very hard, but he failed to complete it. TT ',
+        Hashtag: ['pikapika', 'origami']
       }
       ]
     }
