@@ -31,7 +31,7 @@ function App() {
         <Route exact path="/BOBO/board" component={NoticeBoard}/>
         <Route exact path="/BOBO/board/:id/addNotice" component={AddNotice}/>
         <Route exact path="/BOBO/board/:id" component={Board}/>
-        <Route path="/BOBO/notice/:id" component={Notice}/>
+        <Route exact path="/BOBO/board/:id/notice/:id" component={Notice}/>
         <Route exact path="/BOBO/settings" component={Settings}/>
         <Menu/>
       </div>
