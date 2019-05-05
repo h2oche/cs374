@@ -5,5 +5,12 @@
 }
 
 .menu-item {
+  text-align: center;
+  align-items: center;
   flex: 1;
+}
+
+.menu-icon {
+  color: #e57373; /* red lighten-2 */
+  /* color: #88024f; /* pink darken-4 */
 }
