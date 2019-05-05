@@ -1,4 +1,8 @@
+@import url('https://fonts.googleapis.com/css?family=Ubuntu');
+@import url('https://fonts.googleapis.com/css?family=Ubuntu');
+
 .container {
+  font-family: Ubuntu;
   width: 100%;
   height: 100%;
   display: flex;
