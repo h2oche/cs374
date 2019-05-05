@@ -10,10 +10,11 @@ export class StudentListItem extends Component {
     return (
       <CollectionItem className="student" href={"/BOBO/studentProfile/main/"+this.props.data.id}>
         <Row className="studentChild" style={{ marginTop: '0px', marginBotton: '0px', height: '70px' }}>
+          {/* profile image */}
           <Col s={3} style={{ alignItems: 'center' }}>
-            <img className="ProfileImage" src={photo} alt="photo" width='70px' height='70px'></img>
+            <img className="profileImage" src={photo} alt="photo" width='70px' height='70px'></img>
           </Col>
-
+          {/* name and class */}
           <Col className="studentItem" s={9} >
             <div className="studentItemChild">
               <div className='studentName'>{this.props.data.name}</div>
