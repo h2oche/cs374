@@ -7,7 +7,6 @@ import { Redirect } from 'react-router';
 
 
 import "../../css/Students/StudentList.css"
-import { resolveMx } from 'dns';
 export class StudentList extends Component {
 
   constructor(props) {
