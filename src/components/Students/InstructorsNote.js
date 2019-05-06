@@ -5,7 +5,7 @@ import '../../css/Students/InstructorsNote.css'
 import {Redirect} from 'react-router';
 import Demographic from './Demographic'
 import Popup from 'reactjs-popup'
-import {Checkbox} from 'react-materialize'
+import {Checkbox, Icon, Button} from 'react-materialize'
 import {Link} from 'react-router-dom'
 import { fire, getFireDB, pushMultipleDB, pushDB, setDB, deleteDB} from '../../config/fire';
 import '../../css/Common.css'
@@ -14,10 +14,6 @@ class DeletePopup extends Component {
   state={
     checked:false,
     open:false
-  }
-
-  constructor(props) {
-    super(props);
   }
 
   check =(event)=> {
@@ -34,9 +30,11 @@ class DeletePopup extends Component {
     this.setState({checked: false})
   }
 
+  /*<Icon className="menu-icon" medium='true'>delete_forever</Icon>*/
   render() {
     return (
-      <Popup contentStyle={{width: '80%'}} trigger={<button>Delete</button>} position="top right" onClose={this.closing}>
+      <Popup contentStyle={{width: '80%'}} trigger={<div style={{display:"inline-block"}}><Icon className="InstructorNoteIcon" small={true}>delete_forever</Icon></div>} 
+                position="top right" onClose={this.closing}>
         { close => (
           <div className="NoteDeleteContainer">
               <span className="NoteDeleteTitle">
@@ -67,82 +65,93 @@ class DeletePopup extends Component {
 export class InstructorsNote extends Component {
     state={
       loaded: false,
-      Notes: []
-    }
+      Notes: [],
+      Name: "Loading...",
+      Class: "Loading...",
+      Age: "Loading...",
+      Tel: "Loading..."
+  }
 
-    setNotes = ()=>{
-      getFireDB('/Note/'+this.props.match.params.student_id).then(
-        result => {
-          let notes = [];
-          let notesRaw = result.val();
-          for(var key in notesRaw) {
-            notes.push({Instructor: key, Content: notesRaw[key]});
-          }
-          this.setState({Notes: notes, loaded:true});
+  constructor(props) 
+  {
+    super(props);
+    this.setNotes();
+    getFireDB('/User/'+this.props.match.params.student_id).then(
+      result => {
+        var args = result.val();
+        this.setState({...this.state, Name:args['name'], Class:args['class'], Age:args['age'], Tel: args['tel']});
+      }
+    )
+  }
+
+  setNotes = ()=>{
+    getFireDB('/Note/'+this.props.match.params.student_id).then(
+      result => {
+        let notes = [];
+        let notesRaw = result.val();
+        for(var key in notesRaw) {
+          notes.push({Instructor: key, Content: notesRaw[key]});
         }
-      )
-    }
+        this.setState({Notes: notes, loaded:true});
+      }
+    )
+  }
 
-    constructor(props) {
-      super(props);
-      this.setNotes();
-    }
+  renderNoteList = () => {
+      if(this.state.loaded==false) {
+        return (<div  style={{textAlign:"center", fontSize:"20px", fontWeight:"bold"}}>Loading...</div>)
+      }
 
-    renderNoteList = () => {
-        if(this.state.loaded==false) {
-          return (<div  style={{textAlign:"center", fontSize:"20px", fontWeight:"bold"}}>Loading...</div>)
+      var myNoteExists = false;
+      var i =0;
+      var noteList = this.state.Notes.map(_note => {
+        console.log(_note);
+        if(_note.Instructor!==this.props.match.params.instructor_id)
+            return <Note instructor={_note.Instructor} student={this.props.match.params.student_id} 
+                          content={_note.Content} key={i++}/>
+        else
+        {
+            myNoteExists = true;
+            return <MyNote instructor={_note.Instructor} student = {this.props.match.params.student_id} content={_note.Content} key={i++}/>
         }
+      });
 
-        var myNoteExists = false;
-        var i =0;
-        var noteList = this.state.Notes.map(_note => {
-          console.log(_note);
-          if(_note.Instructor!==this.props.match.params.instructor_id)
-              return <Note instructor={_note.Instructor} student={this.props.match.params.student_id} 
-                            content={_note.Content} key={i++}/>
-          else
-          {
-              myNoteExists = true;
-              return <MyNote instructor={_note.Instructor} student = {this.props.match.params.student_id} content={_note.Content} key={i++}/>
-          }
-        });
+      if(!myNoteExists)
+          noteList.push(
+              <div className="AddButtonContainer" key = {i++}>
+                <Link to={"/BOBO/studentProfile/instructorsNoteAddModify/"+this.props.match.params.instructor_id+
+                            '/'+this.props.match.params.student_id}>
+                  <Button className=" CommonButton">Add Note!</Button>
+                </Link>
+              </div>
+          );
+      return <div className="NoteContainer">{noteList}</div>;
+  }
 
-        if(!myNoteExists)
-            noteList.push(
-                <div className="AddButtonContainer" key = {i++}>
-                  <Link to={"/BOBO/studentProfile/instructorsNoteAddModify/"+this.props.match.params.instructor_id+
-                              '/'+this.props.match.params.student_id}>
-                    <button className="AddButton">Add Note!</button>
-                  </Link>
-                </div>
-            );
-        return <div className="NoteContainer">{noteList}</div>;
-    }
+  render() {
+      if(this.state.redirect)
+          return (<Redirect to={this.state.target}></Redirect>);
 
-    render() {
-        if(this.state.redirect)
-            return (<Redirect to={this.state.target}></Redirect>);
-
-        return (
-        <div style = {{width:"100%"}} className="content InstructorsNoteContent">
-            <div>
-                <Topbar name="Instructor's Note" showBack={true} backTo = {"/BOBO/studentProfile/main/"+
-                                  this.props.match.params.instructor_id+'/'+this.props.match.params.student_id}></Topbar>
-            </div>
-            <hr style = {{width: "100%", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
-            <Demographic />
-            <hr style = {{width: "100%", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
-            {this.renderNoteList()}
-        </div>
-        );
-    }
+      return (
+      <div style = {{width:"100%"}} className="content InstructorsNoteContent">
+          <div>
+              <Topbar name="Instructor's Note" showBack={true} backTo = {"/BOBO/studentProfile/main/"+
+                                this.props.match.params.instructor_id+'/'+this.props.match.params.student_id}></Topbar>
+          </div>
+          <hr style = {{width: "100%", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
+          <Demographic Name={this.state.Name} Age={this.state.Age} Tel={this.state.Tel} Class={this.state.Class}/>
+          <hr style = {{width: "100%", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
+          {this.renderNoteList()}
+      </div>
+      );
+  }
 }
 
 class Note extends Component {
     render() {
         return (
             <div className="Note">
-                <span className="NoteInstructor">{'• '+this.props.instructor+'\'s Note'}</span>
+                <span className="NoteInstructor"> {'• '+this.props.instructor+'\'s Note'}</span>
                 <br/>
                 <span className="NoteContent">&nbsp;&nbsp;&nbsp;{'- '+this.props.content}</span>
             </div>
@@ -155,16 +164,18 @@ class MyNote extends Component {
         return (
             <div>
                 <div className="Note">
-                    <div className="MyNoteButton">
+                    <div className="MyNoteButtonContainer">
                       <Link to={"/BOBO/studentProfile/instructorsNoteAddModify/"+this.props.instructor+
                               '/'+this.props.student}>
-                        <button>Modify</button>
+                        <Icon className="InstructorNoteIcon" small={true}>edit</Icon>
                       </Link>
                       <DeletePopup instructor_id={this.props.instructor} student_id={this.props.student}/>
                     </div>
                     <span className="NoteInstructor">{'• '+this.props.instructor+'\'s Note'}</span>
                     <br/>
-                    <span className="NoteContent">&nbsp;&nbsp;&nbsp;{'- '+this.props.content}</span>
+                    <div style={{marginLeft:"20px"}}>
+                      <span className="NoteContent">{'- '+this.props.content} </span>
+                    </div>
                 </div>
             </div>
         );

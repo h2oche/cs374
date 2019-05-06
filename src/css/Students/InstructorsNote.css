@@ -16,6 +16,8 @@
     margin-right: 30px;
     margin-top:15px;
     margin-bottom: 15px;
+    word-wrap: break-word;
+    white-space: normal;
 }
 
 
@@ -31,11 +33,25 @@
 .NoteContent
 {
     font-size: 18px;
+    width: 10px;
+    text-overflow: ellipsis;
 }
 
-.MyNoteButton
+.NoteContentDetail
 {
-    float:right;
+  width: 70%;
+}
+
+.MyNoteButtonContainer
+{
+
+  float:right;
+}
+
+.MyNoteButtonContainer
+{
+  width: "50px";
+  height: "50px";
 }
 
 .NoteDeleteContainer
@@ -83,7 +99,6 @@
     color: #b71c1c;
 }
 
-
 .AddButtonContainer
 {
     text-align: center;
@@ -99,4 +114,11 @@
     font-weight:bold;
     letter-spacing: 0.5px;
     border-radius: 10px;    
+}
+
+
+.InstructorNoteIcon {
+  color: darkgray;
+  /*color: #e57373; /* red lighten-2 */
+  /* color: #88024f; /* pink darken-4 */
 }

@@ -8,11 +8,23 @@ import {Textarea} from 'react-materialize';
 import {Link} from 'react-router-dom';
 import {Button} from 'react-materialize'
 import { pushDB, deleteDB, updateChild } from '../../config/fire';
+import '../../css/Common.css'
+import {getFireDB} from '../../config/fire.js'
 
 export class InstructorsNoteAddModify extends Component {
 
   state = {
-    textcontent : ""
+    textcontent : "",
+    loaded: false
+  }
+
+  constructor(props) {
+    super(props);
+    getFireDB('/Note/'+this.props.match.params.student_id+'/'+this.props.match.params.instructor_id).then(
+      result => {
+        this.setState({textcontent: result.val(), loaded: true})
+      }
+    )
   }
 
   handlecontentChange = e=> {
@@ -42,17 +54,23 @@ export class InstructorsNoteAddModify extends Component {
         <hr style = {{width: "100%", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
         <Demographic />
         <hr style = {{width: "100%", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
-        <Textarea placeholder="Write note on this student"
-          onChange={this.handlecontentChange} value={this.state.textcontent} />
+        {this.state.loaded?
+        <div className="NoteContainer">
+          <div style={{width: "100%", display: "table", textAlign:"center"}}>
+            <Textarea placeholder="Write note on this student" style={{width: "90%", display: "table-cell"}}
+              onChange={this.handlecontentChange} value={this.state.textcontent} />
+          </div>
           <Link to={"/BOBO/studentProfile/instructorsNote/"+this.props.match.params.instructor_id+"/"+
                       this.props.match.params.student_id}>
-            <Button className="close pinkcancelbutton">
+            <Button className="CommonButton" style={{marginLeft: "20px"}} >
               Cancel
             </Button>
-            <Button className="close pinkcancelbutton" style={{float:"right"}} onClick={this.confirm}>
+            <Button className="CommonButton" style={{marginRight: "20px", float:"right"}} onClick={this.confirm}>
               Confirm
             </Button>
           </Link>
+        </div> : (<div  style={{textAlign:"center", fontSize:"20px", fontWeight:"bold"}}>Loading...</div>)
+        }
     </div>
     );
   }
