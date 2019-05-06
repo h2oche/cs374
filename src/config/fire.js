@@ -145,7 +145,6 @@ export const download_picture = (pictureurl, _this) => {
 
   }).catch(function(error) {
     // Handle any errors
-    console.log(error)
     _this.setState({mount:false});
     
     return;
