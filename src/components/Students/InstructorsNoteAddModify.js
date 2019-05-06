@@ -7,25 +7,37 @@ import Demographic from './Demographic'
 import {Textarea} from 'react-materialize';
 import {Link} from 'react-router-dom';
 import {Button} from 'react-materialize'
-import { pushDB, deleteDB, updateChild } from '../../config/fire';
 import '../../css/Common.css'
-import {getFireDB} from '../../config/fire.js'
+import { fire, getFireDB, pushMultipleDB, pushDB, setDB, deleteDB, updateChild, download_picture} from '../../config/fire';
 
 export class InstructorsNoteAddModify extends Component {
 
   state = {
     textcontent : "",
-    loaded: false
-  }
+    loaded: false,
+    Class: "Loading...",
+    Age: "Loading...",
+    Tel: "Loading...",
+    url: "",
+    mount:true
+}
 
-  constructor(props) {
-    super(props);
-    getFireDB('/Note/'+this.props.match.params.student_id+'/'+this.props.match.params.instructor_id).then(
-      result => {
-        this.setState({textcontent: result.val(), loaded: true})
-      }
-    )
-  }
+constructor(props) 
+{
+  super(props);
+  getFireDB('/User/'+this.props.match.params.student_id).then(
+    result => {
+      var args = result.val();
+      this.setState({...this.state, Name:args['name'], Class:args['class'], Age:args['age'], Tel: args['tel']});
+      download_picture(args['picture'], this);
+    }
+  )
+  getFireDB('/Note/'+this.props.match.params.student_id+'/'+this.props.match.params.instructor_id).then(
+    result => {
+      this.setState({textcontent: result.val(), loaded: true})
+    }
+  )
+}
 
   handlecontentChange = e=> {
     this.setState({textcontent: e.target.value});
@@ -52,7 +64,7 @@ export class InstructorsNoteAddModify extends Component {
                                 this.props.match.params.student_id}></Topbar>
         </div>
         <hr style = {{width: "100%", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
-        <Demographic />
+        <Demographic Name={this.state.Name} Age={this.state.Age} Tel={this.state.Tel} Class={this.state.Class} ImageURL={this.state.url}/>
         <hr style = {{width: "100%", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
         {this.state.loaded?
         <div className="NoteContainer">

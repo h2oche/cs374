@@ -7,8 +7,8 @@ import Demographic from './Demographic'
 import Popup from 'reactjs-popup'
 import {Checkbox, Icon, Button} from 'react-materialize'
 import {Link} from 'react-router-dom'
-import { fire, getFireDB, pushMultipleDB, pushDB, setDB, deleteDB} from '../../config/fire';
 import '../../css/Common.css'
+import { fire, getFireDB, pushMultipleDB, pushDB, setDB, deleteDB, download_picture} from '../../config/fire';
 
 class DeletePopup extends Component {
   state={
@@ -66,22 +66,24 @@ export class InstructorsNote extends Component {
     state={
       loaded: false,
       Notes: [],
-      Name: "Loading...",
       Class: "Loading...",
       Age: "Loading...",
-      Tel: "Loading..."
+      Tel: "Loading...",
+      url: "",
+      mount:true
   }
 
   constructor(props) 
   {
     super(props);
-    this.setNotes();
     getFireDB('/User/'+this.props.match.params.student_id).then(
       result => {
         var args = result.val();
         this.setState({...this.state, Name:args['name'], Class:args['class'], Age:args['age'], Tel: args['tel']});
+        download_picture(args['picture'], this);
       }
     )
+    this.setNotes();
   }
 
   setNotes = ()=>{
@@ -139,7 +141,7 @@ export class InstructorsNote extends Component {
                                 this.props.match.params.instructor_id+'/'+this.props.match.params.student_id}></Topbar>
           </div>
           <hr style = {{width: "100%", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
-          <Demographic Name={this.state.Name} Age={this.state.Age} Tel={this.state.Tel} Class={this.state.Class}/>
+          <Demographic Name={this.state.Name} Age={this.state.Age} Tel={this.state.Tel} Class={this.state.Class} ImageURL={this.state.url}/>
           <hr style = {{width: "100%", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
           {this.renderNoteList()}
       </div>

@@ -5,7 +5,7 @@ import {Redirect} from 'react-router';
 import Demographic from './Demographic';
 import '../../css/Common.css'
 import {Button} from 'react-materialize'
-import { fire, getFireDB, pushMultipleDB, pushDB, setDB, deleteDB} from '../../config/fire';
+import { fire, getFireDB, pushMultipleDB, pushDB, setDB, deleteDB, download_picture} from '../../config/fire';
 
 export class StudentProfile extends Component {
     state={
@@ -14,7 +14,9 @@ export class StudentProfile extends Component {
         Name: "Loading...",
         Class: "Loading...",
         Age: "Loading...",
-        Tel: "Loading..."
+        Tel: "Loading...",
+        url: "",
+        mount:true
     }
 
     constructor(props) 
@@ -24,6 +26,7 @@ export class StudentProfile extends Component {
         result => {
           var args = result.val();
           this.setState({...this.state, Name:args['name'], Class:args['class'], Age:args['age'], Tel: args['tel']});
+          download_picture(args['picture'], this);
         }
       )
     }
@@ -47,15 +50,15 @@ export class StudentProfile extends Component {
         <div style = {{width:"100%"}} className="content studentProfileContent">
             <Topbar name="Profile" showBack={true} backTo = "/BOBO/"></Topbar>
             <hr style = {{width: "100%", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
-            <Demographic Name={this.state.Name} Age={this.state.Age} Tel={this.state.Tel} Class={this.state.Class}/>
+            <Demographic Name={this.state.Name} Age={this.state.Age} Tel={this.state.Tel} Class={this.state.Class} ImageURL={this.state.url}/>
             <hr style = {{width: "100%", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
             <div className="ButtonContainer">
-                <Button className="Button CommonButton" 
+                <Button className="Button" 
                         onClick={this.redirectToClassRecord}>
                     Class Record
                 </Button>
                 <br/>
-                <Button className="Button CommonButton"
+                <Button className="Button"
                         onClick={this.redirectToInstructorsNote}>
                     Instructor's Note
                 </Button>
