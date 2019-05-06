@@ -3,6 +3,8 @@ import Topbar from '../Topbar';
 import '../../css/Students/StudentProfile.css'
 import {Redirect} from 'react-router';
 import Demographic from './Demographic';
+import '../../css/Common.css'
+import {Button} from 'react-materialize'
 
 export class StudentProfile extends Component {
     state={
@@ -32,15 +34,15 @@ export class StudentProfile extends Component {
             <Demographic />
             <hr style = {{width: "100%", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
             <div className="ButtonContainer">
-                <button className="Button" 
+                <Button className="Button CommonButton" 
                         onClick={this.redirectToClassRecord}>
                     Class Record
-                </button>
+                </Button>
                 <br/>
-                <button className="Button"
+                <Button className="Button CommonButton"
                         onClick={this.redirectToInstructorsNote}>
                     Instructor's Note
-                </button>
+                </Button>
             </div>
         </div>
         );
