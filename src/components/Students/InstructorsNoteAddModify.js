@@ -7,6 +7,7 @@ import Demographic from './Demographic'
 import {Textarea} from 'react-materialize';
 import {Link} from 'react-router-dom';
 import {Button} from 'react-materialize'
+import { pushDB, deleteDB, updateChild } from '../../config/fire';
 
 export class InstructorsNoteAddModify extends Component {
 
@@ -19,8 +20,15 @@ export class InstructorsNoteAddModify extends Component {
   }
 
   confirm = ()=> {
-    //TODO: UPDATE FIREBASE
-    console.log(33);
+    if(this.state.textcontent.length!=0)
+    {
+      updateChild('/Note/'+this.props.match.params.student_id, this.props.match.params.instructor_id, this.state.textcontent);
+      return;
+    }
+    else
+    {
+      deleteDB('/Note/'+this.props.match.params.student_id+'/'+this.props.match.params.instructor_id);
+    }
   }
 
   render() {

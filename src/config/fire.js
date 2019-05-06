@@ -68,3 +68,8 @@ export const getFireDB_arr = (dir, _this, target, type, want) => {
   
   return temparr
 }
+
+export const updateChild = (dir, childName, value) => {
+  database.ref(dir).update({[childName]: value});
+}
+
