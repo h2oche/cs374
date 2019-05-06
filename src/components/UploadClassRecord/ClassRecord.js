@@ -4,8 +4,9 @@ import Topbar from "../Topbar";
 import '../../css/ClassRecord.css';
 import Popup from "reactjs-popup";
 import {Link} from 'react-router-dom';
-import {Row, Col} from 'react-materialize';
-import { fire, getFireDB} from '../../config/fire';
+import { fire, getFireDB_arr, pushDB, upload_file} from '../../config/fire';
+import {Redirect} from 'react-router';
+
 
 
 const PopupExample =  () => (
@@ -28,11 +29,15 @@ const PopupExample =  () => (
 
 
 const INITIAL_STATE = {
+  instructor:'Amy',
   textname: '',
   textcontent:'',
   file:null,
-  loading:false,
-  users:[],
+  student:[],
+  autocomplete_student:[],
+  date:'',
+  redirectTo: "",
+  disabled: false,
 };
 
 export class ClassRecord extends Component {
@@ -40,16 +45,14 @@ export class ClassRecord extends Component {
     super(props);
     fire();
     this.state={...INITIAL_STATE}
-
-
+    this.setRef = ref => {
+      this.file = ref;
+    }
   }
-  componentDidMount() {
-    getFireDB()
-    .then(res =>{
-      this.setState({
-        users : res.val().User
-      })
-    });
+
+  componentDidMount = () => {
+    
+    getFireDB_arr('User/',this,'autocomplete_student','type','parent');
   }
   
 
@@ -58,7 +61,7 @@ export class ClassRecord extends Component {
   {
     this.setState({textname : e.target.value});
     console.log(this.props.firebase)
-    this.props.firebase.user("note2").set({name:"note222"});
+    //this.props.firebase.user("note2").set({name:"note222"});
   }
   handlecontentChange = e =>
   {
@@ -70,52 +73,72 @@ export class ClassRecord extends Component {
   doneonClick = () =>
   {
     console.log(this.state);
-    if(this.state.file!=null)
-    {
-      let filenames="";
-      for(var i=0;i<this.state.file.length;i++)
-      {
-        filenames += "File_name : " + this.state.file[i].name + " File_modified : "
-        + this.state.file[i].name + "\n";
-      }
-      alert('Student : ' + this.state.textname + '  Content : ' + this.state.textcontent
-        + '  files :' + filenames);
+    var obj = {...this.state};
+    obj.date = new Date().getTime();
+    
+    delete obj.autocomplete_student;
+    delete obj.redirectTo;
 
-    }
-    else
+    if(obj.file)
     {
-      alert('Student : ' + this.state.textname + '  Content : ' + this.state.textcontent);
+      var x = document.getElementById("inputfile");
+      console.log(x.files[0]);
+      // var blob = new Blob(obj.file[0],{ type: "image/jpg" });
+      upload_file(x.files[0]);
     }
+    
+
+    pushDB("Record", obj)
+    .then(_res => {
+      this.inputElementcontent.value= "";
+      this.inputElementname.value="";
+      this.setState({...this.state, redirect: true, redirectTo: "/BOBO/" });
+    });
   }
 
+  fileclick = () => {
+
+    this.inputElementfile.click();      
+
+
+
+  }
+  galleryclick = () => {
+    this.inputElementgallery.click();
+  }
+  cameraclick = () => {
+    this.inputElementcamera.click();
+  }
 
   
   render() {
+    if(this.state.redirect)
+    return <Redirect to={this.state.redirectTo}/>
 
     return (
         <div className="content">
-          <Topbar name="Upload Class Record" showBack={true} backTo="/BOBO"/>    
+          <Topbar name="Upload Class Record" showBack={false} backTo="/BOBO"/>    
 
         <div className="row">
           <div className="col s12">
             Students:
             <div className="input-field inline">
-              <input type="text" onChange={this.handlenameChange.bind(this)}/>
+              <input type="text"  ref={_input => this.inputElementname = _input} onChange={this.handlenameChange.bind(this)}/>
               <label>Write student's name</label>
             </div>
           </div>
         </div>
         <div className="buttons">
           <form action="#" >
-              <div className="btn pinkbutton buttonleft">
-                <input type="file" id="File" onChange={this.handlefileChange.bind(this)} multiple/>
-                <label htmlFor="File" className="bigfont">File</label>
-              </div>           <div className="btn pinkbutton">
-                <input type="file" id="Camera" accept="image/*" capture="camera"/>
-                <label htmlFor="Camera" className="bigfont">Camera</label>
-              </div>           <div className="btn pinkbutton">
-                <input type="file" id="Gallery" accept="image/*;capture=camera"/>
-                <label htmlFor="Gallery" className="bigfont">Gallery</label>
+              <div className="btn pinkbutton buttonleft" onClick={this.fileclick}>
+                <input ref={_input => this.inputElementfile = _input}  id="inputfile" type="file" onChange={this.handlefileChange.bind(this)} multiple name="File"/>
+                <label className="bigfont">File</label>
+              </div>           <div className="btn pinkbutton" onClick={this.galleryclick}>
+                <input ref={_input2 => this.inputElementgallery = _input2} type="file" accept="image/*;capture=camera"/>
+                <label className="bigfont">Camera</label>
+              </div>           <div className="btn pinkbutton" onClick={this.cameraclick}>
+                <input ref={_input3 => this.inputElementcamera = _input3} type="file" accept="image/*" capture="camera"/>
+                <label className="bigfont">Gallery</label>
               </div>
               
             </form>
@@ -124,7 +147,7 @@ export class ClassRecord extends Component {
           <div className="bottommargin">
             <Textarea placeholder="Write class records..
               #classs #amy"
-              onChange={this.handlecontentChange} value={this.state.textcontent}/>
+              onChange={this.handlecontentChange}  ref={_input => this.inputElementcontent = _input} value={this.state.textcontent}/>
               <div className="row">
                 <PopupExample/>
                 <Button waves="light" onClick={this.doneonClick.bind(this)}
@@ -137,5 +160,4 @@ export class ClassRecord extends Component {
     )
   }
 }
-
 export default ClassRecord;

@@ -80,5 +80,5 @@ export const updateChild = (dir, childName, value) => {
   
 export const upload_file = (file) => {
   let target = storage.ref('images/' + new Date());
-  target.put([file]);
+  target.put(file);
 }
