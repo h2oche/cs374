@@ -1,0 +1,8 @@
+.CommonButton
+{
+  background-color: #f7d0da;
+  color: #444444;
+}.CommonButton:hover
+{
+  background-color: #f1b8c8;
+}
