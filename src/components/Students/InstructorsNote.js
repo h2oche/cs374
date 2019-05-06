@@ -7,6 +7,9 @@ import Demographic from './Demographic'
 import Popup from 'reactjs-popup'
 import {Checkbox} from 'react-materialize'
 import {Link} from 'react-router-dom'
+import { fire, getFireDB, pushMultipleDB, pushDB, setDB, deleteDB} from '../../config/fire';
+import { database } from 'firebase';
+import * as firebase from 'firebase';
 
 class DeletePopup extends Component {
   state={
@@ -22,16 +25,15 @@ class DeletePopup extends Component {
     this.setState({checked: !this.state.checked});
   }
 
-
   deleteNote = () => {
-    //TODO: delete on firebase
+    console.log('/Note/'+this.props.student_id+'/'+this.props.instructor_id);
+    deleteDB('/Note/'+this.props.student_id+'/'+this.props.instructor_id);
     window.location.reload();
   }
 
   closing = () => {
     this.setState({checked: false})
   }
-
 
   render() {
     return (
@@ -65,51 +67,50 @@ class DeletePopup extends Component {
 
 export class InstructorsNote extends Component {
     state={
-        Notes:
-            [
-                {
-                    Instructor: 'amy11',
-                    Student: 'jinjin',
-                    Content: 'He is smart',
-                    Date: '2019/05/03'
-                },
-                {
-                    Instructor: 'momo33',
-                    Student: 'yujin',
-                    Content: 'He is smart',
-                    Date: '2019/05/03'
-                },
-                {
-                    Instructor: 'ake1',
-                    Student: 'sarah',
-                    Content: 'He is smart',
-                    Date: '2019/05/03'
-                },
-                {
-                    Instructor: 'tommy11',
-                    Student: 'jinjin',
-                    Content: 'He is smart',
-                    Date: '2019/05/03'
-                }
-            ]
+      loaded: false,
+      Notes: []
+    }
+
+    setNotes = ()=>{
+      getFireDB('/Note/'+this.props.match.params.student_id).then(
+        result => {
+          let notes = [];
+          let notesRaw = result.val();
+          for(var key in notesRaw) {
+            notes.push({Instructor: key, Content: notesRaw[key]});
+          }
+          this.setState({Notes: notes, loaded:true});
+        }
+      )
+    }
+
+    constructor(props) {
+      super(props);
+      this.setNotes();
     }
 
     renderNoteList = () => {
+        if(this.state.loaded==false) {
+          return (<div  style={{textAlign:"center", fontSize:"20px", fontWeight:"bold"}}>Loading...</div>)
+        }
+
         var myNoteExists = false;
         var i =0;
         var noteList = this.state.Notes.map(_note => {
-            if(_note.Instructor!==this.props.match.params.instructor_id)
-                return <Note data={_note} key={i++}/>
-            else
-            {
-                myNoteExists = true;
-                return <MyNote data={_note} key={i++}/>
-            }
+          console.log(_note);
+          if(_note.Instructor!==this.props.match.params.instructor_id)
+              return <Note instructor={_note.Instructor} student={this.props.match.params.student_id} 
+                            content={_note.Content} key={i++}/>
+          else
+          {
+              myNoteExists = true;
+              return <MyNote instructor={_note.Instructor} student = {this.props.match.params.student_id} content={_note.Content} key={i++}/>
+          }
         });
 
         if(!myNoteExists)
             noteList.push(
-                <div className="AddButtonContainer">
+                <div className="AddButtonContainer" key = {i++}>
                   <Link to={"/BOBO/studentProfile/instructorsNoteAddModify/"+this.props.match.params.instructor_id+
                               '/'+this.props.match.params.student_id}>
                     <button className="AddButton">Add Note!</button>
@@ -122,6 +123,7 @@ export class InstructorsNote extends Component {
     render() {
         if(this.state.redirect)
             return (<Redirect to={this.state.target}></Redirect>);
+
         return (
         <div style = {{width:"100%"}} className="content InstructorsNoteContent">
             <div>
@@ -141,9 +143,9 @@ class Note extends Component {
     render() {
         return (
             <div className="Note">
-                <span className="NoteInstructor">{'• '+this.props.data.Instructor+'\'s Note'}</span>
+                <span className="NoteInstructor">{'• '+this.props.instructor+'\'s Note'}</span>
                 <br/>
-                <span className="NoteContent">&nbsp;&nbsp;&nbsp;{'- '+this.props.data.Content}</span>
+                <span className="NoteContent">&nbsp;&nbsp;&nbsp;{'- '+this.props.content}</span>
             </div>
         );
     }
@@ -155,15 +157,15 @@ class MyNote extends Component {
             <div>
                 <div className="Note">
                     <div className="MyNoteButton">
-                      <Link to={"/BOBO/studentProfile/instructorsNoteAddModify/"+this.props.data.Instructor+
-                              '/'+this.props.data.Student}>
+                      <Link to={"/BOBO/studentProfile/instructorsNoteAddModify/"+this.props.instructor+
+                              '/'+this.props.student}>
                         <button>Modify</button>
                       </Link>
-                      <DeletePopup instructor_id={this.props.data.Instructor} student_id={this.props.data.Student}/>
+                      <DeletePopup instructor_id={this.props.instructor} student_id={this.props.student}/>
                     </div>
-                    <span className="NoteInstructor">{'• '+this.props.data.Instructor+'\'s Note'}</span>
+                    <span className="NoteInstructor">{'• '+this.props.instructor+'\'s Note'}</span>
                     <br/>
-                    <span className="NoteContent">&nbsp;&nbsp;&nbsp;{'- '+this.props.data.Content}</span>
+                    <span className="NoteContent">&nbsp;&nbsp;&nbsp;{'- '+this.props.content}</span>
                 </div>
             </div>
         );

@@ -38,6 +38,10 @@ export const setDB = (dir, obj) => {
   return database.ref(dir).set(obj);
 }
 
+export const deleteDB = (dir) => {
+  database.ref(dir).remove();
+}
+
 export const getFireDB_arr = (dir, _this, target, type, want) => {
   if (dir===null)
     dir = '/';
