@@ -126,7 +126,7 @@ export class AddNotice extends Component {
           </Col>
           
           <Col s={12}>
-            <Button className="red" style={{float: "right"}} onClick={this.onNoticeAdd}>Add</Button>
+            <Button className="CommonButton" style={{float: "right"}} onClick={this.onNoticeAdd}>Add</Button>
           </Col>
         </Row>
       </div>

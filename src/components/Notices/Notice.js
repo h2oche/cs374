@@ -133,13 +133,13 @@ export class Notice extends Component {
             {this.renderQuestions()}
           </Col>
           <Col s={12} id="new-question-row">
-            <Card className="white" header={<div className="red accent-2 white-text add-question-header">Leave Question</div>}>
+            <Card className="white" header={<div className="white-text add-question-header">Leave Question</div>}>
               <Textarea
                 id="new-question-content"
                 placeholder="What do you want to ask?"
                 onChange={this.onNewQuestionChange}
                 value={this.state.newQuestionContent}/>
-              <Button className="red lighten-5 black-text" id="new-question-leave-btn" onClick={this.onNewQuestionBtnClick}>Leave</Button>
+              <Button className="CommonButton" id="new-question-leave-btn" onClick={this.onNewQuestionBtnClick}>Leave</Button>
             </Card>
           </Col>
         </Row>

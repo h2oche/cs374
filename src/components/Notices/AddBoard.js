@@ -118,7 +118,7 @@ export class AddBoard extends Component {
         </Row>
         <Row>
           <Col s={12}>
-            <Button waves="light" style={{float:"right"}} onClick={this.addBoard}>Add</Button>
+            <Button className="CommonButton" waves="light" style={{float:"right"}} onClick={this.addBoard}>Add</Button>
           </Col>
         </Row>
       </div>

@@ -65,3 +65,11 @@
   top: 7px;
   color: #aaa;
 }
+
+#board-list-add-btn {
+  color: palevioletred;
+}
+
+#board-pagination-row .pagination li.active {
+  background-color: palevioletred;
+}
