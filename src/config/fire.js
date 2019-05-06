@@ -46,27 +46,19 @@ export const getFireDB_arr = (dir, _this, target, type, want) => {
   console.log('in', type, want)
   targetref.once('value', function(snapshot) {
     snapshot.forEach(function(child){
-      
       if(type)
-      {
-        console.log(child.val().id, [type], [want])
-        console.log(child.val()[type])
+      {   
         if(child.val()[type] === want)
         {
-          temparr.push(
-        
-            {"id":child.val().id, "name":child.val().name,
-          "class":child.val().class}
-          );
+          temparr.push(child.val());
           _this.setState({[target]:temparr});
-          console.log(temparr)
-
         }
-
-
       }
-
-      
+      else 
+      {
+        temparr.push(child.val());
+        _this.setState({[target]:temparr});
+      }     
     })
   })
   
