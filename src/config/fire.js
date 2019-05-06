@@ -53,7 +53,6 @@ export const pushMultipleDB = (dir, objs) => {
   objs.forEach(_obj => {
     updates[ref.push().key] = _obj;
   });
-  // console.log(updates);
   return ref.update(updates);
 }
 
