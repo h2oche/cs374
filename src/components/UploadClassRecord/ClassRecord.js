@@ -84,7 +84,7 @@ export class ClassRecord extends Component {
       var x = document.getElementById("inputfile");
       console.log(x.files[0]);
       // var blob = new Blob(obj.file[0],{ type: "image/jpg" });
-      upload_file(x.files[0]);
+      upload_file('images/', x.files[0], x.files[0].name);
     }
     
 

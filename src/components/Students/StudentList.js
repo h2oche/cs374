@@ -79,8 +79,8 @@ export class StudentList extends Component {
     var autocompleteData = this.state.Students.reduce((_acc, _student) => {
       return { ..._acc, [_student.name]: null };
     }, {});
-    this.setState({ ...this.state, autocompleteData, showAutocomplete: true});
-    getFireDB_arr('User/',this,'Students','type','parent');
+    this.setState({ ...this.state, autocompleteData, showAutocomplete: true });
+    getFireDB_arr('User/', this, 'Students', 'type', 'parent');
 
   }
 
@@ -97,9 +97,9 @@ export class StudentList extends Component {
     var studentFiltered = this.state.Students.filter(_student => {
       return _student.class === selectedClass
     })
-    console.log('selected class='+selectedClass)
+    console.log('selected class=' + selectedClass)
     console.log('filtered list=', studentFiltered)
-    this.setState({...this.state, selectedClass, studentFiltered, showSelectClass: true });
+    this.setState({ ...this.state, selectedClass, studentFiltered, showSelectClass: true });
   }
 
 
@@ -128,7 +128,7 @@ export class StudentList extends Component {
 
     return (
       <div className='content student-list-content'>
-        <Topbar id='class-record-topbar' name="Student List" showBack={true} backTo="/BOBO" /> {/*FIXME: fucking width */}
+        <div><Topbar id='class-record-topbar' name="Student List" /> </div>
         { /* search */}
         <Row id="student-list-search-row">
           <Col s={12}>
@@ -146,8 +146,8 @@ export class StudentList extends Component {
         {/* select class */}
         <Row id="select-class-row" style={{ alignItems: 'center' }}>
           <Col s={12}>
-            <Select 
-              id = 'selection'
+            <Select
+              id='selection'
               onChange={this.onClassSelection}
               style={{ width: '100%' }}>
               <option value="" disabled selected>Select a class</option>
@@ -160,13 +160,13 @@ export class StudentList extends Component {
         <Row id="show-student-list-row">
           <Col className="showStudentList" s={12}>
             {this.state.showSelectClass ?
-            <Collection>
-            {this.renderStudentFilteredList()}
-            </Collection>
-            :
-            <Collection>
-              {this.renderStudentList()}
-            </Collection>
+              <Collection>
+                {this.renderStudentFilteredList()}
+              </Collection>
+              :
+              <Collection>
+                {this.renderStudentList()}
+              </Collection>
             }
           </Col>
         </Row>

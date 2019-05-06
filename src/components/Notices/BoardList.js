@@ -5,7 +5,8 @@ import {Row, Col, Collection, Autocomplete, Button} from 'react-materialize';
 import {Redirect} from 'react-router';
 import { fire, getFireDB} from '../../config/fire';
 
-import "../../css/Notices/BoardList.css"
+import "../../css/Notices/BoardList.css";
+import "../../css/Common.css";
 
 export class NoticeBoard extends Component {
   state = {

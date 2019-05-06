@@ -11,3 +11,12 @@
   background-color: palevioletred;
   float:right;
 }
+
+#board-list-search-row input[type=text]:not(.browswer-default):focus:not([readonly]) {
+  border-bottom: 1px solid palevioletred;
+  box-shadow: 0 1px 0 0 palevioletred;
+}
+
+#board-list-search-row i.material-icons.prefix.active {
+  color: palevioletred;
+}

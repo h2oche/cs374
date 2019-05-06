@@ -95,6 +95,7 @@ export class ClassRecord extends Component {
 
     return (
       <div style = {{ width: "100%" }} className="content class-record-content">
+      <div>
         <Topbar 
           name="Class Record" 
           showBack={true} 
@@ -107,6 +108,7 @@ export class ClassRecord extends Component {
                               waves="light"
                               icon="add"
                               href={"/BOBO/classRecord"}/>}></Topbar>
+      </div>
 
         <div className="class-record-container">
           <hr style={{ width: "360px", border: 'none', backgroundColor: 'darkgray', height: '2px' }} />
@@ -172,7 +174,7 @@ class Hash extends Component {
 
   render() {
     return (
-      <span id='hash-span' onClick={this.onHashtagSelection}>{'#' + this.props.data + ' '}</span>
+      <span id='hash-span' onClick={this.onHashtagSelection()}>{'#' + this.props.data + ' '}</span>
     );
   }
 }

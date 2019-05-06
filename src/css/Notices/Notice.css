@@ -98,6 +98,11 @@
   margin: 0;
 }
 
+#notice-content-row textarea.materialize-textarea:focus:not([readonly]) {
+  border-bottom: 1px solid palevioletred;
+  box-shadow: 0 1px 0 0 palevioletred;
+}
+
 #new-question-row .card-content:after, .question-list-item-container .card-content:after {
   content: "";
   display: block;
@@ -124,4 +129,8 @@
 
 .question-list-item-container .new-answer-btn {
   float: right;
+}
+
+.add-question-header {
+  background-color: palevioletred;
 }
