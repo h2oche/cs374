@@ -8,8 +8,7 @@ import Popup from 'reactjs-popup'
 import {Checkbox} from 'react-materialize'
 import {Link} from 'react-router-dom'
 import { fire, getFireDB, pushMultipleDB, pushDB, setDB, deleteDB} from '../../config/fire';
-import { database } from 'firebase';
-import * as firebase from 'firebase';
+import '../../css/Common.css'
 
 class DeletePopup extends Component {
   state={
