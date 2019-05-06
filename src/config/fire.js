@@ -24,6 +24,25 @@ export const getFireDB = (dir) => {
   return database.ref(dir).once('value')
 }
 
+export const getPictureURL = (name, _this) => {
+  var targetref = database.ref('/User/');
+  var url=""
+  targetref.once('value', function(snapshot) {
+    snapshot.forEach(function(child){
+      if(child.val().name === name)
+      {
+        
+        _this.setState({url:child.val().picture});
+        _this.setState({originurl:child.val().picture});
+
+        
+      }
+    })
+    
+  })
+  
+}
+
 export const pushDB = (dir, obj) => {
   return database.ref(dir).push(obj);
 }
@@ -51,7 +70,6 @@ export const getFireDB_arr = (dir, _this, target, type, want) => {
     dir = '/';
   var targetref = database.ref(dir);
   var temparr = [];
-  console.log('in', type, want)
   targetref.once('value', function(snapshot) {
     snapshot.forEach(function(child){
       if(type)
@@ -108,5 +126,29 @@ export const upload_file = (dir, file, filename) => {
     uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
       console.log('File available at', downloadURL);
     });
+  });
+}
+
+
+export const download_picture = (pictureurl, _this) => {
+  var Storageref = storage.ref();
+  
+  var strarray = pictureurl.split('/')
+  const images = Storageref.child(strarray[0])
+  const image = images.child(strarray[1]) 
+
+  storage.ref('User').child(strarray[1]).getDownloadURL().then(function(url) {
+      if(url)
+      {
+      _this.setState({url});
+      }
+      _this.setState({mount:false});
+
+  }).catch(function(error) {
+    // Handle any errors
+    console.log(error)
+    _this.setState({mount:false});
+    
+    return;
   });
 }
