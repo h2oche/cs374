@@ -4,7 +4,7 @@ import { Row, Col } from 'react-materialize'
 import {fire, download_picture,getPictureURL} from '../../config/fire'
 
 
-import photo from './student_photo.jpeg'
+import photo from './basic.png'
 
 export class StudentListItem extends Component {
   constructor(props){
@@ -19,28 +19,11 @@ export class StudentListItem extends Component {
   }
   
   givesrc = (name) => {
-    // console.log(name);
     getPictureURL(name, this);
-    
-    
-    // var picurl = getPictureURL(this.props.data.name);
-    // var img = document.getElementById('profile');
-    // console.log(this.state.url)
     if(this.state.url)
       return download_picture(this.state.url,this);
-    // return null;
-
   }
-  componentWillUpdate = () => {
-    
 
-  }
-  
-  componentDidMount = () => {
-    
-    
-
-  }
   shouldComponentUpdate() {
     return this.state.mount;
   }
