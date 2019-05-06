@@ -137,10 +137,10 @@ export const download_picture = (pictureurl, _this) => {
   const image = images.child(strarray[1]) 
 
   storage.ref('User').child(strarray[1]).getDownloadURL().then(function(url) {
-      if(url)
-      {
+      
+      
       _this.setState({url});
-      }
+    
       _this.setState({mount:false});
 
   }).catch(function(error) {
