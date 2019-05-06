@@ -1,5 +1,6 @@
 import * as firebase from 'firebase'
 let database;
+let storage;
 let config = {
     apiKey: "AIzaSyA5_bIw4uLv00p40TzdHn6MsG3zmIScw24",
     authDomain: "cs374-bobo.firebaseapp.com",
@@ -13,6 +14,9 @@ export const fire = () => {
         firebase.initializeApp(config);
     }
   database = firebase.database()
+  
+  storage = firebase.storage()
+
 }
 export const getFireDB = (dir) => {
   if (dir===null)
@@ -73,3 +77,8 @@ export const updateChild = (dir, childName, value) => {
   database.ref(dir).update({[childName]: value});
 }
 
+  
+export const upload_file = (file) => {
+  let target = storage.ref('images/' + new Date());
+  target.put(file);
+}
