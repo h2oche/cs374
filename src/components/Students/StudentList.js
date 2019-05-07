@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import Topbar from "../Topbar";
+import { Redirect } from 'react-router';
+import {Link} from 'react-router-dom'
+import Popup from 'reactjs-popup'
 import { Row, Col, Collection, Autocomplete, Button, Dropdown, Select, Divider } from 'react-materialize';
+
+import Topbar from "../Topbar";
 import StudentListItem from './StudentListItem';
 import ClassListItem from './ClassListItem';
-import { Redirect } from 'react-router';
 import { getFireDB_arr } from '../../config/fire'
-
 import "../../css/Students/StudentList.css"
 export class StudentList extends Component {
 
@@ -74,8 +76,6 @@ export class StudentList extends Component {
   }
 
   componentDidMount = () => {
-    console.log("here here")
-    console.log(this.state.selectedClass)
     var autocompleteData = this.state.Students.reduce((_acc, _student) => {
       return { ..._acc, [_student.name]: null };
     }, {});
@@ -87,7 +87,6 @@ export class StudentList extends Component {
   onAutocomplete = (_studentName) => {
     var student = this.state.Students.find(_student => _student.name === _studentName)
     this.setState({ ...this.state, redirect: true, redirectTo: "/BOBO/studentProfile/main/2/2" }); //FIXME: id instead tommy
-    console.log('tommy')
   }
 
   onClassSelection = e => {
@@ -97,8 +96,6 @@ export class StudentList extends Component {
     var studentFiltered = this.state.Students.filter(_student => {
       return _student.class === selectedClass
     })
-    console.log('selected class=' + selectedClass)
-    console.log('filtered list=', studentFiltered)
     this.setState({ ...this.state, selectedClass, studentFiltered, showSelectClass: true });
   }
 

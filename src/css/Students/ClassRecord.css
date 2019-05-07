@@ -1,3 +1,5 @@
+/* css for showing class record (yunha) */
+
 .class-record-content
 {
     display:flex;
@@ -17,4 +19,64 @@
 .who-wrote-col {
   color: #88024f; /* pink darken-4*/
   text-align: right;
+}
+
+
+
+.edit-record-col {
+  color: darkgray;
+}
+
+/* Delete popup */
+
+.RecordDeleteContainer
+{
+    display:table;
+}
+
+.RecordDeleteTitle
+{
+    color: #b71c1c;
+    display: table-row;
+    text-align: center;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.RecordDeleteContainer [type="checkbox"]:checked + span:not(.lever):before {
+    margin-left: 6px;
+    margin-top: 8px;
+}
+
+.RecordDeleteContainer [type="checkbox"] + span:not(.lever):before, [type="checkbox"]:not(.filled-in) + span:not(.lever):after {
+    margin-left: 8px;
+    margin-top: 10px;
+}
+
+.RecordDeleteCheckbox
+{
+    margin-left: 15px;
+    margin-top: 25px;
+}
+
+.RecordDeleteWarningText
+{
+    font-size: 12px;
+    line-height: 150%;
+    font-weight: bold;
+}
+
+.RecordDeleteWarningTextImportant
+{
+    font-size: 12px;
+    line-height: 150%;
+    font-weight: bold;
+    color: #b71c1c;
+}
+
+.pink-cancel-button {
+  background-color: #f39ca0;
+  font-weight: bold;
+}.pink-cancel-button:hover {
+  background: #f39ca0;
 }

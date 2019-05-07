@@ -1,3 +1,5 @@
+/* css for adding class record (jungwoo) */
+
 .buttonright {
   float:right;
   margin-right: 8%;
@@ -11,7 +13,7 @@
 }
 .inline-block {
     display: inline;
-    width:100%;
+    width: 100%;
 
  }
 

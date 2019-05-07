@@ -1,70 +1,83 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router';
-import {Link} from 'react-router-dom'
-import { Row, Col, Collection, CollectionItem, Autocomplete, Button, Dropdown, Select, Divider } from 'react-materialize';
+import { Link } from 'react-router-dom'
+import Popup from 'reactjs-popup'
 
+import { Row, Col, Collection, CollectionItem, Autocomplete, Button, Icon, Checkbox } from 'react-materialize';
+import { fire, getFireDB, pushMultipleDB, pushDB, setDB, deleteDB, download_picture} from '../../config/fire';
 import Topbar from '../Topbar';
 import Demographic from './Demographic'
 //import RecordListItem from './RecordListItem';
 
 import '../../css/Students/StudentProfile.css'
 import "../../css/Students/ClassRecord.css"
+import '../../css/Common.css'
+import { returnStatement } from '@babel/types';
 
 export class ClassRecord extends Component {
   constructor(props) {
     super(props);
     this.state = {
       Records: [{
+        key: '-LeCY3zdkGo8afNw_RxG',
         StudentID: 'tommy',
-        Instructor: 'teacher101',
+        InstructorID: 'teacher101',
         Date: '2019/05/03',
         Text: 'He made a origami pikachu today!',
         Hashtag: ['art']
       }, {
+        key: '1',
         StudentID: 'runxia',
-        Instructor: 'sam',
+        InstructorID: 'sam',
         Date: '2019/05/03',
         Text: 'He made a origami pikachu today!',
         Hashtag: ['art']
       }, {
+        key: '2',
         StudentID: 'tommy11',
-        Instructor: 'sam',
+        InstructorID: 'sam',
         Date: '2019/05/08',
         Text: 'He made a origami pikachu today!',
         Hashtag: ['art', 'origami']
       }, {
+        key: '3',
         StudentID: 'jinjin',
-        Instructor: 'teacher101',
+        InstructorID: 'teacher101',
         Date: '2019/05/09',
         Text: 'He made a origami pikachu today!',
         Hashtag: ['art', 'jin']
       }, {
+        key: '4',
         StudentID: 'woo-woo',
-        Instructor: 'sam',
+        InstructorID: 'sam',
         Date: '2019/05/09',
         Text: 'He made a origami pikachu today!',
         Hashtag: ['art', 'pikachu']
       }, {
+        key: '5',
         StudentID: 'tommy',
-        Instructor: 'teacher101',
+        InstructorID: 'teacher101',
         Date: '2019/05/10',
         Text: 'He made a origami pikachu today! \n He tried very hard, but he failed to complete it. TT ',
         Hashtag: ['pikapika', 'art']
       }, {
+        key: '6',
         StudentID: 'tommy',
-        Instructor: 'Juho',
+        InstructorID: 'Juho',
         Date: '2019/05/10',
         Text: 'He made a origami pikachu today! \n He tried very hard, but he failed to complete it. TT ',
         Hashtag: ['pikapika']
       }, {
+        key: '7',
         StudentID: 'tommy',
-        Instructor: 'Juho',
+        InstructorID: 'Juho',
         Date: '2019/05/12',
         Text: 'He made a origami pikachu today! \n He tried very hard, but he failed to complete it. TT ',
         Hashtag: ['pikapika', 'chu', 'art']
       }, {
+        key: '8',
         StudentID: 'tommy',
-        Instructor: 'teacher101',
+        InstructorID: 'teacher101',
         Date: '2019/05/14',
         Text: 'He made a origami pikachu today! \n He tried very hard, but he failed to complete it. TT ',
         Hashtag: ['pikapika', 'origami']
@@ -77,11 +90,14 @@ export class ClassRecord extends Component {
     var validRecords = this.state.Records.filter(_record => {
       return _record.StudentID === 'tommy' //FIXME:
     })
-    console.log('valid:', validRecords)
-    console.log(this.state.Records)
+    //console.log('valid:', validRecords)
+    //console.log(this.state.Records)
     //return <RecordListItem data={this.state.Records} />;
     return validRecords.map(_record => {
-      return <RecordListItem data={_record} test={this.passSetState}/>
+      if(_record.InstructorID === 'teacher101') //FIXME: MyID
+        return <MyRecordListItem data={_record} test={this.passSetState}/>
+      else
+        return <RecordListItem data={_record} test={this.passSetState}/>
     });
   }
 
@@ -131,14 +147,14 @@ export class ClassRecord extends Component {
 
 class RecordListItem extends Component {
   render() {
-    console.log(this.props.data)
+    //console.log(this.props.data)
     this.props.test();
     return (
       <CollectionItem>
         <Row s={12}>
           <Col s={4} style={{ color:'#ad1457'/*pink darken-3*/}}>{this.props.data.Date}</Col>
           <Col s={2}></Col>
-          <Col s={6} className='who-wrote-col'>{"wrote by: " +  this.props.data.Instructor}</Col>
+          <Col s={6} className='who-wrote-col'>{"wrote by: " +  this.props.data.InstructorID}</Col>
         </Row>
         <Row>
           <Col>
@@ -156,6 +172,40 @@ class RecordListItem extends Component {
   }
 }
 
+class MyRecordListItem extends Component {
+  render() {
+    //console.log(this.props.data)
+    //this.props.test();
+    return (
+      <CollectionItem>
+        <Row s={12}>
+          <Col s={4} style={{ color:'#ad1457'/*pink darken-3*/}}>{this.props.data.Date}</Col>
+          <Col s={2}></Col>
+          <Col s={6} className='who-wrote-col'>{"wrote by: " +  this.props.data.InstructorID}</Col>
+        </Row>
+        <Row>
+          <Col>
+            {this.props.data.Text}
+          </Col>
+        </Row>
+        {/* Hashtags and edit/delete buttons */}
+        <Row s={12}>
+          <Col s={8}>
+            <Hashtag data={this.props.data.Hashtag} />
+          </Col>
+          {/* edit/delete buttons */}
+          <Col s={4} className='edit-record-col'><div align='right'>
+            <Icon small='true'>edit</Icon>
+            {/* <Icon small='true'>delete</Icon> */}
+            <DeleteRecordPopup data={this.props.data}></DeleteRecordPopup> 
+            </div></Col>
+        </Row>
+      </CollectionItem>
+    )
+  }
+}
+
+
 class Hashtag extends Component {
   render() {
     console.log('hashtag!', this.props.data)
@@ -170,6 +220,7 @@ class Hashtag extends Component {
 class Hash extends Component {
   onHashtagSelection = e => {
     console.log('select !!!')
+    //window.location.reload();
   }
 
   render() {
@@ -178,5 +229,60 @@ class Hash extends Component {
     );
   }
 }
+
+
+
+
+class DeleteRecordPopup extends Component {
+  state={
+    checked:false,
+    open:false
+  }
+
+  check =(event)=> {
+    this.setState({checked: !this.state.checked});
+  }
+
+  deleteRecord = () => {
+    deleteDB('/Record/'+this.props.data.key);
+    window.location.reload();
+  }
+
+  closing = () => {
+    this.setState({checked: false})
+  }
+
+  /*<Icon className="menu-icon" medium='true'>delete_forever</Icon>*/
+  render() {
+    return (
+      <Popup contentStyle={{width: '60%'}} trigger={<div style={{display:"inline-block"}}><Icon className="InstructorNoteIcon" small='true'>delete_forever</Icon></div>} 
+                position="top right" onClose={this.closing}>
+        { close => (
+          <div className="RecordDeleteContainer">
+              <span className="RecordDeleteTitle">
+                  Delete Record
+              </span>
+              <br/>
+                <Checkbox className = "RecordDeleteCheckbox" onChange={this.check} label="" value=""/>
+              <span className="RecordDeleteWarningText">I hereby understand that I </span>
+              <span className="RecordDeleteWarningTextImportant">cannot recover</span>
+              <span className="RecordDeleteWarningText"> the deleted record.</span>
+              <br/>
+              <br/>
+                <button className="close pink-cancel-button" onClick={close}>
+                    No
+                </button>
+              {this.state.checked? (
+                <button className="close pink-cancel-button" style={{float:"right"}} onClick={this.deleteRecord}>
+                    Yes
+                </button>
+              ) : null}
+          </div>)
+        }
+      </Popup>
+    )
+  }
+}
+
 
 export default ClassRecord
