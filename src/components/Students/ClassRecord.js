@@ -3,8 +3,8 @@ import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom'
 import Popup from 'reactjs-popup'
 
-import { Row, Col, Collection, CollectionItem, Autocomplete, Button, Icon, Checkbox } from 'react-materialize';
-import { fire, getFireDB, pushMultipleDB, pushDB, setDB, deleteDB, download_picture} from '../../config/fire';
+import { Row, Col, Collection, CollectionItem, Button, Icon, Checkbox } from 'react-materialize';
+import { fire, getFireDB, pushMultipleDB, pushDB, setDB, deleteDB, download_picture } from '../../config/fire';
 import Topbar from '../Topbar';
 import Demographic from './Demographic'
 //import RecordListItem from './RecordListItem';
@@ -12,7 +12,6 @@ import Demographic from './Demographic'
 import '../../css/Students/StudentProfile.css'
 import "../../css/Students/ClassRecord.css"
 import '../../css/Common.css'
-import { returnStatement } from '@babel/types';
 
 export class ClassRecord extends Component {
   constructor(props) {
@@ -82,7 +81,14 @@ export class ClassRecord extends Component {
         Text: 'He made a origami pikachu today! \n He tried very hard, but he failed to complete it. TT ',
         Hashtag: ['pikapika', 'origami']
       }
-      ]
+      ],
+      loaded: false,
+      Name: "Loading...",
+      Class: "Loading...",
+      Age: "Loading...",
+      Tel: "Loading...",
+      url: "",
+      mount:true
     }
   }
 
@@ -94,10 +100,10 @@ export class ClassRecord extends Component {
     //console.log(this.state.Records)
     //return <RecordListItem data={this.state.Records} />;
     return validRecords.map(_record => {
-      if(_record.InstructorID === 'teacher101') //FIXME: MyID
-        return <MyRecordListItem data={_record} test={this.passSetState}/>
+      if (_record.InstructorID === 'teacher101') //FIXME: MyID
+        return <MyRecordListItem data={_record} test={this.passSetState} />
       else
-        return <RecordListItem data={_record} test={this.passSetState}/>
+        return <RecordListItem data={_record} test={this.passSetState} />
     });
   }
 
@@ -110,25 +116,25 @@ export class ClassRecord extends Component {
       return <Redirect to={this.state.redirectTo} />
 
     return (
-      <div style = {{ width: "100%" }} className="content class-record-content">
-      <div>
-        <Topbar 
-          name="Class Record" 
-          showBack={true} 
-          backTo={"/BOBO/studentProfile/main/" + this.props.match.params.id}
-          showOptional={true}
-          optionalComponent={<Button
-                              id="board-list-add-btn"
-                              node="a"
-                              floating small
-                              waves="light"
-                              icon="add"
-                              href={"/BOBO/classRecord"}/>}></Topbar>
-      </div>
+      <div style={{ width: "100%" }} className="content class-record-content">
+        <div>
+          <Topbar
+            name="Class Record"
+            showBack={true}
+            backTo={"/BOBO/studentProfile/main/" + this.props.match.params.id}
+            showOptional={true}
+            optionalComponent={<Button
+              id="board-list-add-btn"
+              node="a"
+              floating small
+              waves="light"
+              icon="add"
+              href={"/BOBO/classRecord"} />}></Topbar>
+        </div>
 
         <div className="class-record-container">
           <hr style={{ width: "360px", border: 'none', backgroundColor: 'darkgray', height: '2px' }} />
-          <Demographic />
+          <Demographic Name={this.state.Name} Age={this.state.Age} Tel={this.state.Tel} Class={this.state.Class} ImageURL={this.state.url}/>
           <hr style={{ width: "360px", border: 'none', backgroundColor: 'darkgray', height: '2px' }} />
 
           <Row id="show-record-list-row">
@@ -152,9 +158,9 @@ class RecordListItem extends Component {
     return (
       <CollectionItem>
         <Row s={12}>
-          <Col s={4} style={{ color:'#ad1457'/*pink darken-3*/}}>{this.props.data.Date}</Col>
+          <Col s={4} style={{ color: '#ad1457'/*pink darken-3*/ }}>{this.props.data.Date}</Col>
           <Col s={2}></Col>
-          <Col s={6} className='who-wrote-col'>{"wrote by: " +  this.props.data.InstructorID}</Col>
+          <Col s={6} className='who-wrote-col'>{"wrote by: " + this.props.data.InstructorID}</Col>
         </Row>
         <Row>
           <Col>
@@ -164,7 +170,7 @@ class RecordListItem extends Component {
         {/* Hashtags */}
         <Row>
           <Col>
-            <Hashtag data={this.props.data.Hashtag} />
+            <Hashtags data={this.props.data.Hashtag} />
           </Col>
         </Row>
       </CollectionItem>
@@ -179,9 +185,9 @@ class MyRecordListItem extends Component {
     return (
       <CollectionItem>
         <Row s={12}>
-          <Col s={4} style={{ color:'#ad1457'/*pink darken-3*/}}>{this.props.data.Date}</Col>
+          <Col s={4} style={{ color: '#ad1457'/*pink darken-3*/ }}>{this.props.data.Date}</Col>
           <Col s={2}></Col>
-          <Col s={6} className='who-wrote-col'>{"wrote by: " +  this.props.data.InstructorID}</Col>
+          <Col s={6} className='who-wrote-col'>{"wrote by: " + this.props.data.InstructorID}</Col>
         </Row>
         <Row>
           <Col>
@@ -191,14 +197,16 @@ class MyRecordListItem extends Component {
         {/* Hashtags and edit/delete buttons */}
         <Row s={12}>
           <Col s={8}>
-            <Hashtag data={this.props.data.Hashtag} />
+            <Hashtags data={this.props.data.Hashtag} />
           </Col>
           {/* edit/delete buttons */}
-          <Col s={4} className='edit-record-col'><div align='right'>
-            <Icon small='true'>edit</Icon>
+          <Col s={4}><div align='right'>
+            <Link to={"/BOBO/studentProfile/editClassRecord/" + this.props.data.key}>
+              <Icon className="edit-record-icon" small='true'>edit</Icon>
+            </Link>
             {/* <Icon small='true'>delete</Icon> */}
-            <DeleteRecordPopup data={this.props.data}></DeleteRecordPopup> 
-            </div></Col>
+            <DeleteRecordPopup data={this.props.data}></DeleteRecordPopup>
+          </div></Col>
         </Row>
       </CollectionItem>
     )
@@ -206,18 +214,18 @@ class MyRecordListItem extends Component {
 }
 
 
-class Hashtag extends Component {
+class Hashtags extends Component {
   render() {
     console.log('hashtag!', this.props.data)
     return (
       this.props.data.map(_elem => {
-        return <Hash data={_elem} />
+        return <Hashtag data={_elem} />
       })
     );
   }
 }
 
-class Hash extends Component {
+class Hashtag extends Component {
   onHashtagSelection = e => {
     console.log('select !!!')
     //window.location.reload();
@@ -234,49 +242,49 @@ class Hash extends Component {
 
 
 class DeleteRecordPopup extends Component {
-  state={
-    checked:false,
-    open:false
+  state = {
+    checked: false,
+    open: false
   }
 
-  check =(event)=> {
-    this.setState({checked: !this.state.checked});
+  check = (event) => {
+    this.setState({ checked: !this.state.checked });
   }
 
   deleteRecord = () => {
-    deleteDB('/Record/'+this.props.data.key);
+    deleteDB('/Record/' + this.props.data.key);
     window.location.reload();
   }
 
   closing = () => {
-    this.setState({checked: false})
+    this.setState({ checked: false })
   }
 
   /*<Icon className="menu-icon" medium='true'>delete_forever</Icon>*/
   render() {
     return (
-      <Popup contentStyle={{width: '60%'}} trigger={<div style={{display:"inline-block"}}><Icon className="InstructorNoteIcon" small='true'>delete_forever</Icon></div>} 
-                position="top right" onClose={this.closing}>
-        { close => (
+      <Popup contentStyle={{ width: '60%' }} trigger={<div style={{ display: "inline-block" }}><Icon className="InstructorNoteIcon" small='true'>delete_forever</Icon></div>}
+        position="top right" onClose={this.closing}>
+        {close => (
           <div className="RecordDeleteContainer">
-              <span className="RecordDeleteTitle">
-                  Delete Record
+            <span className="RecordDeleteTitle">
+              Delete Record
               </span>
-              <br/>
-                <Checkbox className = "RecordDeleteCheckbox" onChange={this.check} label="" value=""/>
-              <span className="RecordDeleteWarningText">I hereby understand that I </span>
-              <span className="RecordDeleteWarningTextImportant">cannot recover</span>
-              <span className="RecordDeleteWarningText"> the deleted record.</span>
-              <br/>
-              <br/>
-                <button className="close pink-cancel-button" onClick={close}>
-                    No
+            <br />
+            <Checkbox className="RecordDeleteCheckbox" onChange={this.check} label="" value="" />
+            <span className="RecordDeleteWarningText">I hereby understand that I </span>
+            <span className="RecordDeleteWarningTextImportant">cannot recover</span>
+            <span className="RecordDeleteWarningText"> the deleted record.</span>
+            <br />
+            <br />
+            <button className="close pink-cancel-button" onClick={close}>
+              No
                 </button>
-              {this.state.checked? (
-                <button className="close pink-cancel-button" style={{float:"right"}} onClick={this.deleteRecord}>
-                    Yes
+            {this.state.checked ? (
+              <button className="close pink-cancel-button" style={{ float: "right" }} onClick={this.deleteRecord}>
+                Yes
                 </button>
-              ) : null}
+            ) : null}
           </div>)
         }
       </Popup>
