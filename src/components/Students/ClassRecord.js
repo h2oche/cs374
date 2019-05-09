@@ -14,83 +14,94 @@ import "../../css/Students/ClassRecord.css"
 import '../../css/Common.css'
 
 export class ClassRecord extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      Records: [{
-        key: '-LeCY3zdkGo8afNw_RxG',
-        StudentID: 'tommy',
-        InstructorID: 'teacher101',
-        Date: '2019/05/03',
-        Text: 'He made a origami pikachu today!',
-        Hashtag: ['art']
-      }, {
-        key: '1',
-        StudentID: 'runxia',
-        InstructorID: 'sam',
-        Date: '2019/05/03',
-        Text: 'He made a origami pikachu today!',
-        Hashtag: ['art']
-      }, {
-        key: '2',
-        StudentID: 'tommy11',
-        InstructorID: 'sam',
-        Date: '2019/05/08',
-        Text: 'He made a origami pikachu today!',
-        Hashtag: ['art', 'origami']
-      }, {
-        key: '3',
-        StudentID: 'jinjin',
-        InstructorID: 'teacher101',
-        Date: '2019/05/09',
-        Text: 'He made a origami pikachu today!',
-        Hashtag: ['art', 'jin']
-      }, {
-        key: '4',
-        StudentID: 'woo-woo',
-        InstructorID: 'sam',
-        Date: '2019/05/09',
-        Text: 'He made a origami pikachu today!',
-        Hashtag: ['art', 'pikachu']
-      }, {
-        key: '5',
-        StudentID: 'tommy',
-        InstructorID: 'teacher101',
-        Date: '2019/05/10',
-        Text: 'He made a origami pikachu today! \n He tried very hard, but he failed to complete it. TT ',
-        Hashtag: ['pikapika', 'art']
-      }, {
-        key: '6',
-        StudentID: 'tommy',
-        InstructorID: 'Juho',
-        Date: '2019/05/10',
-        Text: 'He made a origami pikachu today! \n He tried very hard, but he failed to complete it. TT ',
-        Hashtag: ['pikapika']
-      }, {
-        key: '7',
-        StudentID: 'tommy',
-        InstructorID: 'Juho',
-        Date: '2019/05/12',
-        Text: 'He made a origami pikachu today! \n He tried very hard, but he failed to complete it. TT ',
-        Hashtag: ['pikapika', 'chu', 'art']
-      }, {
-        key: '8',
-        StudentID: 'tommy',
-        InstructorID: 'teacher101',
-        Date: '2019/05/14',
-        Text: 'He made a origami pikachu today! \n He tried very hard, but he failed to complete it. TT ',
-        Hashtag: ['pikapika', 'origami']
-      }
-      ],
-      loaded: false,
-      Name: "Loading...",
-      Class: "Loading...",
-      Age: "Loading...",
-      Tel: "Loading...",
-      url: "",
-      mount:true
+
+  state = {
+    Records: [{
+      key: '-LeCY3zdkGo8afNw_RxG',
+      StudentID: 'tommy',
+      InstructorID: 'teacher101',
+      Date: '2019/05/03',
+      Text: 'He made a origami pikachu today!',
+      Hashtag: ['art']
+    }, {
+      key: '1',
+      StudentID: 'runxia',
+      InstructorID: 'sam',
+      Date: '2019/05/03',
+      Text: 'He made a origami pikachu today!',
+      Hashtag: ['art']
+    }, {
+      key: '2',
+      StudentID: 'tommy11',
+      InstructorID: 'sam',
+      Date: '2019/05/08',
+      Text: 'He made a origami pikachu today!',
+      Hashtag: ['art', 'origami']
+    }, {
+      key: '3',
+      StudentID: 'jinjin',
+      InstructorID: 'teacher101',
+      Date: '2019/05/09',
+      Text: 'He made a origami pikachu today!',
+      Hashtag: ['art', 'jin']
+    }, {
+      key: '4',
+      StudentID: 'woo-woo',
+      InstructorID: 'sam',
+      Date: '2019/05/09',
+      Text: 'He made a origami pikachu today!',
+      Hashtag: ['art', 'pikachu']
+    }, {
+      key: '5',
+      StudentID: 'tommy',
+      InstructorID: 'teacher101',
+      Date: '2019/05/10',
+      Text: 'He made a origami pikachu today! \n He tried very hard, but he failed to complete it. TT ',
+      Hashtag: ['pikapika', 'art']
+    }, {
+      key: '6',
+      StudentID: 'tommy',
+      InstructorID: 'Juho',
+      Date: '2019/05/10',
+      Text: 'He made a origami pikachu today! \n He tried very hard, but he failed to complete it. TT ',
+      Hashtag: ['pikapika']
+    }, {
+      key: '7',
+      StudentID: 'tommy',
+      InstructorID: 'Juho',
+      Date: '2019/05/12',
+      Text: 'He made a origami pikachu today! \n He tried very hard, but he failed to complete it. TT ',
+      Hashtag: ['pikapika', 'chu', 'art']
+    }, {
+      key: '8',
+      StudentID: 'tommy',
+      InstructorID: 'teacher101',
+      Date: '2019/05/14',
+      Text: 'He made a origami pikachu today! \n He tried very hard, but he failed to complete it. TT ',
+      Hashtag: ['pikapika', 'origami']
     }
+    ],
+    loaded: false,
+    Name: "Loading...",
+    Class: "Loading...",
+    Age: "Loading...",
+    Tel: "Loading...",
+    url: "",
+    mount:true
   }
+  
+  constructor(props) 
+  {
+    super(props);
+    getFireDB('/User/'+this.props.match.params.student_id).then(
+      result => {
+        var args = result.val();
+        this.setState({...this.state, Name:args['name'], Class:args['class'], Age:args['age'], Tel: args['tel']});
+        download_picture(args['picture'], this);
+      }
+    )
+  }
+
 
   renderRecordList = () => {
     var validRecords = this.state.Records.filter(_record => {
@@ -121,7 +132,7 @@ export class ClassRecord extends Component {
           <Topbar
             name="Class Record"
             showBack={true}
-            backTo={"/BOBO/studentProfile/main/" + this.props.match.params.id}
+            backTo={"/BOBO/studentProfile/main/" + this.props.match.params.instructor_id+'/'+this.props.match.params.student_id}
             showOptional={true}
             optionalComponent={<Button
               id="board-list-add-btn"
@@ -133,9 +144,9 @@ export class ClassRecord extends Component {
         </div>
 
         <div className="class-record-container">
-          <hr style={{ width: "360px", border: 'none', backgroundColor: 'darkgray', height: '2px' }} />
+          <hr style = {{width: "100%", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
           <Demographic Name={this.state.Name} Age={this.state.Age} Tel={this.state.Tel} Class={this.state.Class} ImageURL={this.state.url}/>
-          <hr style={{ width: "360px", border: 'none', backgroundColor: 'darkgray', height: '2px' }} />
+          <hr style = {{width: "100%", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
 
           <Row id="show-record-list-row">
             <Col s={12}>
