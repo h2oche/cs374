@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter as Router, Route} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import "materialize-css/dist/css/materialize.css"
 import "materialize-css/dist/js/materialize.min.js"
 
@@ -27,7 +27,6 @@ function App() {
   return (
     <Router>
       <div className="container">
-        <Route exact path="/BOBO" component={LogIn}/>
         <Route path="/BOBO/studentList/:instructor_id" component={StudentList}/>
         <Route path="/BOBO/studentProfile/main/:instructor_id/:student_id" component={StudentProfile}/>
         <Route path="/BOBO/studentProfile/instructorsNote/:instructor_id/:student_id" component={InstructorsNote}/>
@@ -41,7 +40,10 @@ function App() {
         <Route exact path="/BOBO/board/:id" component={Board}/>
         <Route exact path="/BOBO/board/:id/notice/:id" component={Notice}/>
         <Route exact path="/BOBO/settings" component={Settings}/>
-        <Menu/>
+        <Switch>
+          <Route exact path="/BOBO" component={LogIn}/>
+          <Route exact path="*" component={Menu}/>
+        </Switch>   
       </div>
     </Router>
   );
