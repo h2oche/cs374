@@ -19,6 +19,7 @@ import InstructorsNote from "./Students/InstructorsNote";
 import ClassRecord from "./Students/ClassRecord";
 import EditClassRecord from "./Students/EditClassRecord";
 import InstructorsNoteAddModify from './Students/InstructorsNoteAddModify';
+import LogIn from './LogIn';
 
 import { fire} from '../config/fire';
 function App() {
@@ -26,7 +27,8 @@ function App() {
   return (
     <Router>
       <div className="container">
-        <Route exact path="/BOBO" component={StudentList}/>
+        <Route exact path="/BOBO" component={LogIn}/>
+        <Route path="/BOBO/studentList/:instructor_id" component={StudentList}/>
         <Route path="/BOBO/studentProfile/main/:instructor_id/:student_id" component={StudentProfile}/>
         <Route path="/BOBO/studentProfile/instructorsNote/:instructor_id/:student_id" component={InstructorsNote}/>
         <Route path="/BOBO/studentProfile/instructorsNoteAddModify/:instructor_id/:student_id" component={InstructorsNoteAddModify}/>
