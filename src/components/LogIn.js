@@ -1,16 +1,36 @@
 import React, { Component } from 'react'
+import { fire, getFireDB, pushMultipleDB, pushDB, setDB, deleteDB, download_picture} from '../config/fire.js';
+import {Redirect} from 'react-router';
+import {Button} from 'react-materialize'
+
 
 export class LogIn extends Component {
+  state={
+      redirect:false,
+      target:"Loading...",
+      url: "",
+      mount:true
+  }
 
-    render() {
-        return (
-        <div style = {{width:"100%"}} className="content studentProfileContent">
-            <hr style = {{width: "100%", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
-            <div className="ProfileImage" alt="logo" style={{backgroundImage: 'url('+this.props.ImageURL+')'}}></div>
-            <hr style = {{width: "100%", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
+  constructor(props) 
+  {
+    super(props);
+  }
+
+  loginSuccess = () => {
+      this.setState({target:"/BOBO/studentList/tommy11",
+                      redirect:true});
+  }
+
+  render() {
+      if(this.state.redirect)
+          return (<Redirect to={this.state.target}></Redirect>);
+      return (
+        <div>
+          <Button onClick={this.loginSuccess}>LogIn!</Button>
         </div>
-        );
-    }
+      );
+  }
 }
 
 

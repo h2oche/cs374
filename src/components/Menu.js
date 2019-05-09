@@ -8,7 +8,7 @@ export class Menu extends Component {
   render() {
     return (
       <div className="menu">
-        <div className="menu-item"><Link to="/BOBO">
+        <div className="menu-item"><Link to="/BOBO/studentList/tommy11">
           <Icon className="menu-icon" medium='true'>assignment_ind</Icon>
           </Link></div>
         <div className="menu-item"><Link to="/BOBO/classRecord">

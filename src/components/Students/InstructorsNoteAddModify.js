@@ -20,24 +20,33 @@ export class InstructorsNoteAddModify extends Component {
     Tel: "Loading...",
     url: "",
     mount:true
-}
+  }
 
-constructor(props) 
-{
-  super(props);
-  getFireDB('/User/'+this.props.match.params.student_id).then(
-    result => {
-      var args = result.val();
-      this.setState({...this.state, Name:args['name'], Class:args['class'], Age:args['age'], Tel: args['tel']});
-      download_picture(args['picture'], this);
-    }
-  )
-  getFireDB('/Note/'+this.props.match.params.student_id+'/'+this.props.match.params.instructor_id).then(
-    result => {
-      this.setState({textcontent: result.val(), loaded: true})
-    }
-  )
-}
+
+  constructor(props) 
+  {
+    super(props);
+    getFireDB('/User').then(
+      result => {
+        var userList = result.val();
+        var args;
+        for(var key in userList) {
+          args = userList[key];
+          if(args['id']==this.props.match.params.student_id) {
+            break;
+          }
+        }
+        console.log(args);
+        this.setState({...this.state, Name:args['name'], Class:args['class'], Age:args['age'], Tel: args['tel']});
+        download_picture(args['picture'], this);
+      }
+    )
+    getFireDB('/Note/'+this.props.match.params.student_id+'/'+this.props.match.params.instructor_id).then(
+      result => {
+        this.setState({textcontent: result.val(), loaded: true})
+      }
+    )
+  }
 
   handlecontentChange = e=> {
     this.setState({textcontent: e.target.value});

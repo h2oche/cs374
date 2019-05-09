@@ -76,9 +76,17 @@ export class InstructorsNote extends Component {
   constructor(props) 
   {
     super(props);
-    getFireDB('/User/'+this.props.match.params.student_id).then(
+    getFireDB('/User').then(
       result => {
-        var args = result.val();
+        var userList = result.val();
+        var args;
+        for(var key in userList) {
+          args = userList[key];
+          if(args['id']==this.props.match.params.student_id) {
+            break;
+          }
+        }
+        console.log(args);
         this.setState({...this.state, Name:args['name'], Class:args['class'], Age:args['age'], Tel: args['tel']});
         download_picture(args['picture'], this);
       }

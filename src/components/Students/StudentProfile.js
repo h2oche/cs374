@@ -22,9 +22,16 @@ export class StudentProfile extends Component {
     constructor(props) 
     {
       super(props);
-      getFireDB('/User/'+this.props.match.params.student_id).then(
+      getFireDB('/User').then(
         result => {
-          var args = result.val();
+          var userList = result.val();
+          var args;
+          for(var key in userList) {
+            args = userList[key];
+            if(args['id']==this.props.match.params.student_id) {
+              break;
+            }
+          }
           this.setState({...this.state, Name:args['name'], Class:args['class'], Age:args['age'], Tel: args['tel']});
           download_picture(args['picture'], this);
         }
@@ -48,7 +55,7 @@ export class StudentProfile extends Component {
             return (<Redirect to={this.state.target}></Redirect>);
         return (
         <div style = {{width:"100%"}} className="content studentProfileContent">
-            <Topbar name="Profile" showBack={true} backTo = "/BOBO/"></Topbar>
+            <Topbar name="Profile" showBack={true} backTo = {"/BOBO/studentList/"+this.props.match.params.instructor_id}></Topbar>
             <hr style = {{width: "100%", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
             <Demographic Name={this.state.Name} Age={this.state.Age} Tel={this.state.Tel} Class={this.state.Class} ImageURL={this.state.url}/>
             <hr style = {{width: "100%", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
