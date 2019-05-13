@@ -112,7 +112,7 @@ export class Notice extends Component {
   render() {
     return (
       <div className="content" id="notice-content">
-        <Topbar name="Notice" showBack={true} backTo={this.props.location.pathname.slice(0, this.props.location.pathname.indexOf("/notice"))}/>
+        <Topbar name="Notice" showBack={true} backTo={"/BOBO/#" + this.props.location.pathname.slice(0, this.props.location.pathname.indexOf("/notice"))}/>
         <Row id="notice-name-row">
           <Col s={12}>
             {this.renderTypeBadge()}

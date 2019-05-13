@@ -170,7 +170,7 @@ export class Board extends Component {
         <Topbar
           name={this.state.board.name}
           showBack={true}
-          backTo="/BOBO/board"
+          backTo="/BOBO/#/board"
           showOptional={true}
           optionalComponent={<Button
                               id="board-list-add-btn"
@@ -178,7 +178,7 @@ export class Board extends Component {
                               floating small
                               waves="light"
                               icon="add"
-                              href={"/BOBO/board/" + this.getBoardId() + "/addNotice"}/>}/>
+                              href={"/BOBO/#/board/" + this.getBoardId() + "/addNotice"}/>}/>
         
         <Row id="board-notice-list">
           <Collection>

@@ -8,16 +8,16 @@ export class Menu extends Component {
   render() {
     return (
       <div className="menu">
-        <div className="menu-item"><Link to="/BOBO/studentList/tommy11">
+        <div className="menu-item"><Link to="/studentList/tommy11">
           <Icon className="menu-icon" medium='true'>assignment_ind</Icon>
           </Link></div>
-        <div className="menu-item"><Link to="/BOBO/classRecord">
+        <div className="menu-item"><Link to="/classRecord">
           <Icon className="menu-icon" medium='true'>add_box</Icon>
           </Link></div>
-        <div className="menu-item"><Link to="/BOBO/board">
+        <div className="menu-item"><Link to="/board">
           <Icon className="menu-icon" medium='true'>assignment</Icon>
           </Link></div>
-        <div className="menu-item"><Link to="/BOBO/settings">
+        <div className="menu-item"><Link to="/settings">
           <Icon className="menu-icon" medium='true'>settings</Icon>
           </Link></div>
       </div>

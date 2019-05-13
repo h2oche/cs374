@@ -98,7 +98,7 @@ export class AddBoard extends Component {
 
     return (
       <div className="content">
-        <Topbar name="Add Board" showBack={true} backTo={"/BOBO/board"}/>
+        <Topbar name="Add Board" showBack={true} backTo={"/BOBO/#/board"}/>
         <Row id="add-board-name-row">
           <Col s={12}>
             <TextInput s={12} id="boardName" label="Name" onChange={this.onNameChange}/>

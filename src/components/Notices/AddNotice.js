@@ -81,7 +81,7 @@ export class AddNotice extends Component {
 
     pushDB("Notice", obj)
     .then(_res => {
-      this.setState({...this.state, redirect: true, redirectTo: "/BOBO/board/" + this.getBoardId()});
+      this.setState({...this.state, redirect: true, redirectTo: "/board/" + this.getBoardId()});
     });
   }
 
@@ -91,7 +91,7 @@ export class AddNotice extends Component {
 
     return (
       <div className="content">
-        <Topbar name="Add Notice" showBack={true} backTo={"/BOBO/board/" + this.getBoardId()}/>
+        <Topbar name="Add Notice" showBack={true} backTo={"/BOBO/#/board/" + this.getBoardId()}/>
         <Row id="add-notice-name-row">
           <Col s={12}>
             <TextInput s={12} id="noticeName" label="Name" onChange={this.onChange}/>

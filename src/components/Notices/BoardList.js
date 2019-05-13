@@ -110,7 +110,7 @@ export class NoticeBoard extends Component {
 
   onAutocomplete = (_boardName) => {
     var board = this.state.validBoards.find(_board => _board.name === _boardName);
-    this.setState({...this.state, redirect: true, redirectTo: "/BOBO/board/" + board.id});
+    this.setState({...this.state, redirect: true, redirectTo: "board/" + board.id});
   }
 
   renderBoardList = () => {
@@ -134,7 +134,7 @@ export class NoticeBoard extends Component {
                               floating small
                               waves="light"
                               icon="add"
-                              href={"/BOBO/addBoard"}/>}/>
+                              href={"/BOBO/#/addBoard"}/>}/>
         <Row id="board-list-search-row">
           <Col s={12}>
             {/* <TextInput id="notice-list-search" s={12} icon="search" placeholder="Search notice board name."/> */}

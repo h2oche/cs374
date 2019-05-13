@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import {HashRouter as Router, Route, Switch} from 'react-router-dom';
 import "materialize-css/dist/css/materialize.css"
 import "materialize-css/dist/js/materialize.min.js"
 
@@ -27,19 +27,19 @@ function App() {
   return (
     <Router>
       <div className="container">
-        <Route path="/BOBO/studentList/:instructor_id" component={StudentList}/>
-        <Route path="/BOBO/studentProfile/main/:instructor_id/:student_id" component={StudentProfile}/>
-        <Route path="/BOBO/studentProfile/instructorsNote/:instructor_id/:student_id" component={InstructorsNote}/>
-        <Route path="/BOBO/studentProfile/instructorsNoteAddModify/:instructor_id/:student_id" component={InstructorsNoteAddModify}/>
-        <Route path="/BOBO/studentProfile/classRecord/:instructor_id/:student_id" component={ClassRecord}/>
-        <Route path="/BOBO/studentProfile/editClassRecord/:key" component={EditClassRecord}/>
-        <Route exact path="/BOBO/classRecord" component={UploadClassRecord}/>
-        <Route exact path="/BOBO/addBoard" component={AddBoard}/>
-        <Route exact path="/BOBO/board" component={NoticeBoard}/>
-        <Route exact path="/BOBO/board/:id/addNotice" component={AddNotice}/>
-        <Route exact path="/BOBO/board/:id" component={Board}/>
-        <Route exact path="/BOBO/board/:id/notice/:id" component={Notice}/>
-        <Route exact path="/BOBO/settings" component={Settings}/>
+        <Route path="/studentList/:instructor_id" component={StudentList}/>
+        <Route path="/studentProfile/main/:instructor_id/:student_id" component={StudentProfile}/>
+        <Route path="/studentProfile/instructorsNote/:instructor_id/:student_id" component={InstructorsNote}/>
+        <Route path="/studentProfile/instructorsNoteAddModify/:instructor_id/:student_id" component={InstructorsNoteAddModify}/>
+        <Route path="/studentProfile/classRecord/:instructor_id/:student_id" component={ClassRecord}/>
+        <Route path="/studentProfile/editClassRecord/:key" component={EditClassRecord}/>
+        <Route exact path="/classRecord" component={UploadClassRecord}/>
+        <Route exact path="/addBoard" component={AddBoard}/>
+        <Route exact path="/board" component={NoticeBoard}/>
+        <Route exact path="/board/:id/addNotice" component={AddNotice}/>
+        <Route exact path="/board/:id" component={Board}/>
+        <Route exact path="/board/:id/notice/:id" component={Notice}/>
+        <Route exact path="/settings" component={Settings}/>
         <Switch>
           <Route exact path="/BOBO" component={LogIn}/>
           <Route exact path="*" component={Menu}/>
