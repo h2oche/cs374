@@ -3,6 +3,8 @@ import { fire, getFireDB, pushMultipleDB, pushDB, setDB, deleteDB, download_pict
 import {Redirect} from 'react-router';
 import {Button} from 'react-materialize'
 
+import "../css/login.css"
+
 
 export class LogIn extends Component {
   state={
@@ -26,8 +28,8 @@ export class LogIn extends Component {
       if(this.state.redirect)
           return (<Redirect to={this.state.target}></Redirect>);
       return (
-        <div>
-          <Button onClick={this.loginSuccess}>LogIn!</Button>
+        <div align='center'>
+          <Button id='login-button' onClick={this.loginSuccess} >LogIn!</Button>
         </div>
       );
   }
