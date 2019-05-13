@@ -137,7 +137,7 @@ export class ClassRecord extends Component {
       return <Redirect to={this.state.redirectTo} />
 
     return (
-      <div style={{ width: "100%" }} className="content class-record-content">
+      <div style={{ width: "100%" }} /*className="content class-record-container" */>
         <div>
           <Topbar
             name="Class Record"
@@ -153,20 +153,21 @@ export class ClassRecord extends Component {
               href={"/BOBO/classRecord"} />}></Topbar>
         </div>
 
-        <div className="class-record-container">
+        <div className="class-record-contentr">
           <hr style = {{width: "100%", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
           <Demographic Name={this.state.Name} Age={this.state.Age} Tel={this.state.Tel} Class={this.state.Class} ImageURL={this.state.url}/>
           <hr style = {{width: "100%", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
 
-          <Row id="show-record-list-row">
-            <Col s={12}>
+          <div id="show-record-list-row">
+            <div s={12}>
               <Collection>
                 {this.renderRecordList()}
               </Collection>
-            </Col>
-          </Row>
-        </div>
-      </div>
+            </div>
+          </div>
+        </div> {/* end class-record-continer */}
+
+      </div> //end class-record-content
     );
   }
 }
