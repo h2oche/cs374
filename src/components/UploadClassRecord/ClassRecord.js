@@ -29,7 +29,8 @@ const PopupExample =  () => (
 
 
 const INITIAL_STATE = {
-  instructor:'Amy',
+  InstructorID:'teacher101',
+  StudentID: '',
   textname: '',
   textcontent:'',
   file:null,
@@ -86,13 +87,12 @@ export class ClassRecord extends Component {
       // var blob = new Blob(obj.file[0],{ type: "image/jpg" });
       upload_file('images/', x.files[0], x.files[0].name);
     }
-    
 
     pushDB("Record", obj)
     .then(_res => {
       this.inputElementcontent.value= "";
       this.inputElementname.value="";
-      this.setState({...this.state, redirect: true, redirectTo: "/BOBO/" });
+      this.setState({...this.state,/*StudentID: ,*/ redirect: true, redirectTo: "/BOBO/studentList/0" });
     });
   }
 
