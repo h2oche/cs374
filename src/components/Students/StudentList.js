@@ -32,10 +32,10 @@ export class StudentList extends Component {
 
   componentDidMount = () => {
     getFireDB_arr('User/', this, 'Students', 'type', 'parent');
-    console.log("--- ", this.state.Students);
-
+    
     getFireDB()
     .then(res =>{
+      // console.log("--- ", this.state.Students);
       let DB = res.val();
       var Users = [];
       for( var key in DB.User ) Users.push(DB.User[key]);
@@ -50,6 +50,14 @@ export class StudentList extends Component {
       console.log("***", Users);
       this.setState({...this.state, Users, autocompleteData, showAutocomplete:true});
     });
+
+    getFireDB('Class/').then (
+      result => {
+        console.log("classtable: ",result.val())
+        var classtable = result.val();
+        this.setState({ ...this.state, ClassTable: result.val() });
+      }
+    )
   }
 
   onAutocomplete = (_studentName) => {
@@ -170,7 +178,7 @@ class StudentListItem extends Component {
             <div className="studentItemChild">
               <div className='studentName'>{this.props.data.name}</div>
               <br></br>
-              {this.props.data.clasrs}
+              {this.props.data.class}
             </div>
           </Col>
         </Row>
