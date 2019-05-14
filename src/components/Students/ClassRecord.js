@@ -142,7 +142,7 @@ export class ClassRecord extends Component {
           <Topbar
             name="Class Record"
             showBack={true}
-            backTo={"/BOBO/studentProfile/main/" + this.props.match.params.instructor_id+'/'+this.props.match.params.student_id}
+            backTo={"/BOBO/#/studentProfile/main/" + this.props.match.params.instructor_id+'/'+this.props.match.params.student_id}
             showOptional={true}
             optionalComponent={<Button
               id="board-list-add-btn"
@@ -150,7 +150,7 @@ export class ClassRecord extends Component {
               floating small
               waves="light"
               icon="add"
-              href={"/BOBO/classRecord"} />}></Topbar>
+              href={"/BOBO/#/classRecord"} />}></Topbar>
         </div>
 
         <div className="class-record-contentr">
@@ -223,7 +223,7 @@ class MyRecordListItem extends Component {
           </Col>
           {/* edit/delete buttons */}
           <Col s={4}><div align='right'>
-            <Link to={"/BOBO/studentProfile/editClassRecord/" + this.props.data.key}>
+            <Link to={"/BOBO/#/studentProfile/editClassRecord/" + this.props.data.key}>
               <Icon className="edit-record-icon" small='true'>edit</Icon>
             </Link>
             {/* <Icon small='true'>delete</Icon> */}

@@ -129,7 +129,7 @@ export class InstructorsNote extends Component {
       if(!myNoteExists)
           noteList.push(
               <div className="AddButtonContainer" key = {i++}>
-                <Link to={"/BOBO/studentProfile/instructorsNoteAddModify/"+this.props.match.params.instructor_id+
+                <Link to={"/BOBO/#/studentProfile/instructorsNoteAddModify/"+this.props.match.params.instructor_id+
                             '/'+this.props.match.params.student_id}>
                   <Button className=" CommonButton">Add Note!</Button>
                 </Link>
@@ -145,7 +145,7 @@ export class InstructorsNote extends Component {
       return (
       <div style = {{width:"100%"}} className="content InstructorsNoteContent">
           <div>
-              <Topbar name="Instructor's Note" showBack={true} backTo = {"/BOBO/studentProfile/main/"+
+              <Topbar name="Instructor's Note" showBack={true} backTo = {"/BOBO/#/studentProfile/main/"+
                                 this.props.match.params.instructor_id+'/'+this.props.match.params.student_id}></Topbar>
           </div>
           <hr style = {{width: "100%", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
@@ -175,7 +175,7 @@ class MyNote extends Component {
             <div>
                 <div className="Note">
                     <div className="MyNoteButtonContainer">
-                      <Link to={"/BOBO/studentProfile/instructorsNoteAddModify/"+this.props.instructor+
+                      <Link to={"/BOBO/#/studentProfile/instructorsNoteAddModify/"+this.props.instructor+
                               '/'+this.props.student}>
                         <Icon className="InstructorNoteIcon" small={true}>edit</Icon>
                       </Link>
