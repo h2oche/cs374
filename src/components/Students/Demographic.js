@@ -20,7 +20,7 @@ export class Demographic extends Component {
                               <br/>
                               <span>Age: {this.props.Age}</span>
                               <br/>
-                              <span>Tel: {this.props.Tel}</span>
+                              <span>Tel: <u><a href={"tel:"+this.props.Tel}>{this.props.Tel}</a></u></span>
                           </div>
                       </div>
                   </Col>
