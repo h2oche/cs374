@@ -36,6 +36,7 @@ export class StudentList extends Component {
     }, {});
     this.setState({ ...this.state, autocompleteData, showAutocomplete: true });
     getFireDB_arr('User/', this, 'Students', 'type', 'parent');
+    // console.log(this.state);
     getFireDB('Class/').then (
       result => {
         console.log("classtable: ",result.val())
@@ -64,7 +65,8 @@ export class StudentList extends Component {
 
 
   renderStudentList = () => {
-    return this.state.Students.map(_student => {
+    var studentLists = this.state.showSelectClass ? this.state.StudentFiltered : this.state.Students;
+    return studentLists.map(_student => {
       return <StudentListItem data={_student} instructor={this.state.curr_instructor} />
     });
   }
@@ -119,15 +121,9 @@ export class StudentList extends Component {
         {/* show student list */}
         <Row id="show-student-list-row">
           <Col className="showStudentList" s={12}>
-            {this.state.showSelectClass ?
-              <Collection>
-                {this.renderStudentFilteredList()}
-              </Collection>
-              :
-              <Collection>
-                {this.renderStudentList()}
-              </Collection>
-            }
+            <Collection>
+              {this.renderStudentList()}
+            </Collection>
           </Col>
         </Row>
       </div>
@@ -139,7 +135,7 @@ export class StudentList extends Component {
 class ClassListItem extends Component {
   render() {
     return (
-      <option value={this.props.data} onClick>
+      <option value={this.props.data}>
         {this.props.data}
       </option>
     )
@@ -150,34 +146,16 @@ class ClassListItem extends Component {
 class StudentListItem extends Component {
   constructor(props){
     super(props);
-    fire();
-    this.state={
-      url: "",
-      mount:true,
-      originurl: "",
-    }
-  }
-  
-  givesrc = (name) => {
-    getPictureURL(name, this);
-    if(this.state.url)
-      return download_picture(this.state.url,this);
-  }
-
-  shouldComponentUpdate() {
-    return this.state.mount;
   }
   
   render() {
-    this.givesrc(this.props.data.name);
-        
     return (
       <CollectionItem className="student" href={"/BOBO/#/studentProfile/main/" +this.props.instructor +'/'+this.props.data.id}>
         <Row className="studentChild" style={{ marginTop: '0px', marginBotton: '0px', height: '70px' }}>
           {/* profile image */}
           <Col s={3} style={{ alignItems: 'center' }}>
             {/* <img className="profileImage" id="profile" src={purl} alt="photo" width='70px' height='70px'></img> */}
-            <img className="profileImage" src={ this.state.url===this.state.originurl ? photo : this.state.url} alt="photo" width='70px' height='70px'></img>
+            <img className="profileImage" src={this.props.data.image_url} alt="photo" width='70px' height='70px'></img>
           </Col>
           {/* name and class */}
           <Col className="studentItem" s={9} >

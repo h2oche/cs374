@@ -14,7 +14,7 @@ export class AddBoard extends Component {
     },
     seletedUsers: new Set(),
     redirect: false,
-    redirectTo: "/BOBO/board"
+    redirectTo: "/board"
   }
 
   constructor(props) {

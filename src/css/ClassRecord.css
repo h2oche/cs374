@@ -42,12 +42,13 @@ input[type="file"]+label {
 
 
 .pinkbutton {
-  background-color: #f39ca0;
+  background-color: #f7d0da;
+  color: #444444;
   font-weight: bold;
   width: 25%;
   margin-right: 4%;
 } .pinkbutton:hover {
-  background: #f39ca0;
+  background-color: #f1b8c8;
 }
 
 .bigfont {
@@ -58,9 +59,14 @@ input[type="file"]+label {
   margin:auto;
 }
 
+.buttons input[type="file"]+label {
+  color: #444444;
+}
+
 .pinkcancelbutton {
-  background-color: #f39ca0;
+  background-color: #f7d0da;
+  color: #444444;
   font-weight: bold;
 }.pinkcancelbutton:hover {
-  background: #f39ca0;
+  background-color: #f1b8c8;
 }
