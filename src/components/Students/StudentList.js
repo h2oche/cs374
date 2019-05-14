@@ -19,6 +19,7 @@ export class StudentList extends Component {
       id: 1,
       name: "Juho Kim"
     },
+    Users: [],
     autocompleteData: { Test: null, Test2: null },
     StudentFiltered: [],
     ClassTable: [],
@@ -30,25 +31,32 @@ export class StudentList extends Component {
   }
 
   componentDidMount = () => {
-    console.log('teacher:',this.state.curr_instructor)
-    var autocompleteData = this.state.Students.reduce((_acc, _student) => {
-      return { ..._acc, [_student.name]: null };
-    }, {});
-    this.setState({ ...this.state, autocompleteData, showAutocomplete: true });
     getFireDB_arr('User/', this, 'Students', 'type', 'parent');
-    // console.log(this.state);
-    getFireDB('Class/').then (
-      result => {
-        console.log("classtable: ",result.val())
-        var classtable = result.val();
-        this.setState({ ...this.state, ClassTable: result.val() });
-      }
-    )
+    console.log("--- ", this.state.Students);
+
+    getFireDB()
+    .then(res =>{
+      let DB = res.val();
+      var Users = [];
+      for( var key in DB.User ) Users.push(DB.User[key]);
+      var Parents = Users.filter(_mapElem => {
+        return _mapElem.type == 'parent';
+      }).map(_mapElem => {
+        return _mapElem.name;
+      });
+      var autocompleteData = Parents.reduce( (_acc, _user) => {
+        return {..._acc, [_user]:null};
+      }, {});
+      console.log("***", Users);
+      this.setState({...this.state, Users, autocompleteData, showAutocomplete:true});
+    });
   }
 
   onAutocomplete = (_studentName) => {
-    var student = this.state.Students.find(_student => _student.name === _studentName)
-    this.setState({ ...this.state, redirect: true, redirectTo: "/studentProfile/main/"+this.state.curr_instructor+"/"  }); //FIXME: id instead tommy
+    console.log(this.state.Users);
+
+    var student = this.state.Users.find(_student => _student.name === _studentName)
+    this.setState({ ...this.state, redirect: true, redirectTo: "/studentProfile/main/"+this.state.curr_instructor+"/" +student.id  }); //FIXME: id instead tommy
   }
 
   onClassSelection = e => {
@@ -162,7 +170,7 @@ class StudentListItem extends Component {
             <div className="studentItemChild">
               <div className='studentName'>{this.props.data.name}</div>
               <br></br>
-              {this.props.data.class}
+              {this.props.data.clasrs}
             </div>
           </Col>
         </Row>
