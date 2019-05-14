@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import {Row, Col, Autocomplete,Button, Textarea} from 'react-materialize';
 import Topbar from "../Topbar";
 import '../../css/ClassRecord.css';
+import '../../css/Common.css';
 import Popup from "reactjs-popup";
 import {Link} from 'react-router-dom';
 import { fire, getFireDB,getFireDB_arr, pushDB, upload_file} from '../../config/fire';
@@ -112,6 +113,7 @@ export class ClassRecord extends Component {
     delete obj.redirectTo;
     delete obj.Users;
     delete obj.showAutocomplete;
+    delete obj.disabled;
 
     var regex = /(?:^|\s)(?:#)([a-zA-Z\d]+)/gm;
     var match;
@@ -175,13 +177,13 @@ export class ClassRecord extends Component {
         <div className="buttons">
           <form action="#" >
               <div className="btn pinkbutton buttonleft" onClick={this.fileclick}>
-                <input ref={_input => this.inputElementfile = _input}  id="inputfile" type="file" onChange={this.handlefileChange.bind(this)} multiple name="File"/>
-                <label className="bigfont">File</label>
+                <input className = "pinkbutton" ref={_input => this.inputElementfile = _input}  id="inputfile" type="file" onChange={this.handlefileChange.bind(this)} multiple name="File"/>
+                <label className="bigfont pinkbutton">File</label>
               </div>           <div className="btn pinkbutton" onClick={this.galleryclick}>
-                <input ref={_input2 => this.inputElementgallery = _input2} type="file" accept="image/*;capture=camera"/>
+                <input ref={_input2 => this.inputElementgallery = _input2} type="file" accept="image/*" capture="camera"/>
                 <label className="bigfont">Camera</label>
               </div>           <div className="btn pinkbutton" onClick={this.cameraclick}>
-                <input ref={_input3 => this.inputElementcamera = _input3} type="file" accept="image/*" capture="camera"/>
+                <input ref={_input3 => this.inputElementcamera = _input3} type="file" accept="image/*"/>
                 <label className="bigfont">Gallery</label>
               </div>
               
