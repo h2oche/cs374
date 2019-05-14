@@ -9,16 +9,16 @@ export class Menu extends Component {
     return (
       <div className="menu">
         <div className="menu-item"><Link to="/studentList/tommy11">
-          <Icon className="menu-icon" medium='true'>assignment_ind</Icon>
+          <Icon className="menu-icon" medium={true}>assignment_ind</Icon>
           </Link></div>
         <div className="menu-item"><Link to="/classRecord">
-          <Icon className="menu-icon" medium='true'>add_box</Icon>
+          <Icon className="menu-icon" medium={true}>add_box</Icon>
           </Link></div>
         <div className="menu-item"><Link to="/board">
-          <Icon className="menu-icon" medium='true'>assignment</Icon>
+          <Icon className="menu-icon" medium={true}>assignment</Icon>
           </Link></div>
         <div className="menu-item"><Link to="/settings">
-          <Icon className="menu-icon" medium='true'>settings</Icon>
+          <Icon className="menu-icon" medium={true}>settings</Icon>
           </Link></div>
       </div>
     )
