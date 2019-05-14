@@ -39,13 +39,13 @@ export class StudentProfile extends Component {
     }
 
     redirectToClassRecord = () => {
-        this.setState({target:"/BOBO/#/studentProfile/classRecord/"+this.props.match.params.instructor_id
+        this.setState({target:"/studentProfile/classRecord/"+this.props.match.params.instructor_id
                                   + '/' +this.props.match.params.student_id,
                         redirect:true});
     }
 
     redirectToInstructorsNote = () => {
-        this.setState({target:"/BOBO/#/studentProfile/instructorsNote/"+this.props.match.params.instructor_id
+        this.setState({target:"/studentProfile/instructorsNote/"+this.props.match.params.instructor_id
                                   +'/'+this.props.match.params.student_id,
                         redirect:true});
     }

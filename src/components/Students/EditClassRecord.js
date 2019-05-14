@@ -67,7 +67,7 @@ constructor(props)
     <div style = {{width:"100%"}} className="content InstructorsNoteContent">
         <div>
             <Topbar name="Instructor's Note" showBack={true} 
-                  backTo = {"/BOBO/studentProfile/instructorsNote/"+this.props.match.params.instructor_id+"/"+
+                  backTo = {"/BOBO/#/studentProfile/instructorsNote/"+this.props.match.params.instructor_id+"/"+
                                 this.props.match.params.student_id}></Topbar>
         </div>
         <hr style = {{width: "100%", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
@@ -79,7 +79,7 @@ constructor(props)
             <Textarea placeholder="Write note on this student" style={{width: "90%", display: "table-cell"}}
               onChange={this.handlecontentChange} value={this.state.textcontent} />
           </div>
-          <Link to={"/BOBO/studentProfile/instructorsNote/"+this.props.match.params.instructor_id+"/"+
+          <Link to={"/studentProfile/instructorsNote/"+this.props.match.params.instructor_id+"/"+
                       this.props.match.params.student_id}>
             <Button className="CommonButton" style={{marginLeft: "20px"}} >
               Cancel

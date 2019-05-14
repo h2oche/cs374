@@ -53,7 +53,7 @@ export class InstructorsNoteAddModify extends Component {
   }
 
   confirm = ()=> {
-    if(this.state.textcontent.length!=0)
+    if(this.state.textcontent == null || this.state.textcontent.length!=0)
     {
       updateChild('/Note/'+this.props.match.params.student_id, this.props.match.params.instructor_id, this.state.textcontent);
       return;
@@ -81,7 +81,7 @@ export class InstructorsNoteAddModify extends Component {
             <Textarea placeholder="Write note on this student" style={{width: "90%", display: "table-cell"}}
               onChange={this.handlecontentChange} value={this.state.textcontent} />
           </div>
-          <Link to={"/BOBO/#/studentProfile/instructorsNote/"+this.props.match.params.instructor_id+"/"+
+          <Link to={"/studentProfile/instructorsNote/"+this.props.match.params.instructor_id+"/"+
                       this.props.match.params.student_id}>
             <Button className="CommonButton" style={{marginLeft: "20px"}} >
               Cancel

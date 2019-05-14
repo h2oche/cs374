@@ -47,7 +47,7 @@ export class StudentList extends Component {
 
   onAutocomplete = (_studentName) => {
     var student = this.state.Students.find(_student => _student.name === _studentName)
-    this.setState({ ...this.state, redirect: true, redirectTo: "/BOBO/studentProfile/main/"+this.state.curr_instructor+"/"  }); //FIXME: id instead tommy
+    this.setState({ ...this.state, redirect: true, redirectTo: "/studentProfile/main/"+this.state.curr_instructor+"/"  }); //FIXME: id instead tommy
   }
 
   onClassSelection = e => {
@@ -172,7 +172,7 @@ class StudentListItem extends Component {
     this.givesrc(this.props.data.name);
         
     return (
-      <CollectionItem className="student" href={"/BOBO/studentProfile/main/" +this.props.instructor +'/'+this.props.data.id}>
+      <CollectionItem className="student" href={"/BOBO/#/studentProfile/main/" +this.props.instructor +'/'+this.props.data.id}>
         <Row className="studentChild" style={{ marginTop: '0px', marginBotton: '0px', height: '70px' }}>
           {/* profile image */}
           <Col s={3} style={{ alignItems: 'center' }}>

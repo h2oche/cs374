@@ -41,7 +41,7 @@ function App() {
         <Route exact path="/board/:id/notice/:id" component={Notice}/>
         <Route exact path="/settings" component={Settings}/>
         <Switch>
-          <Route exact path="/BOBO" component={LogIn}/>
+          <Route exact path="/" component={LogIn}/>
           <Route exact path="*" component={Menu}/>
         </Switch>   
       </div>

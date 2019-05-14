@@ -34,7 +34,7 @@ export class StudentListItem extends Component {
     this.givesrc(this.props.data.name);
         
     return (
-      <CollectionItem className="student" href={"/BOBO/studentProfile/main/"+this.props.match.params.instructor_id+'/'+this.props.data.id}>
+      <CollectionItem className="student" href={"/BOBO/#/studentProfile/main/"+this.props.match.params.instructor_id+'/'+this.props.data.id}>
         <Row className="studentChild" style={{ marginTop: '0px', marginBotton: '0px', height: '70px' }}>
           {/* profile image */}
           <Col s={3} style={{ alignItems: 'center' }}>

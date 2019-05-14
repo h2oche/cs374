@@ -129,7 +129,7 @@ export class InstructorsNote extends Component {
       if(!myNoteExists)
           noteList.push(
               <div className="AddButtonContainer" key = {i++}>
-                <Link to={"/BOBO/#/studentProfile/instructorsNoteAddModify/"+this.props.match.params.instructor_id+
+                <Link to={"/studentProfile/instructorsNoteAddModify/"+this.props.match.params.instructor_id+
                             '/'+this.props.match.params.student_id}>
                   <Button className=" CommonButton">Add Note!</Button>
                 </Link>
@@ -175,7 +175,7 @@ class MyNote extends Component {
             <div>
                 <div className="Note">
                     <div className="MyNoteButtonContainer">
-                      <Link to={"/BOBO/#/studentProfile/instructorsNoteAddModify/"+this.props.instructor+
+                      <Link to={"/studentProfile/instructorsNoteAddModify/"+this.props.instructor+
                               '/'+this.props.student}>
                         <Icon className="InstructorNoteIcon" small={true}>edit</Icon>
                       </Link>

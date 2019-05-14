@@ -223,7 +223,7 @@ class MyRecordListItem extends Component {
           </Col>
           {/* edit/delete buttons */}
           <Col s={4}><div align='right'>
-            <Link to={"/BOBO/#/studentProfile/editClassRecord/" + this.props.data.key}>
+            <Link to={"/editClassRecord/" + this.props.data.key}>
               <Icon className="edit-record-icon" small='true'>edit</Icon>
             </Link>
             {/* <Icon small='true'>delete</Icon> */}
