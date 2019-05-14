@@ -41,6 +41,7 @@ const INITIAL_STATE = {
   Date:'',
   redirectTo: "",
   disabled: false,
+  Hashtag:[],
 
 };
 
@@ -111,6 +112,18 @@ export class ClassRecord extends Component {
     delete obj.redirectTo;
     delete obj.Users;
     delete obj.showAutocomplete;
+
+    var regex = /(?:^|\s)(?:#)([a-zA-Z\d]+)/gm;
+    var match;
+    
+    obj.Hashtag = [];
+
+    while ((match = regex.exec(obj.Text))) {
+        // matches.push(match[1]);
+        obj.Hashtag.push(match[1]);
+    }
+
+    // console.log(matches);
 
     if(obj.file)
     {
