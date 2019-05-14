@@ -129,16 +129,32 @@ export class ClassRecord extends Component {
 
     if(obj.file)
     {
-      var x = document.getElementById("inputfile");
-      console.log(x.files[0]);
-      // var blob = new Blob(obj.file[0],{ type: "image/jpg" });
-      upload_file('images/', x.files[0], x.files[0].name);
+      var fromfile = document.getElementById("inputfile");
+      var fromcamera = document.getElementById("inputcamera");
+      var fromgallery = document.getElementById("inputgallery");
+
+      console.log("123123"+fromfile.files);
+      
+      
+      fromfile.files.forEach(function(child){
+        upload_file('images/', child, child.name);
+      })
+      fromcamera.files.forEach(function(child){
+        upload_file('images/', child, child.name);
+      })
+      fromgallery.files.forEach(function(child){
+        upload_file('images/', child, child.name);
+      })
+
+      
+      //upload_file('images/', x.files[0], x.files[0].name);
+      //upload_file('images/', x.files[0], x.files[0].name);
     }
     pushDB("Record", obj)
     .then(_res => {
       this.inputElementcontent.value= "";
       this.inputElementname.value="";
-      this.setState({...this.state,/*StudentID: ,*/ redirect: true, redirectTo: "/BOBO/studentList/0" });
+      this.setState({...this.state,/*StudentID: ,*/ redirect: true, redirectTo: "/studentList/tommy11" });
     });
   }
 
@@ -177,13 +193,13 @@ export class ClassRecord extends Component {
         <div className="buttons">
           <form action="#" >
               <div className="btn pinkbutton buttonleft" onClick={this.fileclick}>
-                <input className = "pinkbutton" ref={_input => this.inputElementfile = _input}  id="inputfile" type="file" onChange={this.handlefileChange.bind(this)} multiple name="File"/>
-                <label className="bigfont pinkbutton">File</label>
+                <input ref={_input => this.inputElementfile = _input}  id="inputfile" type="file" onChange={this.handlefileChange.bind(this)} multiple name="File"/>
+                <label className="bigfont">File</label>
               </div>           <div className="btn pinkbutton" onClick={this.galleryclick}>
-                <input ref={_input2 => this.inputElementgallery = _input2} type="file" accept="image/*" capture="camera"/>
+                <input ref={_input2 => this.inputElementgallery = _input2} type="file" accept="image/*" id="inputcamera" capture="camera"/>
                 <label className="bigfont">Camera</label>
               </div>           <div className="btn pinkbutton" onClick={this.cameraclick}>
-                <input ref={_input3 => this.inputElementcamera = _input3} type="file" accept="image/*"/>
+                <input ref={_input3 => this.inputElementcamera = _input3} type="file" accept="image/*" id="inputgallery"/>
                 <label className="bigfont">Gallery</label>
               </div>
               
