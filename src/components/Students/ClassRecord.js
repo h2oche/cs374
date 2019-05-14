@@ -115,12 +115,18 @@ export class ClassRecord extends Component {
     getFireDB('Record/').then (
       result => {
         console.log("all records: ",result.val());
-        var records = result.val();
-        console.log(records);
+        let DB = result.val();
+        var validRecords = [];
+        for( var key in DB ) validRecords.push(DB[key]);
+      var Parents = validRecords.filter(_mapElem => {
+        return _mapElem.StudentID == this.props.match.params.student_id; //
+      }).map(_mapElem => {
+        return _mapElem;
+      });
         
-        var validRecords = records.filter(_record => {
-          return _record.StudentName === 'JinRyu' //FIXME:
-        });
+        // var validRecords = records.filter(_record => {
+        //   return _record.StudentName === 'JinRyu' //FIXME:
+        // });
 
         this.setState({ ...this.state, Records: result.val(), validRecords });
       }
