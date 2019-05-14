@@ -136,15 +136,15 @@ export class ClassRecord extends Component {
       console.log("123123"+fromfile.files);
       
       
-      fromfile.files.forEach(function(child){
-        upload_file('images/', child, child.name);
-      })
-      fromcamera.files.forEach(function(child){
-        upload_file('images/', child, child.name);
-      })
-      fromgallery.files.forEach(function(child){
-        upload_file('images/', child, child.name);
-      })
+      Array.prototype.forEach.call(fromfile.files, function(file) { 
+        upload_file('images/',file,file.name);
+       });
+       Array.prototype.forEach.call(fromcamera.files, function(file) { 
+        upload_file('images/',file,file.name);
+       });
+       Array.prototype.forEach.call(fromgallery.files, function(file) { 
+        upload_file('images/',file,file.name);
+       });
 
       
       //upload_file('images/', x.files[0], x.files[0].name);
