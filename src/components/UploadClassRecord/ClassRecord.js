@@ -17,7 +17,7 @@ const PopupExample =  () => (
         <p>Are you sure to cancel?<br></br><br></br></p>
 
           <Button className="close pinkcancelbutton" onClick={close}>No</Button>
-          <Link to="/BOBO">
+          <Link to="/studentList/tommy11">
             <Button className="close pinkcancelbutton" style={{float:"right"}} onClick={ClassRecord.doneonClick}>
               Yes
             </Button>
