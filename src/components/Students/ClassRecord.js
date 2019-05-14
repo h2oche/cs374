@@ -16,6 +16,7 @@ import '../../css/Common.css'
 export class ClassRecord extends Component {
 
   state = {
+    validRecords: [],
     Records: [{
       key: '-LeCY3zdkGo8afNw_RxG',
       StudentID: 'tommy',
@@ -105,22 +106,36 @@ export class ClassRecord extends Component {
             break;
           }
         }
-        console.log(args);
+        // console.log(args);
         this.setState({...this.state, Name:args['name'], Class:args['class'], Age:args['age'], Tel: args['tel']});
         download_picture(args['picture'], this);
+      }
+    )
+
+    getFireDB('Record/').then (
+      result => {
+        console.log("all records: ",result.val());
+        var records = result.val();
+        console.log(records);
+        
+        var validRecords = records.filter(_record => {
+          return _record.StudentName === 'JinRyu' //FIXME:
+        });
+
+        this.setState({ ...this.state, Records: result.val(), validRecords });
       }
     )
   }
 
 
   renderRecordList = () => {
-    var validRecords = this.state.Records.filter(_record => {
-      return _record.StudentID === 'tommy' //FIXME:
-    })
+    // var validRecords = this.state.Records.filter(_record => {
+    //   return _record.StudentName === 'JinRyu' //FIXME:
+    // })
     //console.log('valid:', validRecords)
     //console.log(this.state.Records)
     //return <RecordListItem data={this.state.Records} />;
-    return validRecords.map(_record => {
+    return this.state.validRecords.map(_record => {
       if (_record.InstructorID === 'teacher101') //FIXME: MyID
         return <MyRecordListItem data={_record} test={this.passSetState} />
       else
@@ -238,7 +253,7 @@ class MyRecordListItem extends Component {
 
 class Hashtags extends Component {
   render() {
-    console.log('hashtag!', this.props.data)
+    // console.log('hashtag!', this.props.data)
     return (
       this.props.data.map(_elem => {
         return <Hashtag data={_elem} />
@@ -249,7 +264,7 @@ class Hashtags extends Component {
 
 class Hashtag extends Component {
   onHashtagSelection = e => {
-    console.log('select !!!')
+    // console.log('select !!!')
     //window.location.reload();
   }
 
