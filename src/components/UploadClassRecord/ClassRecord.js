@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {Row, Col, Autocomplete,Button, Textarea,Checkbox} from 'react-materialize';
+import {Row, Col, Autocomplete,Button,TextInput,Icon, Textarea,Checkbox} from 'react-materialize';
 import Topbar from "../Topbar";
 import '../../css/ClassRecord.css';
 import '../../css/Common.css';
@@ -43,6 +43,7 @@ const INITIAL_STATE = {
   redirectTo: "",
   disabled: false,
   Hashtag:[],
+  showmodifiy:false,
 
 };
 
@@ -80,6 +81,7 @@ export class ClassRecord extends Component {
   
   handlenameChange = e =>
   {
+    
     this.setState({...this.state, Studentname : e.target.value});
   }
   handlecontentChange = e =>
@@ -100,7 +102,7 @@ export class ClassRecord extends Component {
     console.log(_userName);
 
     var parent = this.state.Users.find(_user => _user.name === _userName);
-
+    
     this.setState({...this.state, StudentID:parent.id,Studentname:_userName}, () => {
       var select_parent = document.getElementById("studentname");
       select_parent.value = _userName;
@@ -112,7 +114,6 @@ export class ClassRecord extends Component {
   }
   doneonClick = () =>
   {
-    //console.log(this.state);
     var obj = {...this.state};
     var rawdate = new Date();
     var rawmonth = rawdate.getMonth() + 1;
@@ -132,20 +133,14 @@ export class ClassRecord extends Component {
     obj.Hashtag = [];
 
     while ((match = regex.exec(obj.Text))) {
-        // matches.push(match[1]);
         obj.Hashtag.push(match[1]);
     }
-
-    // console.log(matches);
 
     if(obj.file)
     {
       var fromfile = document.getElementById("inputfile");
       var fromcamera = document.getElementById("inputcamera");
       var fromgallery = document.getElementById("inputgallery");
-
-      console.log("123123"+fromfile.files);
-      
       
       Array.prototype.forEach.call(fromfile.files, function(file) { 
         upload_file('images/',file,file.name);
@@ -156,10 +151,6 @@ export class ClassRecord extends Component {
        Array.prototype.forEach.call(fromgallery.files, function(file) { 
         upload_file('images/',file,file.name);
        });
-
-      
-      //upload_file('images/', x.files[0], x.files[0].name);
-      //upload_file('images/', x.files[0], x.files[0].name);
     }
     pushDB("Record", obj)
     .then(_res => {
@@ -167,6 +158,13 @@ export class ClassRecord extends Component {
       this.inputElementname.value="";
       this.setState({...this.state,/*StudentID: ,*/ redirect: true, redirectTo: "/studentList/tommy11" });
     });
+  }
+  
+  flipbool = () => {
+    if(this.state.showAutocomplete)
+      this.setState({...this.state, showAutocomplete:false});
+    else
+      this.setState({...this.state, showAutocomplete:true});
   }
 
   fileclick = () => {
@@ -199,8 +197,10 @@ export class ClassRecord extends Component {
                 onChange={this.onAutocompleteChange}
                 placeholder="Search student name"
                 icon="search" s={12}/> :
-              <span></span>
+                <span></span>
+                //<Textarea onChange={this.flipbool} id="after" value="" icon="search" s={12}/>       
             }
+
           </Col>
         </Row>
         <div className="buttons">

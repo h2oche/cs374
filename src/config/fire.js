@@ -128,6 +128,16 @@ export const upload_file = (dir, file, filename) => {
   });
 }
 
+// export const upload_file = (man ) => {
+//   var postKey = database.ref('Images/').push().key;
+//   var updates = {};
+//   var PostData = {
+//     url: 'dsaf'
+//   }
+//   updates['Images/'+postKey] = PostData;
+// }
+
+
 
 export const download_picture = (pictureurl, _this) => {
   var Storageref = storage.ref();
