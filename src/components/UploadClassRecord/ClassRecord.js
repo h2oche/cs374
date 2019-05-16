@@ -86,27 +86,31 @@ export class ClassRecord extends Component {
   }
   handlecontentChange = e =>
   {
-    console.log(e.target);
-    this.setState({...this.state, Text : e.target.value});
-    var select_parent = document.getElementById("studentname");
-    console.log(this.state.Studentname);
-    select_parent.value = this.state.Studentname;
+    var Studentname = this.state.Studentname;
+    console.log(Studentname);
+    this.setState({...this.state, Text : e.target.value},
+      () => {
+        var select_parent = document.getElementById("studentname");
+        select_parent.value = Studentname;
+      });
   }
   handlefileChange(e) {
   this.setState({...this.state, file:e.target.files});
   }
   onAutocomplete = (_userName) => {
     console.log(this.state.Users);
+    console.log(_userName);
 
     var parent = this.state.Users.find(_user => _user.name === _userName);
     
-    this.setState({...this.state, StudentID:parent.id,Studentname:_userName, showmodifiy:true});  
-    var aftername = document.getElementById("studentname");
-    aftername.value = _userName;
-    /*this.setState({...this.state, StudentID:parent.id,Studentname:_userName, showAutocomplete:false, showmodifiy:true});  
+    this.setState({...this.state, StudentID:parent.id,Studentname:_userName}, () => {
+      var select_parent = document.getElementById("studentname");
+      select_parent.value = _userName;
+    });
+  }
 
-    var aftername = document.getElementById("after");
-    aftername.value = _userName;*/
+  onAutocompleteChange =  (e) => {
+    this.setState({...this.state, Studentname : e.target.value});
   }
   doneonClick = () =>
   {
@@ -187,8 +191,10 @@ export class ClassRecord extends Component {
             {/* <TextInput id="notice-list-search" s={12} icon="search" placeholder="Search notice board name."/> */}
             {this.state.showAutocomplete ?
               <Autocomplete id="studentname"
-              ref={_input => this.inputElementname = _input}
+                ref={_input => this.inputElementname = _input}
                 options={{data: this.state.autocompleteData, onAutocomplete:this.onAutocomplete}}
+                value={this.state.Studentname}
+                onChange={this.onAutocompleteChange}
                 placeholder="Search student name"
                 icon="search" s={12}/> :
                 <span></span>
