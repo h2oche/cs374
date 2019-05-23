@@ -44,6 +44,8 @@ const INITIAL_STATE = {
   disabled: false,
   Hashtag:[],
   showmodifiy:false,
+  photos:[],
+  files:[],
 
 };
 
@@ -118,7 +120,7 @@ export class ClassRecord extends Component {
     var rawdate = new Date();
     var rawmonth = rawdate.getMonth() + 1;
     var datestring = String(rawdate.getFullYear()) +"/"+ String(rawmonth)+"/" + String(rawdate.getDate()) ;
-    
+    var dirname = rawdate.getTime();
     obj.Date = datestring
     
     delete obj.autocomplete_student;
@@ -143,13 +145,16 @@ export class ClassRecord extends Component {
       var fromgallery = document.getElementById("inputgallery");
       
       Array.prototype.forEach.call(fromfile.files, function(file) { 
-        upload_file('images/',file,file.name);
+        upload_file('ClassRecords/'+dirname+'/',file,file.name);
+        obj.files.push('ClassRecords/'+dirname+'/'+file.name);
        });
        Array.prototype.forEach.call(fromcamera.files, function(file) { 
-        upload_file('images/',file,file.name);
+        upload_file('ClassRecords/'+dirname+'/',file,file.name);
+        obj.photos.push('ClassRecords/'+dirname+'/'+file.name);
        });
        Array.prototype.forEach.call(fromgallery.files, function(file) { 
-        upload_file('images/',file,file.name);
+        upload_file('ClassRecords/'+dirname+'/',file,file.name);
+        obj.photos.push('ClassRecords/'+dirname+'/'+file.name);
        });
     }
     pushDB("Record", obj)
@@ -209,10 +214,10 @@ export class ClassRecord extends Component {
                 <input ref={_input => this.inputElementfile = _input}  id="inputfile" type="file" onChange={this.handlefileChange.bind(this)} multiple name="File"/>
                 <label className="bigfont">File</label>
               </div>           <div className="btn pinkbutton" onClick={this.galleryclick}>
-                <input ref={_input2 => this.inputElementgallery = _input2} type="file" accept="image/*" id="inputcamera" capture="camera"/>
+                <input ref={_input2 => this.inputElementgallery = _input2} type="file" accept="image/*"  onChange={this.handlefileChange.bind(this)} multiple id="inputcamera" capture="camera"/>
                 <label className="bigfont">Camera</label>
               </div>           <div className="btn pinkbutton" onClick={this.cameraclick}>
-                <input ref={_input3 => this.inputElementcamera = _input3} type="file" accept="image/*" id="inputgallery"/>
+                <input ref={_input3 => this.inputElementcamera = _input3} type="file" accept="image/*" onChange={this.handlefileChange.bind(this)} multiple id="inputgallery"/>
                 <label className="bigfont">Gallery</label>
               </div>
               
