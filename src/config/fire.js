@@ -31,16 +31,11 @@ export const getPictureURL = (name, _this) => {
     snapshot.forEach(function(child){
       if(child.val().name === name)
       {
-        
         _this.setState({url:child.val().picture});
-        _this.setState({originurl:child.val().picture});
-
-        
+        _this.setState({originurl:child.val().picture});       
       }
     })
-    
   })
-  
 }
 
 export const pushDB = (dir, obj) => {
@@ -127,18 +122,6 @@ export const upload_file = (dir, file, filename) => {
     });
   });
 }
-
-// export const upload_file = (man ) => {
-//   var postKey = database.ref('Images/').push().key;
-//   var updates = {};
-//   var PostData = {
-//     url: 'dsaf'
-//   }
-//   updates['Images/'+postKey] = PostData;
-// }
-
-
-
 export const download_picture = (pictureurl, _this) => {
   var Storageref = storage.ref();
   
