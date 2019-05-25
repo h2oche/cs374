@@ -12,76 +12,12 @@ import Demographic from './Demographic'
 import '../../css/Students/StudentProfile.css'
 import "../../css/Students/ClassRecord.css"
 import '../../css/Common.css'
+import { type } from 'os';
 
 export class ClassRecord extends Component {
 
   state = {
     validRecords: [],
-    Records: [{
-      key: '-LeCY3zdkGo8afNw_RxG',
-      StudentID: 'tommy',
-      InstructorID: 'teacher101',
-      Date: '2019/05/03',
-      Text: 'He made a origami pikachu today!',
-      Hashtag: ['art']
-    }, {
-      key: '1',
-      StudentID: 'runxia',
-      InstructorID: 'sam',
-      Date: '2019/05/03',
-      Text: 'He made a origami pikachu today!',
-      Hashtag: ['art']
-    }, {
-      key: '2',
-      StudentID: 'tommy11',
-      InstructorID: 'sam',
-      Date: '2019/05/08',
-      Text: 'He made a origami pikachu today!',
-      Hashtag: ['art', 'origami']
-    }, {
-      key: '3',
-      StudentID: 'jinjin',
-      InstructorID: 'teacher101',
-      Date: '2019/05/09',
-      Text: 'He made a origami pikachu today!',
-      Hashtag: ['art', 'jin']
-    }, {
-      key: '4',
-      StudentID: 'woo-woo',
-      InstructorID: 'sam',
-      Date: '2019/05/09',
-      Text: 'He made a origami pikachu today!',
-      Hashtag: ['art', 'pikachu']
-    }, {
-      key: '5',
-      StudentID: 'tommy',
-      InstructorID: 'teacher101',
-      Date: '2019/05/10',
-      Text: 'He made a origami pikachu today! \n He tried very hard, but he failed to complete it. TT ',
-      Hashtag: ['pikapika', 'art']
-    }, {
-      key: '6',
-      StudentID: 'tommy',
-      InstructorID: 'Juho',
-      Date: '2019/05/10',
-      Text: 'He made a origami pikachu today! \n He tried very hard, but he failed to complete it. TT ',
-      Hashtag: ['pikapika']
-    }, {
-      key: '7',
-      StudentID: 'tommy',
-      InstructorID: 'Juho',
-      Date: '2019/05/12',
-      Text: 'He made a origami pikachu today! \n He tried very hard, but he failed to complete it. TT ',
-      Hashtag: ['pikapika', 'chu', 'art']
-    }, {
-      key: '8',
-      StudentID: 'tommy',
-      InstructorID: 'teacher101',
-      Date: '2019/05/14',
-      Text: 'He made a origami pikachu today! \n He tried very hard, but he failed to complete it. TT ',
-      Hashtag: ['pikapika', 'origami']
-    }
-    ],
     loaded: false,
     Name: "Loading...",
     Class: "Loading...",
@@ -116,17 +52,19 @@ export class ClassRecord extends Component {
       result => {
         console.log("all records: ",result.val());
         let DB = result.val();
-        var validRecords = [];
-        for( var key in DB ) validRecords.push(DB[key]);
-      var Parents = validRecords.filter(_mapElem => {
-        return _mapElem.StudentID == this.props.match.params.student_id; //
-      }).map(_mapElem => {
-        return _mapElem;
+        var records = [];
+        for( var _key in DB ) 
+        {
+          var map = DB[_key];
+          map['key'] = _key;
+          records.push(map);
+        }
+      var validRecords = records.filter(_mapElem => {
+        // console.log(_mapElem);
+        // console.log("id:" , _mapElem.StudentID, this.props.match.params.student_id);
+        // console.log(typeof(_mapElem.StudentID), typeof(this.props.match.params.student_id))
+        return String(_mapElem.StudentID) === this.props.match.params.student_id; //
       });
-        
-        // var validRecords = records.filter(_record => {
-        //   return _record.StudentName === 'JinRyu' //FIXME:
-        // });
 
         this.setState({ ...this.state, Records: result.val(), validRecords });
       }
@@ -138,9 +76,10 @@ export class ClassRecord extends Component {
     // var validRecords = this.state.Records.filter(_record => {
     //   return _record.StudentName === 'JinRyu' //FIXME:
     // })
-    //console.log('valid:', validRecords)
+    console.log('valid:', this.state.validRecords)
     //console.log(this.state.Records)
     //return <RecordListItem data={this.state.Records} />;
+
     return this.state.validRecords.map(_record => {
       if (_record.InstructorID === 'teacher101') //FIXME: MyID
         return <MyRecordListItem data={_record} test={this.passSetState} />
@@ -195,6 +134,13 @@ export class ClassRecord extends Component {
 
 
 class RecordListItem extends Component {
+  renderHashtags = () => {
+    // console.log("render hasH", this.props.data.Hashtag)
+    return this.props.data.Hashtag.map(_elem => {
+      return <Hashtag data={_elem} />
+    })
+  }
+
   render() {
     //console.log(this.props.data)
     this.props.test();
@@ -213,7 +159,8 @@ class RecordListItem extends Component {
         {/* Hashtags */}
         <Row>
           <Col>
-            <Hashtags data={this.props.data.Hashtag} />
+            {/* <Hashtags data={this.props.data.Hashtag} /> */}
+            {this.renderHashtags()}
           </Col>
         </Row>
       </CollectionItem>
@@ -222,8 +169,15 @@ class RecordListItem extends Component {
 }
 
 class MyRecordListItem extends Component {
+  renderHashtags = () => {
+    // console.log("MY render hasH", this.props.data.Hashtag)
+    return this.props.data.Hashtag.map(_elem => {
+      return <Hashtag data={_elem} />
+    })
+  }
+
   render() {
-    //console.log(this.props.data)
+    console.log("data:", this.props.data)
     //this.props.test();
     return (
       <CollectionItem>
@@ -240,7 +194,8 @@ class MyRecordListItem extends Component {
         {/* Hashtags and edit/delete buttons */}
         <Row s={12}>
           <Col s={8}>
-            <Hashtags data={this.props.data.Hashtag} />
+            {/* <Hashtags data={this.props.data.Hashtag} /> */}
+            {this.renderHashtags()}
           </Col>
           {/* edit/delete buttons */}
           <Col s={4}><div align='right'>
@@ -259,9 +214,9 @@ class MyRecordListItem extends Component {
 
 class Hashtags extends Component {
   render() {
-    // console.log('hashtag!', this.props.data)
+    // console.log('<hashtags>', this.props.data)
     return (
-      this.props.data.map(_elem => {
+      this.props.data.forEach(_elem => {
         return <Hashtag data={_elem} />
       })
     );
@@ -295,6 +250,7 @@ class DeleteRecordPopup extends Component {
   }
 
   deleteRecord = () => {
+    console.log("deleeeeeeete:", this.props.data.key);
     deleteDB('/Record/' + this.props.data.key);
     window.location.reload();
   }
