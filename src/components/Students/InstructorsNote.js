@@ -9,6 +9,7 @@ import {Checkbox, Icon, Button} from 'react-materialize'
 import {Link} from 'react-router-dom'
 import '../../css/Common.css'
 import { fire, getFireDB, pushMultipleDB, pushDB, setDB, deleteDB, download_picture} from '../../config/fire';
+import { ENGINE_METHOD_NONE } from 'constants';
 
 class DeletePopup extends Component {
   state={
@@ -62,15 +63,47 @@ class DeletePopup extends Component {
   }
 }
 
+class NamePopup extends Component {
+  
+  render() {
+    return (
+      <Popup contentStyle={{width: '50%'}} 
+              trigger={<span className="NoteInstructor" style={{backgroundColor:'#fa807266'}}> {this.props.name}</span>} 
+                position="top left" onClose={this.closing}>
+        { close => ( 
+            <div>
+              <span>{this.props.name}</span>
+              <br></br>
+              <span>Tel: <u><a href={"tel:"+this.props.tel}>{this.props.tel}</a></u></span> 
+            </div>
+          )
+        }
+      </Popup>
+    )
+  }
+}
+
 export class InstructorsNote extends Component {
-    state={
-      loaded: false,
-      Notes: [],
-      Class: "Loading...",
-      Age: "Loading...",
-      Tel: "Loading...",
-      url: "",
-      mount:true
+
+  userList = null;
+
+  state={
+    loaded: false,
+    Notes: [],
+    Class: "Loading...",
+    Age: "Loading...",
+    Tel: "Loading...",
+    url: "",
+    mount:true
+  }
+
+  getUserInfo(id) {
+    for(var key in this.userList) {
+      var args = this.userList[key];
+      if(args['id']==this.props.match.params.student_id) {
+        return args;
+      }
+    }
   }
 
   constructor(props) 
@@ -78,15 +111,8 @@ export class InstructorsNote extends Component {
     super(props);
     getFireDB('/User').then(
       result => {
-        var userList = result.val();
-        var args;
-        for(var key in userList) {
-          args = userList[key];
-          if(args['id']==this.props.match.params.student_id) {
-            break;
-          }
-        }
-        console.log(args);
+        this.userList = result.val();
+        var args = this.getUserInfo(this.props.match.params.student_id);
         this.setState({...this.state, Name:args['name'], Class:args['class'], Age:args['age'], Tel: args['tel']});
         download_picture(args['picture'], this);
       }
@@ -115,14 +141,18 @@ export class InstructorsNote extends Component {
       var myNoteExists = false;
       var i =0;
       var noteList = this.state.Notes.map(_note => {
-        console.log(_note);
         if(_note.Instructor!==this.props.match.params.instructor_id)
-            return <Note instructor={_note.Instructor} student={this.props.match.params.student_id} 
+        {
+            var userInfo = this.getUserInfo(_note.Instructor);
+            return <Note instructor_id={_note.Instructor} student_id={this.props.match.params.student_id} 
+                          instructor_name={userInfo['name']} instructor_tel={userInfo['tel']}
                           content={_note.Content} key={i++}/>
+        }
         else
         {
             myNoteExists = true;
-            return <MyNote instructor={_note.Instructor} student = {this.props.match.params.student_id} content={_note.Content} key={i++}/>
+            var userInfo = this.getUserInfo(_note.Instructor);
+            return <MyNote instructor_name={userInfo['name']} student = {this.props.match.params.student_id} content={_note.Content} key={i++}/>
         }
       });
 
@@ -161,7 +191,9 @@ class Note extends Component {
     render() {
         return (
             <div className="Note">
-                <span className="NoteInstructor"> {'• '+this.props.instructor+'\'s Note'}</span>
+                <span className="NoteInstructor">{'• '}</span>
+                <NamePopup id={this.props.instructor_id} name={this.props.instructor_name} tel={this.props.instructor_tel}></NamePopup>
+                <span className="NoteInstructor">{'\'s Note'}</span>
                 <br/>
                 <span className="NoteContent">&nbsp;&nbsp;&nbsp;{'- '+this.props.content}</span>
             </div>
@@ -181,7 +213,7 @@ class MyNote extends Component {
                       </Link>
                       <DeletePopup instructor_id={this.props.instructor} student_id={this.props.student}/>
                     </div>
-                    <span className="NoteInstructor">{'• '+this.props.instructor+'\'s Note'}</span>
+                    <span className="NoteInstructor">{'• '+this.props.instructor_name+'\'s Note'}</span>
                     <br/>
                     <div style={{marginLeft:"20px"}}>
                       <span className="NoteContent">{'- '+this.props.content} </span>
