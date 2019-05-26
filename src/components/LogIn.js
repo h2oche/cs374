@@ -21,7 +21,7 @@ export class LogIn extends Component {
   }
 
   loginSuccess = () => {
-      this.setState({target:"/studentList/tommy11",
+      this.setState({target:"/studentList/3",
                       redirect:true});
   }
 
