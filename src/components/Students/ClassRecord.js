@@ -61,7 +61,7 @@ export class ClassRecord extends Component {
           records.push(map);
         }
         records.sort(function(_a, _b) {
-          return _a.date > _b.date ? -1 : 1;
+          return _a.date > _b.date ? 1 : -1;
         });
       var validRecords = records.filter(_mapElem => {
         // console.log(_mapElem);
