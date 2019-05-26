@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import Popup from 'reactjs-popup'
 
 import { Row, Col, Collection, CollectionItem, Button, Icon, Checkbox } from 'react-materialize';
-import { fire, getFireDB, pushMultipleDB, pushDB, setDB, deleteDB, download_picture } from '../../config/fire';
+import { fire, getFireDB, pushMultipleDB, pushDB, setDB, deleteDB, download_picture, getPictureURL } from '../../config/fire';
 import Topbar from '../Topbar';
 import Demographic from './Demographic'
 //import RecordListItem from './RecordListItem';
@@ -13,6 +13,7 @@ import '../../css/Students/StudentProfile.css'
 import "../../css/Students/ClassRecord.css"
 import '../../css/Common.css'
 import { type } from 'os';
+import { tsConstructSignatureDeclaration } from '@babel/types';
 
 export class ClassRecord extends Component {
 
@@ -134,12 +135,30 @@ export class ClassRecord extends Component {
 
 
 class RecordListItem extends Component {
+  state = {
+    url: ''
+  }
+
   renderHashtags = () => {
     // console.log("render hasH", this.props.data.Hashtag)
     return this.props.data.Hashtag.map(_elem => {
       return <Hashtag data={_elem} />
     })
   }
+
+  renderPictures = () => {
+    if(this.props.data.has("photos"))
+    {
+      console.log('yes photo')
+      for(var _url in this.props.data.photos)
+      {
+        // download_picture(_key, this)
+        return <img className="RecordImage" src={_url} alt="photo" width='150px' height='150px'></img>
+      }
+    }
+    console.log('herehere')
+    return <div>hello</div>
+    }
 
   render() {
     //console.log(this.props.data)
@@ -151,6 +170,13 @@ class RecordListItem extends Component {
           <Col s={2}></Col>
           <Col s={6} className='who-wrote-col'>{"wrote by: " + this.props.data.InstructorID}</Col>
         </Row>
+      
+        <Row>
+          <Col>
+            {this.renderPictures()}
+          </Col>
+        </Row>
+
         <Row>
           <Col>
             {this.props.data.Text}
@@ -176,6 +202,32 @@ class MyRecordListItem extends Component {
     })
   }
 
+  givesrc = (name) => {
+    getPictureURL(name, this);
+    if(this.state.url)
+      return download_picture(this.state.url,this);
+  }
+
+  renderPictures = () => {
+    console.log('tttt', typeof(this.props.data))
+    for(var key in this.props.data)
+    {
+      if(key == 'photos')
+      {
+      for(var _url_key in this.props.data['photos'])
+      {
+        // download_picture(_key, this)
+
+        console.log('url:', this.props.data['photos'][_url_key])
+        return <img className="RecordImage" src={this.props.data['photos'][_url_key]} alt="photo" width='150px' height='150px'></img>
+      }
+      
+      }
+    }
+    console.log('herehere')
+    return <div>hello</div>
+    }
+
   render() {
     console.log("data:", this.props.data)
     //this.props.test();
@@ -191,6 +243,9 @@ class MyRecordListItem extends Component {
             {this.props.data.Text}
           </Col>
         </Row>
+        <div>
+          {this.renderPictures()}
+        </div>
         {/* Hashtags and edit/delete buttons */}
         <Row s={12}>
           <Col s={8}>
