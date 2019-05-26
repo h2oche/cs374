@@ -107,7 +107,7 @@ export class ClassRecord extends Component {
               floating small
               waves="light"
               icon="add"
-              href={"/BOBO/#/classRecord"} />}></Topbar>
+              href={"/BOBO/#/classRecord?"+this.props.match.params.student_id} />}></Topbar>
         </div>
 
         <div className="class-record-content-what">

@@ -76,7 +76,23 @@ export class ClassRecord extends Component {
         return {..._acc, [_user]:null};
       }, {});
       this.setState({...this.state, Users, autocompleteData, showAutocomplete:true});
+          
+      if(window.location.hash.indexOf("?")!=-1)
+      {
+        var temparray=window.location.hash.split("?");
+        for (var index in Users) 
+        {
+          
+          if(Users[index].id===Number(temparray[1]))
+          {
+            this.setState({...this.state, Studentname:Users[index].name});
+            var select_parent = document.getElementById("studentname");
+            select_parent.value = Users[index].name;
+          }
+        }
+      }
     });
+            
   }
   
 
