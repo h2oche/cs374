@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import Popup from 'reactjs-popup'
 
 import { Row, Col, Collection, CollectionItem, Button, Icon, Checkbox } from 'react-materialize';
-import { fire, getFireDB, pushMultipleDB, pushDB, setDB, deleteDB, download_picture } from '../../config/fire';
+import { fire, getFireDB, pushMultipleDB, pushDB, setDB, deleteDB, download_picture, getPictureURL } from '../../config/fire';
 import Topbar from '../Topbar';
 import Demographic from './Demographic'
 //import RecordListItem from './RecordListItem';
@@ -13,6 +13,7 @@ import '../../css/Students/StudentProfile.css'
 import "../../css/Students/ClassRecord.css"
 import '../../css/Common.css'
 import { type } from 'os';
+import { tsConstructSignatureDeclaration } from '@babel/types';
 
 export class ClassRecord extends Component {
 
@@ -73,12 +74,8 @@ export class ClassRecord extends Component {
 
 
   renderRecordList = () => {
-    // var validRecords = this.state.Records.filter(_record => {
-    //   return _record.StudentName === 'JinRyu' //FIXME:
-    // })
     console.log('valid:', this.state.validRecords)
-    //console.log(this.state.Records)
-    //return <RecordListItem data={this.state.Records} />;
+
 
     return this.state.validRecords.map(_record => {
       if (_record.InstructorID === 'teacher101') //FIXME: MyID
@@ -97,7 +94,7 @@ export class ClassRecord extends Component {
       return <Redirect to={this.state.redirectTo} />
 
     return (
-      <div style={{ width: "100%" }} /*className="content class-record-container" */>
+      <div className='content class-record-content' style={{ width: "100%" }} /*className="content class-record-container" */>
         <div>
           <Topbar
             name="Class Record"
@@ -113,19 +110,17 @@ export class ClassRecord extends Component {
               href={"/BOBO/#/classRecord"} />}></Topbar>
         </div>
 
-        <div className="class-record-contentr">
+        <div className="class-record-content-what">
           <hr style = {{width: "100%", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
           <Demographic Name={this.state.Name} Age={this.state.Age} Tel={this.state.Tel} Class={this.state.Class} ImageURL={this.state.url}/>
           <hr style = {{width: "100%", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
+        </div>
 
-          <div id="show-record-list-row">
-            <div s={12}>
-              <Collection>
-                {this.renderRecordList()}
-              </Collection>
-            </div>
-          </div>
-        </div> {/* end class-record-continer */}
+        <div id="show-record-list-row">
+            <Collection >
+              {this.renderRecordList()}
+            </Collection>
+        </div>
 
       </div> //end class-record-content
     );
@@ -134,12 +129,30 @@ export class ClassRecord extends Component {
 
 
 class RecordListItem extends Component {
+  state = {
+    url: ''
+  }
+
   renderHashtags = () => {
     // console.log("render hasH", this.props.data.Hashtag)
     return this.props.data.Hashtag.map(_elem => {
       return <Hashtag data={_elem} />
     })
   }
+
+  renderPictures = () => {
+    for(var key in this.props.data)
+    {
+      if(key == 'photos')
+      {
+      for(var _url_key in this.props.data['photos'])
+      {
+        console.log('url:', this.props.data['photos'][_url_key])
+        return <img className="RecordImage" src={this.props.data['photos'][_url_key]} alt="photo" width='150px' height='150px' align='center'></img>
+      }
+      }
+    }
+    }
 
   render() {
     //console.log(this.props.data)
@@ -151,6 +164,13 @@ class RecordListItem extends Component {
           <Col s={2}></Col>
           <Col s={6} className='who-wrote-col'>{"wrote by: " + this.props.data.InstructorID}</Col>
         </Row>
+      
+        <Row>
+          <Col>
+            {this.renderPictures()}
+          </Col>
+        </Row>
+
         <Row>
           <Col>
             {this.props.data.Text}
@@ -171,16 +191,31 @@ class RecordListItem extends Component {
 class MyRecordListItem extends Component {
   renderHashtags = () => {
     // console.log("MY render hasH", this.props.data.Hashtag)
+    
     return this.props.data.Hashtag.map(_elem => {
       return <Hashtag data={_elem} />
     })
   }
 
+  renderPictures = () => {
+    for(var key in this.props.data)
+    {
+      if(key == 'photos')
+      {
+      for(var _url_key in this.props.data['photos'])
+      {
+        console.log('url:', this.props.data['photos'][_url_key])
+        return <img className="RecordImage" src={this.props.data['photos'][_url_key]} alt="photo" width='150px' height='150px' align='center'></img>
+      }
+      }
+    }
+    }
+
   render() {
     console.log("data:", this.props.data)
     //this.props.test();
     return (
-      <CollectionItem>
+      <CollectionItem id='class-record-item'>
         <Row s={12}>
           <Col s={4} style={{ color: '#ad1457'/*pink darken-3*/ }}>{this.props.data.Date}</Col>
           <Col s={2}></Col>
@@ -191,6 +226,9 @@ class MyRecordListItem extends Component {
             {this.props.data.Text}
           </Col>
         </Row>
+        <div>
+          {this.renderPictures()}
+        </div>
         {/* Hashtags and edit/delete buttons */}
         <Row s={12}>
           <Col s={8}>
