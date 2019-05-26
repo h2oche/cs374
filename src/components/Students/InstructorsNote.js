@@ -71,7 +71,7 @@ class NamePopup extends Component {
               trigger={<span className="NoteInstructor" style={{backgroundColor:'#fa807266'}}> {this.props.name}</span>} 
                 position="top left" onClose={this.closing}>
         { close => ( 
-            <div>
+            <div style={{fontWeight:'bold', lineHeight:'160%'}}>
               <span>{this.props.name}</span>
               <br></br>
               <span>Tel: <u><a href={"tel:"+this.props.tel}>{this.props.tel}</a></u></span> 
@@ -100,7 +100,7 @@ export class InstructorsNote extends Component {
   getUserInfo(id) {
     for(var key in this.userList) {
       var args = this.userList[key];
-      if(args['id']==this.props.match.params.student_id) {
+      if(args['id']==id) {
         return args;
       }
     }
@@ -144,6 +144,8 @@ export class InstructorsNote extends Component {
         if(_note.Instructor!==this.props.match.params.instructor_id)
         {
             var userInfo = this.getUserInfo(_note.Instructor);
+            console.log(_note.Instructor);
+            console.log(userInfo);
             return <Note instructor_id={_note.Instructor} student_id={this.props.match.params.student_id} 
                           instructor_name={userInfo['name']} instructor_tel={userInfo['tel']}
                           content={_note.Content} key={i++}/>
