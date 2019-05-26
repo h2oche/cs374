@@ -74,12 +74,8 @@ export class ClassRecord extends Component {
 
 
   renderRecordList = () => {
-    // var validRecords = this.state.Records.filter(_record => {
-    //   return _record.StudentName === 'JinRyu' //FIXME:
-    // })
     console.log('valid:', this.state.validRecords)
-    //console.log(this.state.Records)
-    //return <RecordListItem data={this.state.Records} />;
+
 
     return this.state.validRecords.map(_record => {
       if (_record.InstructorID === 'teacher101') //FIXME: MyID
@@ -98,7 +94,7 @@ export class ClassRecord extends Component {
       return <Redirect to={this.state.redirectTo} />
 
     return (
-      <div style={{ width: "100%" }} /*className="content class-record-container" */>
+      <div className='content class-record-content' style={{ width: "100%" }} /*className="content class-record-container" */>
         <div>
           <Topbar
             name="Class Record"
@@ -114,19 +110,17 @@ export class ClassRecord extends Component {
               href={"/BOBO/#/classRecord"} />}></Topbar>
         </div>
 
-        <div className="class-record-contentr">
+        <div className="class-record-content-what">
           <hr style = {{width: "100%", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
           <Demographic Name={this.state.Name} Age={this.state.Age} Tel={this.state.Tel} Class={this.state.Class} ImageURL={this.state.url}/>
           <hr style = {{width: "100%", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
+        </div>
 
-          <div id="show-record-list-row">
-            <div s={12}>
-              <Collection>
-                {this.renderRecordList()}
-              </Collection>
-            </div>
-          </div>
-        </div> {/* end class-record-continer */}
+        <div id="show-record-list-row">
+            <Collection >
+              {this.renderRecordList()}
+            </Collection>
+        </div>
 
       </div> //end class-record-content
     );
@@ -147,17 +141,17 @@ class RecordListItem extends Component {
   }
 
   renderPictures = () => {
-    if(this.props.data.has("photos"))
+    for(var key in this.props.data)
     {
-      console.log('yes photo')
-      for(var _url in this.props.data.photos)
+      if(key == 'photos')
       {
-        // download_picture(_key, this)
-        return <img className="RecordImage" src={_url} alt="photo" width='150px' height='150px'></img>
+      for(var _url_key in this.props.data['photos'])
+      {
+        console.log('url:', this.props.data['photos'][_url_key])
+        return <img className="RecordImage" src={this.props.data['photos'][_url_key]} alt="photo" width='150px' height='150px' align='center'></img>
+      }
       }
     }
-    console.log('herehere')
-    return <div>hello</div>
     }
 
   render() {
@@ -197,42 +191,31 @@ class RecordListItem extends Component {
 class MyRecordListItem extends Component {
   renderHashtags = () => {
     // console.log("MY render hasH", this.props.data.Hashtag)
+    
     return this.props.data.Hashtag.map(_elem => {
       return <Hashtag data={_elem} />
     })
   }
 
-  givesrc = (name) => {
-    getPictureURL(name, this);
-    if(this.state.url)
-      return download_picture(this.state.url,this);
-  }
-
   renderPictures = () => {
-    console.log('tttt', typeof(this.props.data))
     for(var key in this.props.data)
     {
       if(key == 'photos')
       {
       for(var _url_key in this.props.data['photos'])
       {
-        // download_picture(_key, this)
-
         console.log('url:', this.props.data['photos'][_url_key])
-        return <img className="RecordImage" src={this.props.data['photos'][_url_key]} alt="photo" width='150px' height='150px'></img>
+        return <img className="RecordImage" src={this.props.data['photos'][_url_key]} alt="photo" width='150px' height='150px' align='center'></img>
       }
-      
       }
     }
-    console.log('herehere')
-    return <div>hello</div>
     }
 
   render() {
     console.log("data:", this.props.data)
     //this.props.test();
     return (
-      <CollectionItem>
+      <CollectionItem id='class-record-item'>
         <Row s={12}>
           <Col s={4} style={{ color: '#ad1457'/*pink darken-3*/ }}>{this.props.data.Date}</Col>
           <Col s={2}></Col>
