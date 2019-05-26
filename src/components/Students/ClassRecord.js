@@ -60,6 +60,9 @@ export class ClassRecord extends Component {
           map['key'] = _key;
           records.push(map);
         }
+        records.sort(function(_a, _b) {
+          return _a.date > _b.date ? -1 : 1;
+        });
       var validRecords = records.filter(_mapElem => {
         // console.log(_mapElem);
         // console.log("id:" , _mapElem.StudentID, this.props.match.params.student_id);
