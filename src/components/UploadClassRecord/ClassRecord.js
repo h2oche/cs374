@@ -273,9 +273,10 @@ class CancelPopup extends Component {
                     No
                 </button>
               {this.state.checked? (
-                <button className="close pinkcancelbutton" style={{float:"right"}} onClick={this.deleteNote}>
+                          <Link to="/studentList/tommy11">
+                <button className="close pinkcancelbutton" style={{float:"right"}} onClick={ClassRecord.doneonClick}>
                     Yes
-                </button>
+                </button></Link>
               ) : null}
           </div>)
         }
