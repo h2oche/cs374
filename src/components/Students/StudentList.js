@@ -64,7 +64,7 @@ export class StudentList extends Component {
     console.log(this.state.Users);
 
     var student = this.state.Users.find(_student => _student.name === _studentName)
-    this.setState({ ...this.state, redirect: true, redirectTo: "/studentProfile/main/"+this.state.curr_instructor+"/" +student.id  }); //FIXME: id instead tommy
+    this.setState({ ...this.state, redirect: true, redirectTo: "/studentProfile/main/"+this.state.curr_instructor+"/" +student.id  });
   }
 
   onClassSelection = e => {
@@ -82,6 +82,9 @@ export class StudentList extends Component {
 
   renderStudentList = () => {
     var studentLists = this.state.showSelectClass ? this.state.StudentFiltered : this.state.Students;
+    studentLists.sort(function(_a, _b) {
+      return _a.name > _b.name ? 1 : -1;
+    });
     return studentLists.map(_student => {
       return <StudentListItem data={_student} instructor={this.state.curr_instructor} />
     });
