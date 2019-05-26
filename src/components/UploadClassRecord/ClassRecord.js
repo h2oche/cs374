@@ -60,7 +60,7 @@ export class ClassRecord extends Component {
   }
 
   componentDidMount = () => {
-    
+
     getFireDB_arr('User/',this,'autocomplete_student','type','parent');
     getFireDB()
     .then(res =>{
@@ -85,9 +85,10 @@ export class ClassRecord extends Component {
           
           if(Users[index].id===Number(temparray[1]))
           {
-            this.setState({...this.state, Studentname:Users[index].name});
+            this.setState({...this.state, Studentname:Users[index].name,StudentID:Number(temparray[1])});
             var select_parent = document.getElementById("studentname");
             select_parent.value = Users[index].name;
+
           }
         }
       }
@@ -145,7 +146,7 @@ export class ClassRecord extends Component {
     delete obj.showAutocomplete;
     delete obj.disabled;
 
-    var regex = /(?:^|\s)(?:#)([a-zA-Z\d]+)/gm;
+    var regex = /(?:^|\s)(?:#)([a-zA-Zㄱ-ㅎ가-힣\d]+)/gm;
     var match;
     
     obj.Hashtag = [];
