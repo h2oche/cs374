@@ -133,9 +133,10 @@ class RecordListItem extends Component {
 
   renderHashtags = () => {
     // console.log("render hasH", this.props.data.Hashtag)
-    return this.props.data.Hashtag.map(_elem => {
-      return <Hashtag data={_elem} />
-    })
+    if(this.props.data.Hashtag!=null)
+      return this.props.data.Hashtag.map(_elem => {
+        return <Hashtag data={_elem} />
+      })
   }
 
   renderPictures = () => {
@@ -189,10 +190,10 @@ class RecordListItem extends Component {
 class MyRecordListItem extends Component {
   renderHashtags = () => {
     // console.log("MY render hasH", this.props.data.Hashtag)
-    
-    return this.props.data.Hashtag.map(_elem => {
-      return <Hashtag data={_elem} />
-    })
+    if(this.props.data.Hashtag!=null)
+      return this.props.data.Hashtag.map(_elem => {
+        return <Hashtag data={_elem} />
+      })
   }
 
   renderPictures = () => {
