@@ -110,13 +110,11 @@ export class ClassRecord extends Component {
               href={"/BOBO/#/classRecord?"+this.props.match.params.student_id} />}></Topbar>
         </div>
 
-        <div className="class-record-content-what">
-          <hr style = {{width: "100%", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
-          <Demographic Name={this.state.Name} Age={this.state.Age} Tel={this.state.Tel} Class={this.state.Class} ImageURL={this.state.url}/>
-          <hr style = {{width: "100%", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
-        </div>
-
-        <div id="show-record-list-row">
+        <hr style = {{width: "100%", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
+        <Demographic Name={this.state.Name} Age={this.state.Age} Tel={this.state.Tel} Class={this.state.Class} ImageURL={this.state.url}/>
+        <hr style = {{width: "100%", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
+        
+        <div className="show-record-list-row">
             <Collection >
               {this.renderRecordList()}
             </Collection>
