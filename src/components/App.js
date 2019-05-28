@@ -33,7 +33,7 @@ function App() {
         <Route path="/studentProfile/instructorsNoteAddModify/:instructor_id/:student_id" component={InstructorsNoteAddModify}/>
         <Route path="/studentProfile/classRecord/:instructor_id/:student_id" component={ClassRecord}/>
         <Route path="/studentProfile/editClassRecord/:key" component={EditClassRecord}/>
-        <Route exact path="/classRecord" component={UploadClassRecord}/>
+        <Route path="/classRecord/:instructor_id" component={UploadClassRecord}/>
         <Route exact path="/addBoard" component={AddBoard}/>
         <Route exact path="/board" component={NoticeBoard}/>
         <Route exact path="/board/:id/addNotice" component={AddNotice}/>

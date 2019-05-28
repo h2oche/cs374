@@ -11,11 +11,11 @@ export class Menu extends Component {
         <div className="menu-item"><Link to="/studentList/3">
           <Icon className="menu-icon" medium={true}>assignment_ind</Icon>
           </Link></div>
-        <div className="menu-item"><Link to="/classRecord">
+        <div className="menu-item"><Link to="/classRecord/3">
           <Icon className="menu-icon" medium={true}>add_box</Icon>
           </Link></div>
         <div className="menu-item"><Link to="/board">
-          <Icon className="menu-icon" medium={true}>assignment</Icon>
+          <Icon className="menu-icon" medium={true}>assignment</Icon>z
           </Link></div>
         <div className="menu-item"><Link to="/settings">
           <Icon className="menu-icon" medium={true}>settings</Icon>
