@@ -38,6 +38,32 @@ export const getPictureURL = (name, _this) => {
   })
 }
 
+export const getPictureURL_Record = (name, _this, recordtime) => {
+  var targetref = database.ref('/ClassRecords/'+recordtime);
+  var url=""
+  
+
+  return new Promise((_resolve, _reject) => {
+    targetref.once('value', function(snapshot) {
+      snapshot.forEach(function(child){
+        console.log(child.val().name, name);
+        if(child.val().name === name)
+        {
+          // return child.val().picture;
+          _resolve(child.val().picture)
+        }
+      })
+    })
+  });
+  
+
+  
+  
+  
+
+}
+
+
 export const pushDB = (dir, obj) => {
   return database.ref(dir).push(obj);
 }

@@ -6,7 +6,7 @@ import Demographic from './Demographic';
 import '../../css/Common.css'
 import {Button} from 'react-materialize'
 import { fire, getFireDB, pushMultipleDB, pushDB, setDB, deleteDB, download_picture} from '../../config/fire';
-
+import * as firebase from 'firebase'
 export class StudentProfile extends Component {
     state={
         redirect:false,
@@ -34,6 +34,27 @@ export class StudentProfile extends Component {
           }
           this.setState({...this.state, Name:args['name'], Class:args['class'], Age:args['age'], Tel: args['tel']});
           download_picture(args['picture'], this);
+
+          /*
+          var Storageref = firebase.storage().ref();
+  
+          var strarray = args['picture'].split('/')
+          //const images = Storageref.child(strarray[0])
+          
+        
+          firebase.storage().ref('User').child(strarray[1]).getDownloadURL().then(function(url) {
+              
+              
+              this.setState({...this.state, Name:args['name'], Class:args['class'], Age:args['age'], Tel: args['tel'],url,mount:false});
+            
+
+        
+          }).catch(function(error) {
+            // Handle any errors
+            this.setState({mount:false});
+            
+            return;
+          });*/
         }
       )
     }

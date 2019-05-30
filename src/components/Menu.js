@@ -15,7 +15,7 @@ export class Menu extends Component {
           <Icon className="menu-icon" medium={true}>add_box</Icon>
           </Link></div>
         <div className="menu-item"><Link to="/board">
-          <Icon className="menu-icon" medium={true}>assignment</Icon>z
+          <Icon className="menu-icon" medium={true}>assignment</Icon>
           </Link></div>
         <div className="menu-item"><Link to="/settings">
           <Icon className="menu-icon" medium={true}>settings</Icon>
