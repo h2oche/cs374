@@ -199,13 +199,29 @@ export class ClassRecord extends Component {
             uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
               console.log('File available at', downloadURL);
               obj.photos.push(downloadURL);
-              _resolve(forwait);
+              //_resolve(forwait);
+
+
+              new Promise(function(__resolve, __reject){
+                console.log("Before resolve",completed);
+                __resolve(++completed);
+
+              }).then(function(result){
+                console.log("After resolve",completed);
+                if(result===1)
+                {
+                  console.log("RESOLVE!");
+                  _resolve(forwait);
+                }
+              })
+
+              /*
               completed++;
               if(completed===1)
               {
                 console.log("RESOLVE!");
                 _resolve(forwait);
-              }
+              }*/
         
             });
         
