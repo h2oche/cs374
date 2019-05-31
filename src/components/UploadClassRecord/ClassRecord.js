@@ -157,7 +157,7 @@ export class ClassRecord extends Component {
     }
 
     var forwait = await new Promise((_resolve, _reject) => {
-      let completed=0;
+      var completed=0;
       
       if(obj.file)
       {
@@ -174,7 +174,7 @@ export class ClassRecord extends Component {
           upload_file('ClassRecords/'+dirname+'/',file,file.name);
           obj.photos.push('ClassRecords/'+dirname+'/'+file.name);
         });
-        Array.prototype.forEach.call(fromgallery.files, function(file, completed) { 
+        Array.prototype.forEach.call(fromgallery.files, function(file) { 
 
           let target = getstorage().ref('ClassRecords/'+dirname+'/');
           var uploadTask = target.put(file);
@@ -193,36 +193,28 @@ export class ClassRecord extends Component {
             }
           }, function(error) {
             // Handle unsuccessful uploads
-          }, function(completed) {
+          }, function() {
             // Handle successful uploads on complete
             // For instance, get the download URL: https://firebasestorage.googleapis.com/...
             uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
               console.log('File available at', downloadURL);
               obj.photos.push(downloadURL);
-              _resolve(forwait);
-/*
+              // _resolve(forwait);
+
 
               new Promise(function(__resolve, __reject){
                 console.log("Before resolve",completed);
-                __resolve(++completed);
+                completed++;
+                __resolve(completed);
 
               }).then(function(result){
                 console.log("After resolve",completed);
-                if(result===1)
+                if(result==1)
                 {
                   console.log("RESOLVE!");
                   _resolve(forwait);
                 }
               })
-*/
-              /*
-              completed++;
-              if(completed===1)
-              {
-                console.log("RESOLVE!");
-                _resolve(forwait);
-              }*/
-        
             });
         
           });
