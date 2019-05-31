@@ -154,7 +154,7 @@ export class InstructorsNote extends Component {
         {
             myNoteExists = true;
             var userInfo = this.getUserInfo(_note.Instructor);
-            return <MyNote instructor_name={userInfo['name']} student = {this.props.match.params.student_id} content={_note.Content} key={i++}/>
+            return <MyNote instructor={this.props.match.params.instructor_id} instructor_name={userInfo['name']} student = {this.props.match.params.student_id} content={_note.Content} key={i++}/>
         }
       });
 
