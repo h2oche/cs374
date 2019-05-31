@@ -16,7 +16,7 @@ export class Notice extends Component {
     questions: [],
     CurrentUser: {
       id: 1,
-      name: "Now"
+      name: "Nawoo Kim"
     }
   }
 

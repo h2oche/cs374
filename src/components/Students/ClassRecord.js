@@ -97,7 +97,7 @@ export class ClassRecord extends Component {
       return <Redirect to={this.state.redirectTo} />
 
     return (
-      <div className='content class-record-content' style={{ width: "100%" }} /*className="content class-record-container" */>
+      <div className='content class-record-content' style={{ width: "100%" }}>
         <div>
           <Topbar
             name="Class Record"
@@ -110,17 +110,19 @@ export class ClassRecord extends Component {
               floating small
               waves="light"
               icon="add"
-              href={"/BOBO/#/classRecord?"+this.props.match.params.student_id} />}></Topbar>
+              href={"/BOBO/#/classRecord/3?"+this.props.match.params.student_id} />}></Topbar>
         </div>
 
+        <div className="show-record-list-row">
         <hr style = {{width: "100%", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
         <Demographic Name={this.state.Name} Age={this.state.Age} Tel={this.state.Tel} Class={this.state.Class} ImageURL={this.state.url}/>
         <hr style = {{width: "100%", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
         
-        <div className="show-record-list-row">
+        <div>
             <Collection >
               {this.renderRecordList()}
             </Collection>
+        </div>
         </div>
 
       </div> //end class-record-content
@@ -168,7 +170,7 @@ class RecordListItem extends Component {
         </Row>
       
         <Row>
-          <Col>
+          <Col align='center'>
             {this.renderPictures()}
           </Col>
         </Row>
@@ -228,7 +230,7 @@ class MyRecordListItem extends Component {
             {this.props.data.Text}
           </Col>
         </Row>
-        <div>
+        <div align='center'>
           {this.renderPictures()}
         </div>
         {/* Hashtags and edit/delete buttons */}
@@ -237,11 +239,11 @@ class MyRecordListItem extends Component {
             {/* <Hashtags data={this.props.data.Hashtag} /> */}
             {this.renderHashtags()}
           </Col>
-          {/* edit/delete buttons */}
+          {/* delete buttons */}
           <Col s={4}><div align='right'>
-            <Link to={"/editClassRecord/" + this.props.data.key}>
+            {/* <Link to={"/editClassRecord/" + this.props.data.key}>
               <Icon className="edit-record-icon" small='true'>edit</Icon>
-            </Link>
+            </Link> */}
             {/* <Icon small='true'>delete</Icon> */}
             <DeleteRecordPopup data={this.props.data}></DeleteRecordPopup>
           </div></Col>

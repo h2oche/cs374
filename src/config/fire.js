@@ -18,6 +18,11 @@ export const fire = () => {
   storage = firebase.storage()
 
 }
+
+export const getstorage = () => {
+  return storage;
+}
+
 export const getFireDB = (dir) => {
   if (dir===null)
     dir = '/';
@@ -38,7 +43,39 @@ export const getPictureURL = (name, _this) => {
   })
 }
 
+export const getPictureURL_Record = (name, _this, recordtime) => {
+  var targetref = database.ref('/ClassRecords/'+recordtime);
+  var url=""
+  
+
+  return new Promise((_resolve, _reject) => {
+    targetref.once('value', function(snapshot) {
+      snapshot.forEach(function(child){
+        console.log(child.val().name, name);
+        if(child.val().name === name)
+        {
+          // return child.val().picture;
+          _resolve(child.val().picture)
+        }
+      })
+    })
+  });
+  
+
+  
+  
+  
+
+}
+
+
 export const pushDB = (dir, obj) => {
+  return database.ref(dir).push(obj);
+}
+
+
+export const pushDB_wait = (dir, obj,forwait) => {
+  console.log(forwait);
   return database.ref(dir).push(obj);
 }
 
@@ -89,7 +126,8 @@ export const updateChild = (dir, childName, value) => {
   database.ref(dir).update({[childName]: value});
 }
 
-  
+
+
 export const upload_file = (dir, file, filename) => {
   let target = storage.ref(dir + filename);
   //target.put(file);
@@ -119,9 +157,13 @@ export const upload_file = (dir, file, filename) => {
     // For instance, get the download URL: https://firebasestorage.googleapis.com/...
     uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
       console.log('File available at', downloadURL);
+
     });
+
   });
 }
+
+
 export const download_picture = (pictureurl, _this) => {
   var Storageref = storage.ref();
   
@@ -143,3 +185,28 @@ export const download_picture = (pictureurl, _this) => {
     return;
   });
 }
+
+
+
+
+export const upload_file2 = (dir, file, filename, _this) => {
+  let target = storage.ref(dir + filename);
+  target.put(file).then(function(snapshot){
+    _this.setState({
+      photos : _this.state.photos.concat(storage.ref(dir + filename).getDownloadURL())
+    });
+  });
+  // var uploadTask = target.put(file);
+  // new Promise(function (resolve, reject) {
+  //   target.put(file, function () {
+  //     resolve(target);
+  //   })
+
+  // }).then(function(target){
+  //   _this.setState({
+  //     photos : _this.state.photos.concat(storage.ref(dir + filename).getDownloadURL())
+  //   });
+  // });
+
+}
+
