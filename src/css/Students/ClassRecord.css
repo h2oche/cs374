@@ -93,3 +93,16 @@
 }.pink-cancel-button:hover {
   background: #f39ca0;
 }
+
+
+
+
+
+#hash-span {
+  color: #db98a5;
+  /*color:#8d192b; */ /* rose color */
+}
+
+#selectHash {
+  color: #db98a5;
+}

@@ -15,7 +15,7 @@ import '../../css/Common.css'
 import { type } from 'os';
 import { tsConstructSignatureDeclaration } from '@babel/types';
 
-export class ClassRecord extends Component {
+export class ClassRecordFiltered extends Component {
 
   state = {
     validRecords: [],
@@ -66,7 +66,7 @@ export class ClassRecord extends Component {
         // console.log(_mapElem);
         // console.log("id:" , _mapElem.StudentID, this.props.match.params.student_id);
         // console.log(typeof(_mapElem.StudentID), typeof(this.props.match.params.student_id))
-        return String(_mapElem.StudentID) === this.props.match.params.student_id; //
+        return String(_mapElem.StudentID) === this.props.match.params.student_id && _mapElem.Hashtag.indexOf(this.props.match.params.hash) != -1; //
       });
 
         this.setState({ ...this.state, Records: result.val(), validRecords });
@@ -323,4 +323,4 @@ class DeleteRecordPopup extends Component {
 }
 
 
-export default ClassRecord
+export default ClassRecordFiltered

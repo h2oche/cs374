@@ -17,6 +17,7 @@ import AddNotice from './Notices/AddNotice';
 import StudentProfile from "./Students/StudentProfile";
 import InstructorsNote from "./Students/InstructorsNote";
 import ClassRecord from "./Students/ClassRecord";
+import ClassRecordFiltered from "./Students/CLassRecordFiltered";
 import EditClassRecord from "./Students/EditClassRecord";
 import InstructorsNoteAddModify from './Students/InstructorsNoteAddModify';
 import LogIn from './LogIn';
@@ -32,6 +33,7 @@ function App() {
         <Route path="/studentProfile/instructorsNote/:instructor_id/:student_id" component={InstructorsNote}/>
         <Route path="/studentProfile/instructorsNoteAddModify/:instructor_id/:student_id" component={InstructorsNoteAddModify}/>
         <Route path="/studentProfile/classRecord/:instructor_id/:student_id" component={ClassRecord}/>
+        <Route path="/studentProfile/classRecordFiltered/:instructor_id/:student_id/:hash" component={ClassRecordFiltered}/>
         <Route path="/studentProfile/editClassRecord/:key" component={EditClassRecord}/>
         <Route path="/classRecord/:instructor_id" component={UploadClassRecord}/>
         <Route exact path="/addBoard" component={AddBoard}/>
