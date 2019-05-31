@@ -110,7 +110,7 @@ export class ClassRecord extends Component {
               floating small
               waves="light"
               icon="add"
-              href={"/BOBO/#/classRecord?"+this.props.match.params.student_id} />}></Topbar>
+              href={"/BOBO/#/classRecord/3?"+this.props.match.params.student_id} />}></Topbar>
         </div>
 
         <hr style = {{width: "100%", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
