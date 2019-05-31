@@ -5,8 +5,9 @@ import '../../css/ClassRecord.css';
 import '../../css/Common.css';
 import Popup from "reactjs-popup";
 import {Link} from 'react-router-dom';
-import { fire, getFireDB,getFireDB_arr, pushDB, upload_file} from '../../config/fire';
+import { fire, getstorage, getFireDB,getFireDB_arr, pushDB,pushDB_wait, upload_file, upload_file2} from '../../config/fire';
 import {Redirect} from 'react-router';
+import * as firebase from 'firebase'
 
 
 
@@ -131,7 +132,7 @@ export class ClassRecord extends Component {
   onAutocompleteChange =  (e) => {
     this.setState({...this.state, Studentname : e.target.value});
   }
-  doneonClick = () =>
+  doneonClick = async () =>
   {
     var obj = {...this.state};
     var rawdate = new Date();
@@ -155,26 +156,73 @@ export class ClassRecord extends Component {
         obj.Hashtag.push(match[1]);
     }
 
-    if(obj.file)
-    {
-      var fromfile = document.getElementById("inputfile");
-      var fromcamera = document.getElementById("inputcamera");
-      var fromgallery = document.getElementById("inputgallery");
+    var forwait = await new Promise((_resolve, _reject) => {
+      let completed=0;
       
-      Array.prototype.forEach.call(fromfile.files, function(file) { 
-        upload_file('ClassRecords/'+dirname+'/',file,file.name);
-        obj.files.push('ClassRecords/'+dirname+'/'+file.name);
-       });
-       Array.prototype.forEach.call(fromcamera.files, function(file) { 
-        upload_file('ClassRecords/'+dirname+'/',file,file.name);
-        obj.photos.push('ClassRecords/'+dirname+'/'+file.name);
-       });
-       Array.prototype.forEach.call(fromgallery.files, function(file) { 
-        upload_file('ClassRecords/'+dirname+'/',file,file.name);
-        obj.photos.push('ClassRecords/'+dirname+'/'+file.name);
-       });
-    }
-    pushDB("Record", obj)
+      if(obj.file)
+      {
+        var fromfile = document.getElementById("inputfile");
+        var fromcamera = document.getElementById("inputcamera");
+        var fromgallery = document.getElementById("inputgallery");
+
+        
+        Array.prototype.forEach.call(fromfile.files, function(file) { 
+          upload_file('ClassRecords/'+dirname+'/',file,file.name);
+          obj.files.push('ClassRecords/'+dirname+'/'+file.name);
+        });
+        Array.prototype.forEach.call(fromcamera.files, function(file) { 
+          upload_file('ClassRecords/'+dirname+'/',file,file.name);
+          obj.photos.push('ClassRecords/'+dirname+'/'+file.name);
+        });
+        Array.prototype.forEach.call(fromgallery.files, function(file, completed) { 
+
+          let target = getstorage().ref('ClassRecords/'+dirname+'/');
+          var uploadTask = target.put(file);
+          uploadTask.on('state_changed', function(snapshot){
+            // Observe state change events such as progress, pause, and resume
+            // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+            var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log('Upload is ' + progress + '% done');
+            switch (snapshot.state) {
+              case firebase.storage.TaskState.PAUSED: // or 'paused'
+                console.log('Upload is paused');
+                break;
+              case firebase.storage.TaskState.RUNNING: // or 'running'
+                console.log('Upload is running');
+                break;
+            }
+          }, function(error) {
+            // Handle unsuccessful uploads
+          }, function(completed) {
+            // Handle successful uploads on complete
+            // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+            uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+              console.log('File available at', downloadURL);
+              obj.photos.push(downloadURL);
+              _resolve(forwait);
+              completed++;
+              if(completed===1)
+              {
+                console.log("RESOLVE!");
+                _resolve(forwait);
+              }
+        
+            });
+        
+          });
+        });
+      }
+      else
+      {
+        _resolve(forwait);
+      }
+
+      }
+    )
+
+
+
+    pushDB_wait("Record", obj, forwait)
     .then(_res => {
       this.inputElementcontent.value= "";
       this.inputElementname.value="";
