@@ -43,6 +43,7 @@ export class InstructorsNoteAddModify extends Component {
     )
     getFireDB('/Note/'+this.props.match.params.student_id+'/'+this.props.match.params.instructor_id).then(
       result => {
+        console.log(result.val());
         this.setState({textcontent: result.val(), loaded: true})
       }
     )
