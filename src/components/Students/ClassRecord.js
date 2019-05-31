@@ -25,7 +25,8 @@ export class ClassRecord extends Component {
     Age: "Loading...",
     Tel: "Loading...",
     url: "",
-    mount:true
+    mount:true,
+    showSelectHash: false
   }
   
 
@@ -51,7 +52,7 @@ export class ClassRecord extends Component {
 
     getFireDB('Record/').then (
       result => {
-        console.log("all records: ",result.val());
+        // console.log("all records: ",result.val());
         let DB = result.val();
         var records = [];
         for( var _key in DB ) 
@@ -140,7 +141,7 @@ class RecordListItem extends Component {
     // console.log("render hasH", this.props.data.Hashtag)
     if(this.props.data.Hashtag!=null)
       return this.props.data.Hashtag.map(_elem => {
-        return <Hashtag data={_elem} />
+        return <Hashtag data={_elem} parent={this}/>
       })
   }
 
@@ -151,7 +152,7 @@ class RecordListItem extends Component {
       {
       for(var _url_key in this.props.data['photos'])
       {
-        console.log('url:', this.props.data['photos'][_url_key])
+        // console.log('url:', this.props.data['photos'][_url_key])
         return <img className="RecordImage" src={this.props.data['photos'][_url_key]} alt="photo" width='150px' height='150px' align='center'></img>
       }
       }
@@ -197,7 +198,7 @@ class MyRecordListItem extends Component {
     // console.log("MY render hasH", this.props.data.Hashtag)
     if(this.props.data.Hashtag!=null)
       return this.props.data.Hashtag.map(_elem => {
-        return <Hashtag data={_elem} />
+        return <Hashtag data={_elem} parent={this}/>
       })
   }
 
@@ -208,7 +209,7 @@ class MyRecordListItem extends Component {
       {
       for(var _url_key in this.props.data['photos'])
       {
-        console.log('url:', this.props.data['photos'][_url_key])
+        // console.log('url:', this.props.data['photos'][_url_key])
         return <img className="RecordImage" src={this.props.data['photos'][_url_key]} alt="photo" width='150px' height='150px' align='center'></img>
       }
       }
@@ -216,7 +217,7 @@ class MyRecordListItem extends Component {
     }
 
   render() {
-    console.log("data:", this.props.data)
+    // console.log("data:", this.props.data)
     //this.props.test();
     return (
       <CollectionItem id='class-record-item'>
@@ -254,26 +255,36 @@ class MyRecordListItem extends Component {
 }
 
 
-class Hashtags extends Component {
-  render() {
-    // console.log('<hashtags>', this.props.data)
-    return (
-      this.props.data.forEach(_elem => {
-        return <Hashtag data={_elem} />
-      })
-    );
-  }
-}
+// class Hashtags extends Component {
+//   render() {
+//     console.log('do i use it? <hashtags>', this.props.data)
+
+//     return (
+//       this.props.data.forEach(_elem => {
+//         return <Hashtag data={_elem} />
+//       })
+//     );
+//   }
+// }
 
 class Hashtag extends Component {
-  onHashtagSelection = e => {
-    // console.log('select !!!')
+  onHashtagSelection = () => {
+    var selectedHash = document.getElementById('selectHash')
+    console.log('select: ', selectedHash, ', parent:', this.props.parent)
+    console.log('state:', this.props.parent.state)
+    // var selectedHashtag = h
+    // var RecordFiltered = this.props.parent.state.validRecords.fileter(_rec => {
+    //   return _rec[Hashtag].contains(encodeURI)
+    // })
+    // this.props.parent.setState({...this.props.parent.state, RecordFiltered, showSelectHash: true})
     //window.location.reload();
   }
 
   render() {
     return (
-      <span id='hash-span' onClick={this.onHashtagSelection()}>{'#' + this.props.data + ' '}</span>
+      <span id='hash-span' >
+        <option id = 'selectHash' onClick={this.onHashtagSelection}>{'#' + this.props.data + ' '}</option>
+      </span>
     );
   }
 }
