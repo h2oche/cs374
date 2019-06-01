@@ -144,8 +144,6 @@ export class InstructorsNote extends Component {
         if(_note.Instructor!==this.props.match.params.instructor_id)
         {
             var userInfo = this.getUserInfo(_note.Instructor);
-            console.log(_note.Instructor);
-            console.log(userInfo);
             return <Note instructor_id={_note.Instructor} student_id={this.props.match.params.student_id} 
                           instructor_name={userInfo['name']} instructor_tel={userInfo['tel']}
                           content={_note.Content} key={i++}/>
@@ -167,7 +165,7 @@ export class InstructorsNote extends Component {
                 </Link>
               </div>
           );
-      return <div className="NoteContainer">{noteList}</div>;
+      return <div>{noteList}</div>;
   }
 
   render() {
@@ -180,10 +178,12 @@ export class InstructorsNote extends Component {
               <Topbar name="Instructor's Note" showBack={true} backTo = {"/BOBO/#/studentProfile/main/"+
                                 this.props.match.params.instructor_id+'/'+this.props.match.params.student_id}></Topbar>
           </div>
-          <hr style = {{width: "100%", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
-          <Demographic Name={this.state.Name} Age={this.state.Age} Tel={this.state.Tel} Class={this.state.Class} ImageURL={this.state.url}/>
-          <hr style = {{width: "100%", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
-          {this.renderNoteList()}
+          <div className="NoteContainer">
+            <hr style = {{width: "100%", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
+            <Demographic Name={this.state.Name} Age={this.state.Age} Tel={this.state.Tel} Class={this.state.Class} ImageURL={this.state.url}/>
+            <hr style = {{width: "100%", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
+            {this.renderNoteList()}
+          </div>
       </div>
       );
   }
@@ -215,7 +215,7 @@ class MyNote extends Component {
                       </Link>
                       <DeletePopup instructor_id={this.props.instructor} student_id={this.props.student}/>
                     </div>
-                    <span className="NoteInstructor">{'• '+this.props.instructor_name+'\'s Note'}</span>
+                    <span className="NoteInstructor">{'• My Note'}</span>
                     <br/>
                     <div style={{marginLeft:"20px"}}>
                       <span className="NoteContent">{'- '+this.props.content} </span>

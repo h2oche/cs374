@@ -73,26 +73,28 @@ export class InstructorsNoteAddModify extends Component {
                   backTo = {"/BOBO/#/studentProfile/instructorsNote/"+this.props.match.params.instructor_id+"/"+
                                 this.props.match.params.student_id}></Topbar>
         </div>
-        <hr style = {{width: "100%", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
-        <Demographic Name={this.state.Name} Age={this.state.Age} Tel={this.state.Tel} Class={this.state.Class} ImageURL={this.state.url}/>
-        <hr style = {{width: "100%", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
-        {this.state.loaded?
         <div className="NoteContainer">
-          <div style={{width: "100%", display: "table", textAlign:"center"}}>
-            <Textarea placeholder="Write note on this student" style={{width: "90%", display: "table-cell"}}
-              onChange={this.handlecontentChange} value={this.state.textcontent} />
-          </div>
-          <Link to={"/studentProfile/instructorsNote/"+this.props.match.params.instructor_id+"/"+
-                      this.props.match.params.student_id}>
-            <Button className="CommonButton" style={{marginLeft: "20px"}} >
-              Cancel
-            </Button>
-            <Button className="CommonButton" style={{marginRight: "20px", float:"right"}} onClick={this.confirm}>
-              Confirm
-            </Button>
-          </Link>
-        </div> : (<div  style={{textAlign:"center", fontSize:"20px", fontWeight:"bold"}}>Loading...</div>)
-        }
+          <hr style = {{width: "100%", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
+          <Demographic Name={this.state.Name} Age={this.state.Age} Tel={this.state.Tel} Class={this.state.Class} ImageURL={this.state.url}/>
+          <hr style = {{width: "100%", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
+          {this.state.loaded?
+            <div>
+              <div style={{width: "100%", display: "table", textAlign:"center"}}>
+                <Textarea placeholder="Write note on this student" style={{width: "90%", display: "table-cell"}}
+                  onChange={this.handlecontentChange} value={this.state.textcontent} />
+              </div>
+              <Link to={"/studentProfile/instructorsNote/"+this.props.match.params.instructor_id+"/"+
+                          this.props.match.params.student_id}>
+                <Button className="CommonButton" style={{marginLeft: "20px"}} >
+                  Cancel
+                </Button>
+                <Button className="CommonButton" style={{marginRight: "20px", float:"right"}} onClick={this.confirm}>
+                  Confirm
+                </Button>
+              </Link>
+            </div> : (<div  style={{textAlign:"center", fontSize:"20px", fontWeight:"bold"}}>Loading...</div>)
+          }
+        </div>
     </div>
     );
   }
