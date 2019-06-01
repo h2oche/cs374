@@ -17,7 +17,7 @@ import AddNotice from './Notices/AddNotice';
 import StudentProfile from "./Students/StudentProfile";
 import InstructorsNote from "./Students/InstructorsNote";
 import ClassRecord from "./Students/ClassRecord";
-import ClassRecordFiltered from "./Students/CLassRecordFiltered";
+import ClassRecordFiltered from "./Students/ClassRecordFiltered";
 import EditClassRecord from "./Students/EditClassRecord";
 import InstructorsNoteAddModify from './Students/InstructorsNoteAddModify';
 import LogIn from './LogIn';
