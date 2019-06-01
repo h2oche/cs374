@@ -101,7 +101,7 @@ export class ClassRecordFiltered extends Component {
           <Topbar
             name="Class Record"
             showBack={true}
-            backTo={"/BOBO/#/studentProfile/main/" + this.props.match.params.instructor_id+'/'+this.props.match.params.student_id}
+            backTo={"/BOBO/#/studentProfile/classRecord/" + this.props.match.params.instructor_id+'/'+this.props.match.params.student_id}
             showOptional={true}
             optionalComponent={<Button
               id="board-list-add-btn"
