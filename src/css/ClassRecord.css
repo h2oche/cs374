@@ -67,3 +67,7 @@ input[type="file"]+label {
 }.pinkcancelbutton:hover {
   background-color: #f1b8c8;
 }
+
+.textdemoclass {
+  font-size:medium;
+}

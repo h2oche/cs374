@@ -113,6 +113,7 @@ export class ClassRecord extends Component {
         // var select_parent = document.getElementById("studentname");
         var select_parent = document.getElementsByClassName("studentnameclass")[0];
         
+        
         //select_parent.value = Studentname;
       });
 
@@ -120,7 +121,38 @@ export class ClassRecord extends Component {
 
   }
   handlefileChange(e) {
-  this.setState({...this.state, file:e.target.files});
+
+  this.setState({...this.state, file:e.target.files}, function() {
+    var fromfile = document.getElementById("inputfile");
+    var fromcamera = document.getElementById("inputcamera");
+    var fromgallery = document.getElementById("inputgallery");
+    var newstr = "";
+    
+    document.getElementById ("textdemo").innerHTML = "<br /> Attached files <br />";
+
+    
+    Array.prototype.forEach.call(fromfile.files, function(file) { 
+      console.log(file);
+      // newstr += file.name + "\n";
+      document.getElementById ("textdemo").innerHTML += file.name + "<br />";
+    });
+    Array.prototype.forEach.call(fromcamera.files, function(file) { 
+      console.log(file);
+      document.getElementById ("textdemo").innerHTML += file.name + "<br />";
+      // newstr += file.name + "\n";
+    });
+    Array.prototype.forEach.call(fromgallery.files, function(file) { 
+      console.log(file);
+      document.getElementById ("textdemo").innerHTML += file.name + "<br />";
+      // newstr += file.name + "\n";
+    });
+  });
+  
+    
+    document.getElementById ("textdemo").innerHTML += "<br />"+e.target.files[0].name;
+  
+
+
   }
   onAutocomplete = (_userName) => {
     var parent = this.state.Users.find(_user => _user.name === _userName);
@@ -151,14 +183,7 @@ export class ClassRecord extends Component {
    
           _res(result);
       })
-  
-  
-  
-      })
-
-
-
-
+        })
     var obj = {...this.state};
     var rawdate = new Date();
     var rawmonth = rawdate.getMonth() + 1;
@@ -281,7 +306,9 @@ export class ClassRecord extends Component {
   }
 
   fileclick = () => {
+
     this.inputElementfile.click();      
+    
   }
   galleryclick = () => {
     this.inputElementgallery.click();
@@ -303,16 +330,6 @@ export class ClassRecord extends Component {
           <Col s={12}>
             {/* <TextInput id="notice-list-search" s={12} icon="search" placeholder="Search notice board name."/> */}
             {this.state.showAutocomplete ?
-
-            /*
-              <Autocomplete id="studentname"
-                ref={_input => this.inputElementname = _input}
-                options={{data: this.state.autocompleteData, onAutocomplete:this.onAutocomplete}}
-                value={this.state.Studentname}
-                onChange={this.onAutocompleteChange}
-                placeholder="Search student name"
-                icon="search" s={12}/> */
-
                 <Chip 
                 className="studentnameclass"
 
@@ -349,8 +366,12 @@ export class ClassRecord extends Component {
                 <input ref={_input3 => this.inputElementcamera = _input3} type="file" accept="image/*" onChange={this.handlefileChange.bind(this)} multiple id="inputgallery"/>
                 <label className="bigfont">Gallery</label>
               </div>
+
               
             </form>
+          </div>
+          <div className="textdemoclass" id="textdemo" >
+            <span className="textdemoclass" id="demo" />
           </div>
           
           <div className="bottommargin">
