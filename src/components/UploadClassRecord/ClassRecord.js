@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {Row, Col, Autocomplete,Button,TextInput,Icon, Textarea,Checkbox} from 'react-materialize';
+import {Row, Col, Autocomplete, Chip,Button,TextInput,Icon, Textarea,Checkbox} from 'react-materialize';
 import Topbar from "../Topbar";
 import '../../css/ClassRecord.css';
 import '../../css/Common.css';
@@ -47,6 +47,7 @@ const INITIAL_STATE = {
   showmodifiy:false,
   photos:[],
   files:[],
+  temparr:[],
 
 };
 
@@ -87,7 +88,7 @@ export class ClassRecord extends Component {
           if(Users[index].id===Number(temparray[1]))
           {
             this.setState({...this.state, Studentname:Users[index].name,StudentID:Number(temparray[1])});
-            var select_parent = document.getElementById("studentname");
+            var select_parent = document.getElementsByClassName("studentnameclass")[0];
             select_parent.value = Users[index].name;
 
           }
@@ -107,33 +108,57 @@ export class ClassRecord extends Component {
   handlecontentChange = e =>
   {
     var Studentname = this.state.Studentname;
-    console.log(Studentname);
     this.setState({...this.state, Text : e.target.value},
       () => {
-        var select_parent = document.getElementById("studentname");
-        select_parent.value = Studentname;
+        // var select_parent = document.getElementById("studentname");
+        var select_parent = document.getElementsByClassName("studentnameclass")[0];
+        
+        //select_parent.value = Studentname;
       });
+
+
+
   }
   handlefileChange(e) {
   this.setState({...this.state, file:e.target.files});
   }
   onAutocomplete = (_userName) => {
-    console.log(this.state.Users);
-    console.log(_userName);
-
     var parent = this.state.Users.find(_user => _user.name === _userName);
     
     this.setState({...this.state, StudentID:parent.id,Studentname:_userName}, () => {
-      var select_parent = document.getElementById("studentname");
+      var select_parent = document.getElementsByClassName("studentnameclass")[0];
       select_parent.value = _userName;
     });
   }
 
   onAutocompleteChange =  (e) => {
     this.setState({...this.state, Studentname : e.target.value});
+
   }
   doneonClick = async () =>
   {
+    var _this_ = this;
+    var another = await new Promise((_res, _rej) => {
+
+
+      new Promise(function(__res, __rej){
+        var eval_table = document.getElementsByClassName("chip");
+
+        __res(another);
+  
+      }).then(function(result){
+        
+   
+          _res(result);
+      })
+  
+  
+  
+      })
+
+
+
+
     var obj = {...this.state};
     var rawdate = new Date();
     var rawmonth = rawdate.getMonth() + 1;
@@ -143,7 +168,7 @@ export class ClassRecord extends Component {
     
     delete obj.autocomplete_student;
     delete obj.redirectTo;
-    delete obj.Users;
+    // delete obj.Users;
     delete obj.showAutocomplete;
     delete obj.disabled;
 
@@ -156,8 +181,15 @@ export class ClassRecord extends Component {
         obj.Hashtag.push(match[1]);
     }
 
+
     var forwait = await new Promise((_resolve, _reject) => {
       var completed=0;
+      var eval_table = document.getElementsByClassName("chip");
+
+      Array.prototype.forEach.call(eval_table, function(name) { 
+        
+        obj.temparr.push(name.outerText);
+      });
       
       if(obj.file)
       {
@@ -229,13 +261,16 @@ export class ClassRecord extends Component {
     )
 
 
-
-    pushDB_wait("Record", obj, forwait)
+    // obj = {...this.state};
+    pushDB_wait("Record", obj, forwait, another)
     .then(_res => {
       this.inputElementcontent.value= "";
       this.inputElementname.value="";
       this.setState({...this.state,/*StudentID: ,*/ redirect: true, redirectTo: "/studentList/tommy11" });
     });
+
+
+
   }
   
   flipbool = () => {
@@ -268,13 +303,34 @@ export class ClassRecord extends Component {
           <Col s={12}>
             {/* <TextInput id="notice-list-search" s={12} icon="search" placeholder="Search notice board name."/> */}
             {this.state.showAutocomplete ?
+
+            /*
               <Autocomplete id="studentname"
                 ref={_input => this.inputElementname = _input}
                 options={{data: this.state.autocompleteData, onAutocomplete:this.onAutocomplete}}
                 value={this.state.Studentname}
                 onChange={this.onAutocompleteChange}
                 placeholder="Search student name"
-                icon="search" s={12}/> :
+                icon="search" s={12}/> */
+
+                <Chip 
+                className="studentnameclass"
+
+                ref={_input => this.inputElementname = _input}
+                options={{autocompleteOptions: {
+                  data: this.state.autocompleteData, onAutocomplete:this.onAutocomplete,
+                  limit: Infinity,
+                  minLength: 1,
+                }}}
+                value={this.state.Studentname}
+                onChange={this.onAutocompleteChange}
+                placeholder="Search student name"
+                icon="search" s={12}/>
+             // } />
+            
+                
+                
+                :
                 <span></span>
                 //<Textarea onChange={this.flipbool} id="after" value="" icon="search" s={12}/>       
             }
