@@ -128,13 +128,17 @@ export class ClassRecord extends Component {
     var fromgallery = document.getElementById("inputgallery");
     var newstr = "";
     
-    document.getElementById ("textdemo").innerHTML = "<br /> Attached files <br />";
-
+    // document.getElementById ("textdemo").innerHTML = "<br /> Attached files <br />";
+    // console.log(document.getElementById ("demoimage"));
     
     Array.prototype.forEach.call(fromfile.files, function(file) { 
       console.log(file);
       // newstr += file.name + "\n";
-      document.getElementById ("textdemo").innerHTML += file.name + "<br />";
+      var img = document.getElementById ("demoimage");
+      console.log(img);
+      img.src = URL.createObjectURL(file);
+      
+      // document.getElementById ("textdemo").innerHTML += file.name + "<br />";
     });
     Array.prototype.forEach.call(fromcamera.files, function(file) { 
       console.log(file);
@@ -150,9 +154,6 @@ export class ClassRecord extends Component {
   
     
     document.getElementById ("textdemo").innerHTML += "<br />"+e.target.files[0].name;
-  
-
-
   }
   onAutocomplete = (_userName) => {
     var parent = this.state.Users.find(_user => _user.name === _userName);
@@ -210,7 +211,6 @@ export class ClassRecord extends Component {
     var forwait = await new Promise((_resolve, _reject) => {
       var completed=0;
       var eval_table = document.getElementsByClassName("chip");
-
       Array.prototype.forEach.call(eval_table, function(name) { 
         
         obj.temparr.push(name.outerText);
@@ -372,6 +372,7 @@ export class ClassRecord extends Component {
           </div>
           <div className="textdemoclass" id="textdemo" >
             <span className="textdemoclass" id="demo" />
+            <img id="demoimage" alt="demo image" src={null}/>
           </div>
           
           <div className="bottommargin">
