@@ -134,7 +134,7 @@ export class Notice extends Component {
               <span className={this.state.important?"important" : "none"}></span>
               <span className="notice-name">{this.state.name}</span>
               {/* <span className="notice-list-item-questions"><span>{this.props.data.questionCnt}</span></span> */}
-              <span className="notice-expire">Expires at {this.formatDate(this.state.expireDate)}</span>
+              <span className="notice-expire">Will expire at {this.formatDate(this.state.expireDate)}</span>
             </div>
           </Col>
         </Row>
