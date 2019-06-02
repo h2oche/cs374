@@ -3,7 +3,8 @@ import Topbar from '../Topbar';
 import { Row, Col, Textarea, Card, Button, Toast } from 'react-materialize';
 import "../../css/Notices/Notice.css";
 import QuestionListItem from './QuestionListItem';
-import { fire, getFireDB, pushMultipleDB, pushDB, setDB} from '../../config/fire';
+import * as firebase from 'firebase';
+import { fire, getFireDB, pushMultipleDB, pushDB, setDB, getstorage} from '../../config/fire';
 
 export class Notice extends Component {
   state = {
@@ -97,9 +98,19 @@ export class Notice extends Component {
     };
 
     var questions = this.state.questions;
-    questions.push(questionObj);
-    this.setState({...this.state, questions, newQuestionContent: ""});
-    pushDB("Question", questionObj);
+
+    new Promise(async(_res, _rej) => {
+      let snapshot = await firebase.database().ref("Question").push();
+      _res(snapshot.key);
+    })
+    .then(_key => {
+      var copy = JSON.parse(JSON.stringify(questionObj));
+      questionObj.key = _key;
+      questions.push(questionObj);
+      this.setState({...this.state, questions, newQuestionContent: ""});
+      setDB("Question/" + _key, copy);
+    });
+    
   }
 
   renderQuestions = () => {
