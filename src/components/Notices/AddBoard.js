@@ -69,6 +69,21 @@ export class AddBoard extends Component {
   }
 
   addBoard = () => {
+    if(!this.state.boardName) {
+      window.M.toast({
+        html: "Please write name of notice board",
+        displayLength: 3000
+      });
+      return;
+    }
+    else if(!this.state.selectedUsers) {
+      window.M.toast({
+        html: "No one can see this notice board.<br/>Please select someone.",
+        displayLength: 3000
+      });
+      return;
+    }
+
     console.log(this.state.seletedUsers);
     console.log(this.state.boardName);
     var nextBoardId = this.state.nextBoardId;

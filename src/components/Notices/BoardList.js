@@ -124,8 +124,9 @@ export class NoticeBoard extends Component {
       return <Redirect to={this.state.redirectTo}/>
 
     return (
-      <div className="content">
+      <div className="content" id="board-list-content">
         <Topbar
+          id="topbar-row"
           name="Notice Boards"
           showOptional={true}
           optionalComponent={<Button
@@ -147,7 +148,7 @@ export class NoticeBoard extends Component {
             }
           </Col>
         </Row>
-        <Row>
+        <Row id="board-list-row">
           <Col s={12}>
             <Collection>{this.renderBoardList()}</Collection>
           </Col>
