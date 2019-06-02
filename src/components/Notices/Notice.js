@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import Topbar from '../Topbar';
-import { Row, Col, Textarea, Card, Button } from 'react-materialize';
+import { Row, Col, Textarea, Card, Button, Toast } from 'react-materialize';
 import "../../css/Notices/Notice.css";
 import QuestionListItem from './QuestionListItem';
-import { fire, getFireDB, pushMultipleDB, pushDB, setDB} from '../../config/fire';
+import * as firebase from 'firebase';
+import { fire, getFireDB, pushMultipleDB, pushDB, setDB, getstorage} from '../../config/fire';
 
 export class Notice extends Component {
   state = {
@@ -76,6 +77,15 @@ export class Notice extends Component {
   }
 
   onNewQuestionBtnClick = (e) => {
+    if(!this.state.newQuestionContent) {
+      // alert("Please write something to ask");
+      window.M.toast({
+        html: "Please write something to ask ㅠ.ㅠ",
+        displayLength: 1000
+      });
+      return;
+    }
+
     console.log(this.state.newQuestionContent);
     var questionObj = {
       content: this.state.newQuestionContent,
@@ -88,9 +98,19 @@ export class Notice extends Component {
     };
 
     var questions = this.state.questions;
-    questions.push(questionObj);
-    this.setState({...this.state, questions, newQuestionContent: ""});
-    pushDB("Question", questionObj);
+
+    new Promise(async(_res, _rej) => {
+      let snapshot = await firebase.database().ref("Question").push();
+      _res(snapshot.key);
+    })
+    .then(_key => {
+      var copy = JSON.parse(JSON.stringify(questionObj));
+      questionObj.key = _key;
+      questions.push(questionObj);
+      this.setState({...this.state, questions, newQuestionContent: ""});
+      setDB("Question/" + _key, copy);
+    });
+    
   }
 
   renderQuestions = () => {
@@ -125,7 +145,7 @@ export class Notice extends Component {
               <span className={this.state.important?"important" : "none"}></span>
               <span className="notice-name">{this.state.name}</span>
               {/* <span className="notice-list-item-questions"><span>{this.props.data.questionCnt}</span></span> */}
-              <span className="notice-expire">Expires at {this.formatDate(this.state.expireDate)}</span>
+              <span className="notice-expire">Will expire at {this.formatDate(this.state.expireDate)}</span>
             </div>
           </Col>
         </Row>

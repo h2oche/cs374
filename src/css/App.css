@@ -12,3 +12,7 @@
 .content {
   flex: 10;
 }
+
+.toast {
+  color: white;
+}

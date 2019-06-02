@@ -63,6 +63,37 @@ export class AddNotice extends Component {
   }
 
   onNoticeAdd = () => {
+    if(!this.state.noticeName) {
+      window.M.toast({
+        html: "Please write title of notice",
+        displayLength: 3000
+      });
+      return;
+    }
+    else if (!this.state.noticeContent){
+      window.M.toast({
+        html: "Content of notice is empty",
+        displayLength: 3000
+      });
+      return;
+    }
+    
+    else if(!this.state.expireDate && !this.state.persistent) {
+      window.M.toast({
+        html: "Please set expiration date of notice(or is it persistent?)",
+        displayLength: 3000
+      });
+      return;
+    }
+
+    else if(!this.state.persistent && this.state.expireDate.getTime() < new Date().getTime()) {
+      window.M.toast({
+        html: "Expiration date must be after today!",
+        displayLength: 3000
+      });
+      return;
+    }
+
     console.log(this.state);
     var obj = {...this.state};
     obj.id = this.nextNoticeId;
@@ -94,7 +125,7 @@ export class AddNotice extends Component {
         <Topbar name="Add Notice" showBack={true} backTo={"/BOBO/#/board/" + this.getBoardId()}/>
         <Row id="add-notice-name-row">
           <Col s={12}>
-            <TextInput s={12} id="noticeName" label="Name" onChange={this.onChange}/>
+            <TextInput s={12} id="noticeName" label="Title" onChange={this.onChange}/>
           </Col>
           <Col s={12}>
             <Textarea
@@ -114,10 +145,12 @@ export class AddNotice extends Component {
             <DatePicker s={12} onChange={this.onExpireDateChange} label="Expire Date"/>
           </Col>
           <Col s={12} id="add-notice-type-col">
+            <span>Type : </span>
             <RadioGroup
               id="type"
               name="type"
               label="type"
+              withGap
               value="homework"
               onChange={this.onTypeChange}
               options={[{label: "homework", value:"homework"},

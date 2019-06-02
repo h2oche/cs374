@@ -25,6 +25,14 @@ export class QuestionListItem extends Component {
   }
 
   onNewAnswerBtnClick = (e) => {
+    if(!this.state.answerContent) {
+      window.M.toast({
+        html: "Please write something to answer ㅠ.ㅠ",
+        displayLength: 1000
+      });
+      return;
+    }
+
     this.props.onAnswer({...this.props.data, answer: this.state.answerContent});
     this.setState({...this.state, showAnswerCard: false, showNewAnswer: true, newAnswer: this.state.answerContent});
   }
@@ -40,7 +48,9 @@ export class QuestionListItem extends Component {
       <Button flat waves="light" onClick={this.onReplyBtnClick} className="reply">
         <span className="reply-label">Reply</span> <i className="material-icons">reply</i>
       </Button> :
+      !this.state.showAnswerCard ?
       <Badge className="resolved grey darken-1 white-text">Resolved</Badge>
+      : <span></span>
       }
       
     </div>);
