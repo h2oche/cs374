@@ -94,9 +94,14 @@ export class Notice extends Component {
   }
 
   renderQuestions = () => {
-    return this.state.questions.map(_question => {
-      return (<QuestionListItem data={_question} onAnswer={this.onAnswerBtnClick}/>); 
-    });
+    if(this.state.questions.length > 0) {
+      return this.state.questions.map(_question => {
+        return (<QuestionListItem data={_question} onAnswer={this.onAnswerBtnClick}/>); 
+      });
+    }
+    else {
+      return (<Col s={12} className="notice-no-question">No Question on This Notice.</Col>)
+    }
   }
 
   renderTypeBadge = () => {
@@ -125,11 +130,16 @@ export class Notice extends Component {
           </Col>
         </Row>
         <Row id="notice-content-row">
+          <Col s={12} className="notice-label">
+            <div><span className="material-icons">notifications</span>Contents</div>
+          </Col>
           <Col s={12}>
             <Card className="white"><p>{this.state.content}</p></Card>
           </Col>
+          <Col s={12} className="notice-label">
+            <div><span className="material-icons">question_answer</span>Questions</div>
+          </Col>
           <Col s={12}>
-            <div>Questions</div>
             {this.renderQuestions()}
           </Col>
           <Col s={12} id="new-question-row">

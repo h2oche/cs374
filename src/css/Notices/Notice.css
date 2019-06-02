@@ -80,8 +80,24 @@
 }
 
 .question-list-item-header .date {
+  /* float: right; */
+  margin-left: 5px;
+  /* color: #888; */
+}
+
+.question-list-item-header .reply {
   float: right;
-  color: #888;
+  padding: 0;
+}
+
+.question-list-item-header .reply-label {
+  position: relative;
+  top: -5px;
+}
+
+.question-list-item-header .resolved {
+  position: relative;
+  top: -4px;
 }
 
 #notice-content-row .card .card-content {
@@ -116,6 +132,7 @@
 .answer-container {
   position: relative;
   top: -8px;
+  margin: 0;
 }
 
 .answer-container.none {
@@ -127,10 +144,25 @@
   line-height: 14px;
 }
 
+.question-list-item-container {
+  margin-bottom: 0;
+}
+
 .question-list-item-container .new-answer-btn {
   float: right;
 }
 
 .add-question-header {
   background-color: palevioletred;
+}
+
+.notice-label {
+  font-size: 2.0em;
+}
+
+.notice-no-question {
+  padding: 20px 10px !important;
+  background-color: #dddddd;
+  border-radius: 10px;
+  margin-top: 10px;
 }

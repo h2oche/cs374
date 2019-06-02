@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, Button, Textarea } from 'react-materialize';
+import { Card, Button, Textarea, Badge, Col, Row } from 'react-materialize';
 
 export class QuestionListItem extends Component {
   state = {
@@ -30,42 +30,62 @@ export class QuestionListItem extends Component {
   }
 
   renderQuestionHeader = () => {
-    return (<div className="question-list-item-header grey lighten-2">
-      <span className="name">{this.props.data.userName}</span>
+    let className = "question-list-item-header ";
+    className += !this.props.data.answer && this.state.newAnswer === "" ? "pink lighten-4" : "grey lighten-2";
+
+    return (<div className={className}>
+      <span className="name">Asked by <b>{this.props.data.userName}</b></span>
+      <span className="date">at {this.formatDate(this.props.data.createDate)}</span>
       {this.props.data.answer === "" && this.state.newAnswer === "" && !this.state.showAnswerCard ?
-      <Button flat waves="light" onClick={this.onReplyBtnClick}>
-        <i className="material-icons">reply</i>
-      </Button> : <span/>
+      <Button flat waves="light" onClick={this.onReplyBtnClick} className="reply">
+        <span className="reply-label">Reply</span> <i className="material-icons">reply</i>
+      </Button> :
+      <Badge className="resolved grey darken-1 white-text">Resolved</Badge>
       }
-      <span className="date">{this.formatDate(this.props.data.createDate)}</span>
+      
     </div>);
   }
 
   render() {
-    return (
-      <div className="question-list-item-container">
-        <Card className="white" header={this.renderQuestionHeader()}>
-          <p>{this.props.data.content}</p>
-          
-          {this.state.showAnswerCard ? 
-            <div>
-              <Textarea
-                className="new-answer-content" placeholder="I think ..."
-                onChange={this.onNewAnswerChange}/>
-              <Button className="red lighten-5 black-text new-answer-btn" onClick={this.onNewAnswerBtnClick}>Answer</Button>
-            </div> : <span/>
-          }
+    let showAnswer = this.props.data.answer !== "" || this.state.showNewAnswer;
 
-        </Card>
-        <Card className={"grey lighten-2 answer-container " + (this.props.data.answer === "" ? "none" : "")}>
-          <div><span className="answer-content">{this.props.data.answer}</span></div>
-        </Card>
-        {this.state.showNewAnswer ?
-          <Card className="grey lighten-2 answer-container">
-            <div><span className="answer-content">{this.state.newAnswer}</span></div>
-          </Card> : <span/>
+    return (
+      <Row className="question-list-item-container">
+        <Col s={12}>
+          <Card className="white" header={this.renderQuestionHeader()}>
+            <p>{this.props.data.content}</p>
+            
+            {this.state.showAnswerCard ? 
+              <div>
+                <Textarea
+                  className="new-answer-content" placeholder="I think ..."
+                  onChange={this.onNewAnswerChange}/>
+                <Button className="red lighten-5 black-text new-answer-btn" onClick={this.onNewAnswerBtnClick}>Answer</Button>
+              </div> : <span/>
+            }
+
+          </Card>
+        </Col>
+        {
+          showAnswer ?
+            (<div>
+            <Col s={1}>
+              <span className="material-icons reply-icon">subdirectory_arrow_right</span>
+            </Col>
+            <Col s={11}>
+              <Card className={"grey lighten-2 answer-container " + (this.props.data.answer === "" ? "none" : "")}>
+                <div><span className="answer-content">{this.props.data.answer}</span></div>
+              </Card>
+              {this.state.showNewAnswer ?
+                <Card className="grey lighten-2 answer-container">
+                  <div><span className="answer-content">{this.state.newAnswer}</span></div>
+                </Card> : <span/>
+              }
+            </Col></div>) :
+            <span></span>
         }
-      </div>
+        
+      </Row>
     )
   }
 }
