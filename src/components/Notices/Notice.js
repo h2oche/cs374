@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Topbar from '../Topbar';
-import { Row, Col, Textarea, Card, Button } from 'react-materialize';
+import { Row, Col, Textarea, Card, Button, Toast } from 'react-materialize';
 import "../../css/Notices/Notice.css";
 import QuestionListItem from './QuestionListItem';
 import { fire, getFireDB, pushMultipleDB, pushDB, setDB} from '../../config/fire';
@@ -76,6 +76,15 @@ export class Notice extends Component {
   }
 
   onNewQuestionBtnClick = (e) => {
+    if(!this.state.newQuestionContent) {
+      // alert("Please write something to ask");
+      window.M.toast({
+        html: "Please write something to ask ㅠ.ㅠ",
+        displayLength: 1000
+      });
+      return;
+    }
+
     console.log(this.state.newQuestionContent);
     var questionObj = {
       content: this.state.newQuestionContent,
