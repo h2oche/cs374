@@ -43,7 +43,9 @@ input[type="file"]+label {
   color: #444444;
   font-weight: bold;
   width: 25%;
-  margin-right: 4%;
+  
+  margin-left: 17%;
+  
 } .pinkbutton:hover {
   background-color: #f1b8c8;
 }
@@ -54,6 +56,7 @@ input[type="file"]+label {
 
 .buttons {
   margin:auto;
+  
 }
 
 .buttons input[type="file"]+label {
@@ -70,4 +73,12 @@ input[type="file"]+label {
 
 .textdemoclass {
   font-size:medium;
+}
+
+.UploadRecordImage {
+  width:60%;
+  height:auto;
+  border: 3px solid #f1b8c8;
+  margin-top:15px;
+  margin-left: 15px;
 }

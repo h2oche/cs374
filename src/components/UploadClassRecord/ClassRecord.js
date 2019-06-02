@@ -8,6 +8,7 @@ import {Link} from 'react-router-dom';
 import { fire, getstorage, getFireDB,getFireDB_arr, pushDB,pushDB_wait, upload_file, upload_file2} from '../../config/fire';
 import {Redirect} from 'react-router';
 import * as firebase from 'firebase'
+import { resolve } from 'url';
 
 
 
@@ -48,6 +49,8 @@ const INITIAL_STATE = {
   photos:[],
   files:[],
   temparr:[],
+  showpictures:false,
+  fromprofile:false,
 
 };
 
@@ -77,7 +80,7 @@ export class ClassRecord extends Component {
       var autocompleteData = Parents.reduce( (_acc, _user) => {
         return {..._acc, [_user]:null};
       }, {});
-      this.setState({...this.state, Users, autocompleteData, showAutocomplete:true});
+      // this.setState({...this.state, Users, autocompleteData, showAutocomplete:true});
           
       if(window.location.hash.indexOf("?")!=-1)
       {
@@ -87,12 +90,20 @@ export class ClassRecord extends Component {
           
           if(Users[index].id===Number(temparray[1]))
           {
-            this.setState({...this.state, Studentname:Users[index].name,StudentID:Number(temparray[1])});
+
+            this.setState({...this.state, Users, autocompleteData, showAutocomplete:true, Studentname:Users[index].name,StudentID:Number(temparray[1]),fromprofile:true}, function() {
+
+              this.renderChips();
+
+            });
             var select_parent = document.getElementsByClassName("studentnameclass")[0];
             select_parent.value = Users[index].name;
-
           }
         }
+      }
+      else
+      {
+        this.setState({...this.state, Users, autocompleteData, showAutocomplete:true});
       }
     });
             
@@ -112,9 +123,6 @@ export class ClassRecord extends Component {
       () => {
         // var select_parent = document.getElementById("studentname");
         var select_parent = document.getElementsByClassName("studentnameclass")[0];
-        
-        
-        //select_parent.value = Studentname;
       });
 
 
@@ -122,38 +130,7 @@ export class ClassRecord extends Component {
   }
   handlefileChange(e) {
 
-  this.setState({...this.state, file:e.target.files}, function() {
-    var fromfile = document.getElementById("inputfile");
-    var fromcamera = document.getElementById("inputcamera");
-    var fromgallery = document.getElementById("inputgallery");
-    var newstr = "";
-    
-    // document.getElementById ("textdemo").innerHTML = "<br /> Attached files <br />";
-    // console.log(document.getElementById ("demoimage"));
-    
-    Array.prototype.forEach.call(fromfile.files, function(file) { 
-      console.log(file);
-      // newstr += file.name + "\n";
-      var img = document.getElementById ("demoimage");
-      console.log(img);
-      img.src = URL.createObjectURL(file);
-      
-      // document.getElementById ("textdemo").innerHTML += file.name + "<br />";
-    });
-    Array.prototype.forEach.call(fromcamera.files, function(file) { 
-      console.log(file);
-      document.getElementById ("textdemo").innerHTML += file.name + "<br />";
-      // newstr += file.name + "\n";
-    });
-    Array.prototype.forEach.call(fromgallery.files, function(file) { 
-      console.log(file);
-      document.getElementById ("textdemo").innerHTML += file.name + "<br />";
-      // newstr += file.name + "\n";
-    });
-  });
-  
-    
-    document.getElementById ("textdemo").innerHTML += "<br />"+e.target.files[0].name;
+  this.setState({...this.state, file:e.target.files, showpictures:true});
   }
   onAutocomplete = (_userName) => {
     var parent = this.state.Users.find(_user => _user.name === _userName);
@@ -168,24 +145,116 @@ export class ClassRecord extends Component {
     this.setState({...this.state, Studentname : e.target.value});
 
   }
+
+  renderChips = () => {
+    if(this.state.fromprofile==true)
+    {
+      return <Chip 
+      className="studentnameclass"
+      placeholder="Enter name"
+  
+      ref={_input => this.inputElementname = _input}
+      options={{
+       data: [{tag: this.state.Studentname}],
+      
+      autocompleteOptions: 
+      {
+        data: this.state.autocompleteData, onAutocomplete:this.onAutocomplete,
+        limit: Infinity,
+        minLength: 1,
+  
+      },
+      placeholder:"Enter name",
+      secondaryPlaceholder:"+ name",
+    }}
+      value={this.state.Studentname}
+      onChange={this.onAutocompleteChange}
+      icon="search" s={12}/>
+    }
+    else
+    {
+      var _d = this;
+      return                 <Chip 
+      className="studentnameclass"
+      placeholder="Enter name"
+      ref={_input => this.inputElementname = _input}
+      options={{     
+
+      autocompleteOptions: 
+      {
+        data: this.state.autocompleteData, onAutocomplete:this.onAutocomplete,
+        limit: Infinity,
+        minLength: 1,
+  
+      },
+      placeholder:"Enter name",
+      secondaryPlaceholder:"+ name",
+    }}
+      value={this.state.Studentname}
+      onChange={this.onAutocompleteChange}
+      icon="search" s={12}/>
+    }
+
+  }
+
+  
+  renderPictures = () => {
+    var fromfile = document.getElementById("inputcamera");
+    var temparr = []
+    if(fromfile.files!=null)
+    {
+      
+      Array.prototype.forEach.call(fromfile.files, function(file) { 
+        temparr.push(file);
+      });
+
+    }
+    var fromgallery = document.getElementById("inputgallery");
+    if(fromgallery.files!=null)
+    {
+      Array.prototype.forEach.call(fromgallery.files, function(file) { 
+        temparr.push(file);
+      });
+
+    }
+
+
+    return temparr.map(file => {
+      return <img className="UploadRecordImage" src={URL.createObjectURL(file)} alt="photo" border="3px"  align='center'></img>
+    })
+
+  }
   doneonClick = async () =>
   {
+    var obj = {...this.state};
     var _this_ = this;
     var another = await new Promise((_res, _rej) => {
-
-
       new Promise(function(__res, __rej){
         var eval_table = document.getElementsByClassName("chip");
-
         __res(another);
-  
       }).then(function(result){
-        
-   
           _res(result);
       })
-        })
-    var obj = {...this.state};
+    })
+    if(document.getElementsByClassName("chip").length==0) {
+      window.M.toast({
+        html: "Please write students' name",
+        displayLength: 3000
+      });
+      return;
+    }
+    
+    if(obj.Text==""&&obj.file==null)
+    {
+      window.M.toast({
+        html: "Please write content",
+        displayLength: 3000
+      });
+      return;
+    }
+
+
+    
     var rawdate = new Date();
     var rawmonth = rawdate.getMonth() + 1;
     var datestring = String(rawdate.getFullYear()) +"/"+ String(rawmonth)+"/" + String(rawdate.getDate()) ;
@@ -208,6 +277,7 @@ export class ClassRecord extends Component {
     }
 
 
+
     var forwait = await new Promise((_resolve, _reject) => {
       var completed=0;
       var eval_table = document.getElementsByClassName("chip");
@@ -218,18 +288,53 @@ export class ClassRecord extends Component {
       
       if(obj.file)
       {
-        var fromfile = document.getElementById("inputfile");
         var fromcamera = document.getElementById("inputcamera");
         var fromgallery = document.getElementById("inputgallery");
-
         
-        Array.prototype.forEach.call(fromfile.files, function(file) { 
-          upload_file('ClassRecords/'+dirname+'/',file,file.name);
-          obj.files.push('ClassRecords/'+dirname+'/'+file.name);
+        
+        window.M.toast({
+          html: `<div> <span id="filenameupload"></span> Uploading... <span id="progress">0</span>% done</div>`,
+          displayLength: 100000
         });
+        
         Array.prototype.forEach.call(fromcamera.files, function(file) { 
-          upload_file('ClassRecords/'+dirname+'/',file,file.name);
-          obj.photos.push('ClassRecords/'+dirname+'/'+file.name);
+          
+          let target = getstorage().ref('ClassRecords/'+dirname+'/');
+          var uploadTask = target.put(file);
+          uploadTask.on('state_changed', function(snapshot){
+            // Observe state change events such as progress, pause, and resume
+            // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+            var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            document.getElementById("filenameupload").innerHTML = file.name;
+            document.getElementById("progress").innerHTML = Math.floor(progress);
+            // console.log('Upload is ' + progress + '% done');
+            switch (snapshot.state) {
+              case firebase.storage.TaskState.PAUSED: // or 'paused'
+                // console.log('Upload is paused');
+                break;
+              case firebase.storage.TaskState.RUNNING: // or 'running'
+                // console.log('Upload is running');
+                break;
+            }
+          }, function(error) {
+            // Handle unsuccessful uploads
+          }, function() {
+            // Handle successful uploads on complete
+            // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+            uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+              obj.photos.push(downloadURL);
+              new Promise(function(__resolve, __reject){
+                completed++;
+                __resolve(completed);
+              }).then(function(result){
+                if(result==fromcamera.files.length+fromgallery.files.length)
+                {
+                  _resolve(forwait);
+                }
+              })
+            });
+        
+          });
         });
         Array.prototype.forEach.call(fromgallery.files, function(file) { 
 
@@ -239,13 +344,15 @@ export class ClassRecord extends Component {
             // Observe state change events such as progress, pause, and resume
             // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
             var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            console.log('Upload is ' + progress + '% done');
+            document.getElementById("filenameupload").innerHTML = file.name;
+            document.getElementById("progress").innerHTML = Math.floor(progress);
+            // console.log('Upload is ' + progress + '% done');
             switch (snapshot.state) {
               case firebase.storage.TaskState.PAUSED: // or 'paused'
-                console.log('Upload is paused');
+                // console.log('Upload is paused');
                 break;
               case firebase.storage.TaskState.RUNNING: // or 'running'
-                console.log('Upload is running');
+                // console.log('Upload is running');
                 break;
             }
           }, function(error) {
@@ -254,21 +361,14 @@ export class ClassRecord extends Component {
             // Handle successful uploads on complete
             // For instance, get the download URL: https://firebasestorage.googleapis.com/...
             uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
-              console.log('File available at', downloadURL);
               obj.photos.push(downloadURL);
-              // _resolve(forwait);
-
-
               new Promise(function(__resolve, __reject){
-                console.log("Before resolve",completed);
                 completed++;
                 __resolve(completed);
 
               }).then(function(result){
-                console.log("After resolve",completed);
-                if(result==1)
+                if(result==fromcamera.files.length+fromgallery.files.length)
                 {
-                  console.log("RESOLVE!");
                   _resolve(forwait);
                 }
               })
@@ -282,16 +382,13 @@ export class ClassRecord extends Component {
         _resolve(forwait);
       }
 
-      }
-    )
-
-
-    // obj = {...this.state};
+      });
     pushDB_wait("Record", obj, forwait, another)
     .then(_res => {
+      window.M.Toast.dismissAll();
       this.inputElementcontent.value= "";
       this.inputElementname.value="";
-      this.setState({...this.state,/*StudentID: ,*/ redirect: true, redirectTo: "/studentList/tommy11" });
+      this.setState({...this.state,redirect: true, redirectTo: "/studentList/tommy11" });
     });
 
 
@@ -328,38 +425,39 @@ export class ClassRecord extends Component {
 
           <Row id="parent-search-row">
           <Col s={12}>
-            {/* <TextInput id="notice-list-search" s={12} icon="search" placeholder="Search notice board name."/> */}
-            {this.state.showAutocomplete ?
-                <Chip 
-                className="studentnameclass"
+            {this.state.showAutocomplete ? this.renderChips()
+              //   <Chip 
+              //   className="studentnameclass"
+              //   placeholder="Enter name"
 
-                ref={_input => this.inputElementname = _input}
-                options={{autocompleteOptions: {
-                  data: this.state.autocompleteData, onAutocomplete:this.onAutocomplete,
-                  limit: Infinity,
-                  minLength: 1,
-                }}}
-                value={this.state.Studentname}
-                onChange={this.onAutocompleteChange}
-                placeholder="Search student name"
-                icon="search" s={12}/>
-             // } />
-            
+              //   ref={_input => this.inputElementname = _input}
+              //   options={{
+              //    data: this.state.fromprofile ? [{tag: this.state.Studentname}] : [{tag: '1'}] ,
                 
-                
-                :
-                <span></span>
-                //<Textarea onChange={this.flipbool} id="after" value="" icon="search" s={12}/>       
+              //   autocompleteOptions: 
+              //   {
+              //     data: this.state.autocompleteData, onAutocomplete:this.onAutocomplete,
+              //     limit: Infinity,
+              //     minLength: 1,
+
+              //   },
+              //   placeholder:"Enter name",
+              //   secondaryPlaceholder:"+ name",
+              // }}
+              //   value={this.state.Studentname}
+              //   onChange={this.onAutocompleteChange}
+              //   icon="search" s={12}/>
+                :<span></span>     
             }
 
           </Col>
         </Row>
         <div className="buttons">
           <form action="#" >
-              <div className="btn pinkbutton buttonleft" onClick={this.fileclick}>
+              {/* <div className="btn pinkbutton buttonleft" onClick={this.fileclick}>
                 <input ref={_input => this.inputElementfile = _input}  id="inputfile" type="file" onChange={this.handlefileChange.bind(this)} multiple name="File"/>
                 <label className="bigfont">File</label>
-              </div>           <div className="btn pinkbutton" onClick={this.galleryclick}>
+              </div>*/}           <div className="btn pinkbutton" onClick={this.galleryclick}> 
                 <input ref={_input2 => this.inputElementgallery = _input2} type="file" accept="image/*"  onChange={this.handlefileChange.bind(this)} multiple id="inputcamera" capture="camera"/>
                 <label className="bigfont">Camera</label>
               </div>           <div className="btn pinkbutton" onClick={this.cameraclick}>
@@ -370,10 +468,13 @@ export class ClassRecord extends Component {
               
             </form>
           </div>
-          <div className="textdemoclass" id="textdemo" >
-            <span className="textdemoclass" id="demo" />
-            <img id="demoimage" alt="demo image" src={null}/>
-          </div>
+
+        <div align='center'>
+            { this.state.showpictures?
+
+              this.renderPictures():<span></span>
+              }
+        </div>
           
           <div className="bottommargin">
             <Textarea placeholder="Write class records..
