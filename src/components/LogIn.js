@@ -7,6 +7,8 @@ import {Textarea, TextInput} from 'react-materialize';
 
 import "../css/login.css"
 import Table from 'react-materialize/lib/Table';
+import "../config/ID"
+import { LOGIN_ID, setLoginId, getLoginId } from '../config/ID';
 
 
 export class LogIn extends Component {
@@ -61,15 +63,18 @@ export class LogIn extends Component {
   }
 
   loginSuccess = (id) => {
-      this.setState({target:'/studentList/' + id,
-                      redirect:true});
+    setLoginId(id);
+    console.log(id);
+    console.log(getLoginId());
+    this.setState({target:'/studentList/' + id,
+                    redirect:true});
   }
 
   render() {
       if(this.state.redirect)
           return (<Redirect to={this.state.target}></Redirect>);
       return (
-        <div style={{height: '100%', display: 'table', textAlign: 'center'}}>
+        <div style={{height: '100%', width: '100%', display: 'table', textAlign: 'center'}}>
           <div align='center' style={{display: "table-cell", verticalAlign:'middle'}}>
             <img src={photo} alt="photo" width='150px' height='150px' style={{}}></img>
             <Textarea placeholder="ID" style={{width: "60%"}}
