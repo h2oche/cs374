@@ -116,7 +116,7 @@ export class ClassRecordFiltered extends Component {
               floating small
               waves="light"
               icon="add"
-              href={"/BOBO/#/classRecord/3?"+this.props.match.params.student_id} />}></Topbar>
+              href={"/BOBO/#/classRecord/"+this.props.match.params.student_id} />}></Topbar>
         </div>
 
         <div className="show-record-list-row">

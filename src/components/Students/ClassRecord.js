@@ -260,7 +260,7 @@ class Hashtag extends Component {
     return (
       <span id='hash-span'>
         {/* <option id = 'selectHash' onClick={this.onHashtagSelection}>{'#' + this.props.data + ' '}</option> */}
-        <Link id = 'selectHash' to={"/studentProfile/classRecordFiltered/" + this.props.instructor_id + '/'+this.props.student_id +'/'+this.props.data}>
+        <Link id = 'selectHash' to={"/studentProfile/classRecordFiltered/" +this.props.student_id +'/'+this.props.data}>
          {'#' + this.props.data + ' '}
         </Link>
       </span>

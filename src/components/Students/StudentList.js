@@ -169,7 +169,7 @@ class StudentListItem extends Component {
   
   render() {
     return (
-      <CollectionItem className="student" href={"/BOBO/#/studentProfile/main/" +this.props.instructor +'/'+this.props.data.id}>
+      <CollectionItem className="student" href={"/BOBO/#/studentProfile/main/" +this.props.data.id}>
         <Row className="studentChild" style={{ marginTop: '0px', marginBotton: '0px', height: '70px' }}>
           {/* profile image */}
           <Col s={3} style={{ alignItems: 'center' }}>
