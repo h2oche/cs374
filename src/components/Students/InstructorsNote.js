@@ -111,7 +111,6 @@ export class InstructorsNote extends Component {
   constructor(props) 
   {
     super(props);
-    console.log(getLoginId());
     getFireDB('/User').then(
       result => {
         this.userList = result.val();

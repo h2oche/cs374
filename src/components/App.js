@@ -21,7 +21,7 @@ import ClassRecordFiltered from "./Students/ClassRecordFiltered";
 import EditClassRecord from "./Students/EditClassRecord";
 import InstructorsNoteAddModify from './Students/InstructorsNoteAddModify';
 import LogIn from './LogIn';
-import {getLoginId} from "../config/ID";
+import Donation from './Donation';
 
 import { fire} from '../config/fire';
 function App() {
@@ -44,6 +44,7 @@ function App() {
         <Route exact path="/board/:id" component={Board}/>
         <Route exact path="/board/:id/notice/:id" component={Notice}/>
         <Route exact path="/settings" component={Settings}/>
+        <Route exact path="/donation" component={Donation}/>
         <Switch>
           <Route exact path="/" component={LogIn}/>
           <Route exact path="*" component={Menu}/>
