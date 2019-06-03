@@ -52,7 +52,6 @@ export class ClassRecordFiltered extends Component {
 
     getFireDB('Record/').then (
       result => {
-        // console.log("all records: ",result.val());
         let DB = result.val();
         var records = [];
         for( var _key in DB ) 
@@ -64,12 +63,12 @@ export class ClassRecordFiltered extends Component {
         records.sort(function(_a, _b) {
           return _a.date > _b.date ? 1 : -1;
         });
-      var validRecords = records.filter(_mapElem => {
-        // console.log(_mapElem);
-        // console.log("id:" , _mapElem.StudentID, this.props.match.params.student_id);
-        // console.log(typeof(_mapElem.StudentID), typeof(this.props.match.params.student_id))
-        return String(_mapElem.StudentID) === this.props.match.params.student_id && _mapElem.Hashtag.indexOf(this.props.match.params.hash) != -1; //
+      var validRecords_tmp = records.filter(_mapElem => {
+        return String(_mapElem.StudentID) === this.props.match.params.student_id && _mapElem.Hashtag != null;
       });
+      var validRecords = validRecords_tmp.filter(_mapElem => {
+        return _mapElem.Hashtag.indexOf(this.props.match.params.hash) != -1;
+      })
 
         this.setState({ ...this.state, records : records ,Records: result.val(), validRecords });
       }
@@ -78,13 +77,13 @@ export class ClassRecordFiltered extends Component {
 
 
   renderRecordList = () => {
-    // console.log('valid:', this.state.validRecords)
-    var validRecords = this.state.records.filter(_mapElem => {
-      // console.log(_mapElem);
-      // console.log("id:" , _mapElem.StudentID, this.props.match.params.student_id);
-      // console.log(typeof(_mapElem.StudentID), typeof(this.props.match.params.student_id))
-      return String(_mapElem.StudentID) === this.props.match.params.student_id && _mapElem.Hashtag.indexOf(this.props.match.params.hash) != -1; //
+    var validRecords_tmp = this.state.records.filter(_mapElem => {
+
+      return String(_mapElem.StudentID) === this.props.match.params.student_id && _mapElem.Hashtag != null; //
     });
+    var validRecords = validRecords_tmp.filter(_mapElem => {
+      return _mapElem.Hashtag.indexOf(this.props.match.params.hash) != -1;
+    })
 
     return validRecords.map(_record => {
       if (_record.InstructorID === getLoginName() )

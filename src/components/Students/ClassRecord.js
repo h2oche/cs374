@@ -13,7 +13,7 @@ import '../../css/Students/StudentProfile.css'
 import "../../css/Students/ClassRecord.css"
 import '../../css/Common.css'
 import { type } from 'os';
-import { tsConstructSignatureDeclaration } from '@babel/types';
+import { tsConstructSignatureDeclaration, tsNamespaceExportDeclaration, tsImportEqualsDeclaration } from '@babel/types';
 import { getLoginName, getLoginId } from '../../config/ID';
 
 export class ClassRecord extends Component {
@@ -195,6 +195,7 @@ class MyRecordListItem extends Component {
   }
 
   renderPictures = () => {
+    var tmparr = []
     for(var key in this.props.data)
     {
       if(key == 'photos')
@@ -202,10 +203,15 @@ class MyRecordListItem extends Component {
       for(var _url_key in this.props.data['photos'])
       {
         // console.log('url:', this.props.data['photos'][_url_key])
-        return <img className="RecordImage" src={this.props.data['photos'][_url_key]} alt="photo"  align='center'></img>
+        tmparr.push(_url_key)
+        // return <img className="RecordImage" src={this.props.data['photos'][_url_key]} alt="photo"  align='center'></img>
       }
       }
     }
+
+      return tmparr.map(_url => {
+        return <img className="RecordImage" src={this.props.data['photos'][_url_key]} alt="photo"  align='center'></img>
+      })
     }
 
   render() {
