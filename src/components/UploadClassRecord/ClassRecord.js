@@ -10,7 +10,7 @@ import {Redirect} from 'react-router';
 import * as firebase from 'firebase'
 import { resolve } from 'url';
 
-import {getLoginName} from '../../config/ID'
+import {getLoginName, checkLogin} from '../../config/ID'
 
 
 
@@ -70,6 +70,7 @@ export class ClassRecord extends Component {
   componentDidMount = () => {
     document.getElementById("inputcamera").value = "";
     document.getElementById("inputgallery").value = "";
+    console.log("didmount")
 
     getFireDB_arr('User/',this,'autocomplete_student','type','parent');
     getFireDB()
@@ -205,20 +206,24 @@ export class ClassRecord extends Component {
   
   renderPictures = () => {
     var fromfile = document.getElementById("inputcamera");
+    var fromgallery = document.getElementById("inputgallery");
     var temparr = []
     if(fromfile.files!=null)
     {
-      
+      console.log("cmam")
       Array.prototype.forEach.call(fromfile.files, function(file) { 
         temparr.push(file);
+        console.log(file)
       });
 
     }
-    var fromgallery = document.getElementById("inputgallery");
+    
     if(fromgallery.files!=null)
     {
+      console.log("galll");
       Array.prototype.forEach.call(fromgallery.files, function(file) { 
         temparr.push(file);
+        console.log(file);
       });
 
     }
@@ -304,7 +309,9 @@ export class ClassRecord extends Component {
         
         Array.prototype.forEach.call(fromcamera.files, function(file) { 
           
-          let target = getstorage().ref('ClassRecords/'+dirname+'/');
+          // let target = getstorage().ref('ClassRecords/'+dirname+'/');
+          let target = getstorage().ref('ClassRecords/'+dirname+'/'+file.name);
+          console.log(dirname);
           var uploadTask = target.put(file);
           uploadTask.on('state_changed', function(snapshot){
             // Observe state change events such as progress, pause, and resume
@@ -334,6 +341,7 @@ export class ClassRecord extends Component {
               }).then(function(result){
                 if(result==fromcamera.files.length+fromgallery.files.length)
                 {
+                  console.log("resolve in cam",result,completed);
                   _resolve(forwait);
                 }
               })
@@ -343,7 +351,8 @@ export class ClassRecord extends Component {
         });
         Array.prototype.forEach.call(fromgallery.files, function(file) { 
 
-          let target = getstorage().ref('ClassRecords/'+dirname+'/');
+          // let target = getstorage().ref('ClassRecords/'+dirname+'/');
+          let target = getstorage().ref('ClassRecords/'+dirname+'/'+file.name);
           var uploadTask = target.put(file);
           uploadTask.on('state_changed', function(snapshot){
             // Observe state change events such as progress, pause, and resume
@@ -374,6 +383,7 @@ export class ClassRecord extends Component {
               }).then(function(result){
                 if(result==fromcamera.files.length+fromgallery.files.length)
                 {
+                  console.log("resolve in gall",result,completed);
                   _resolve(forwait);
                 }
               })
@@ -424,6 +434,7 @@ export class ClassRecord extends Component {
 
   
   render() {
+    checkLogin();
     if(this.state.redirect)
     return <Redirect to={this.state.redirectTo}/>
 
