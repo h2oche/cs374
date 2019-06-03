@@ -91,7 +91,7 @@ export class ClassRecord extends Component {
           if(Users[index].id===Number(temparray[1]))
           {
 
-            this.setState({...this.state, Users, autocompleteData, showAutocomplete:true, Studentname:Users[index].name,StudentID:Number(temparray[1]),fromprofile:true}, function() {
+            this.setState({...this.state,  temparr:[],Users, autocompleteData, showAutocomplete:true, Studentname:Users[index].name,StudentID:Number(temparray[1]),fromprofile:true}, function() {
 
               this.renderChips();
 
@@ -103,7 +103,7 @@ export class ClassRecord extends Component {
       }
       else
       {
-        this.setState({...this.state, Users, autocompleteData, showAutocomplete:true});
+        this.setState({...this.state,  temparr:[],Users, autocompleteData, showAutocomplete:true});
       }
     });
             
