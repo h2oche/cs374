@@ -106,3 +106,11 @@
 #selectHash {
   color: #db98a5;
 }
+
+.RecordImage {
+  width:80%;
+  height:auto;
+  border: 3px solid #f1b8c8;
+  margin-top:15px;
+  margin-left: 15px;
+}
