@@ -4,6 +4,7 @@ import {Button, Pagination, Row, Col, Collection} from 'react-materialize';
 import NoticeListItem from './NoticeListItem';
 import "../../css/Notices/Board.css";
 import { fire, getFireDB} from '../../config/fire';
+import { checkLogin } from '../../config/ID';
 
 export class Board extends Component {
   state = {
@@ -69,12 +70,13 @@ export class Board extends Component {
       });
 
       var validNotices = notices.filter(_notice => {
-        return new Date(_notice.expireDate) > new Date();
+        return _notice.persistent || new Date(_notice.expireDate) > new Date();
       })
       .filter(_notice=>(type==="all" || _notice.type===type));
   
       var end = Math.min(page*10, validNotices.length);
       var displayNotices = validNotices.slice((page-1) * 10, end);
+      console.log(displayNotices);
   
       this.setState({...this.state,
         Notices: notices,
@@ -83,48 +85,6 @@ export class Board extends Component {
         page,
         redirect: false});
     });
-
-    //fetch board data
-    // var boardId = this.getBoardId();
-    
-
-    // var genRandomDate = (start, end) => {
-    //   return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
-    // }
-
-    // var genRandomNum = (_max) => {
-    //   return Math.floor(Math.random() * _max);
-    // }
-
-    // for(var i = 0 ; i < 30; i ++) {
-    //   types.forEach(_type => {
-    //     notices.push({
-    //       id: id++,
-    //       type: _type,
-    //       name: _type + " " + id,
-    //       questions: [],
-    //       expireDate: genRandomDate(new Date(2019, 0, 1), new Date(2019, 11, 30)),
-    //       questionCnt: genRandomNum(10),
-    //       important: genRandomNum(3) == 1,
-    //       persistent: genRandomNum(5) == 1, 
-    //     });
-    //   });
-    // }
-
-    // var validNotices = notices.filter(_notice => {
-    //   return _notice.expireDate > new Date();
-    // })
-    // .filter(_notice=>(type==="all" || _notice.type===type));
-
-    // var end = Math.min(page*10, validNotices.length);
-    // var displayNotices = validNotices.slice((page-1) * 10, end);
-
-    // this.setState({...this.state,
-    //   Notices: notices,
-    //   validNotices,
-    //   displayNotices,
-    //   page,
-    //   redirect: false});
   }
 
   componentWillReceiveProps() {
@@ -165,6 +125,7 @@ export class Board extends Component {
   }
 
   render() {
+    checkLogin();
     let isNotice = this.state.displayNotices.length !== 0;
     return (
       <div className="content">

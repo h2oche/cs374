@@ -13,7 +13,7 @@ import '../../css/Students/StudentProfile.css'
 import "../../css/Students/ClassRecord.css"
 import '../../css/Common.css'
 import { type } from 'os';
-import { tsConstructSignatureDeclaration } from '@babel/types';
+import { tsConstructSignatureDeclaration, tsNamespaceExportDeclaration, tsImportEqualsDeclaration } from '@babel/types';
 import { getLoginName, getLoginId } from '../../config/ID';
 
 export class ClassRecord extends Component {
@@ -77,19 +77,13 @@ export class ClassRecord extends Component {
 
 
   renderRecordList = () => {
-    console.log('valid:', this.state.validRecords)
-
 
     return this.state.validRecords.map(_record => {
-      if (_record.InstructorID === getLoginName() ) //FIXME: MyID
-        return <MyRecordListItem data={_record} test={this.passSetState} />
+      if (_record.InstructorID === getLoginName() )
+        return <MyRecordListItem data={_record}/>
       else
-        return <RecordListItem data={_record} test={this.passSetState} />
+        return <RecordListItem data={_record}/>
     });
-  }
-
-  passSetState = () => {
-    console.log("test A");
   }
 
   render() {
@@ -140,7 +134,7 @@ class RecordListItem extends Component {
     // console.log("render hasH", this.props.data.Hashtag)
     if(this.props.data.Hashtag!=null)
       return this.props.data.Hashtag.map(_elem => {
-        return <Hashtag data={_elem} parent={this}/>
+        return <Hashtag data={_elem} student_id={this.props.data.StudentID} parent={this}/>
       })
   }
 
@@ -159,8 +153,7 @@ class RecordListItem extends Component {
     }
 
   render() {
-    //console.log(this.props.data)
-    this.props.test();
+
     return (
       <CollectionItem>
         <Row s={12}>
@@ -197,11 +190,12 @@ class MyRecordListItem extends Component {
     // console.log("MY render hasH", this.props.data.Hashtag)
     if(this.props.data.Hashtag!=null)
       return this.props.data.Hashtag.map(_elem => {
-        return <Hashtag data={_elem} instructor_id={this.props.data.InstructorID} student_id={this.props.data.StudentID}/>
+        return <Hashtag data={_elem} student_id={this.props.data.StudentID}/>
       })
   }
 
   renderPictures = () => {
+    var tmparr = []
     for(var key in this.props.data)
     {
       if(key == 'photos')
@@ -209,15 +203,19 @@ class MyRecordListItem extends Component {
       for(var _url_key in this.props.data['photos'])
       {
         // console.log('url:', this.props.data['photos'][_url_key])
-        return <img className="RecordImage" src={this.props.data['photos'][_url_key]} alt="photo"  align='center'></img>
+        tmparr.push(_url_key)
+        // return <img className="RecordImage" src={this.props.data['photos'][_url_key]} alt="photo"  align='center'></img>
       }
       }
     }
+
+      return tmparr.map(_url => {
+        return <img className="RecordImage" src={this.props.data['photos'][_url_key]} alt="photo"  align='center'></img>
+      })
     }
 
   render() {
-    // console.log("data:", this.props.data)
-    //this.props.test();
+
     return (
       <CollectionItem id='class-record-item'>
         <Row s={12}>
@@ -260,7 +258,7 @@ class Hashtag extends Component {
     return (
       <span id='hash-span'>
         {/* <option id = 'selectHash' onClick={this.onHashtagSelection}>{'#' + this.props.data + ' '}</option> */}
-        <Link id = 'selectHash' to={"/studentProfile/classRecordFiltered/" + this.props.instructor_id + '/'+this.props.student_id +'/'+this.props.data}>
+        <Link id = 'selectHash' to={"/studentProfile/classRecordFiltered/" +this.props.student_id +'/'+this.props.data}>
          {'#' + this.props.data + ' '}
         </Link>
       </span>
