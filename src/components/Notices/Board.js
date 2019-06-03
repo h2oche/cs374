@@ -186,7 +186,7 @@ export class Board extends Component {
           <Collection>
             {this.renderNoticeItems()}
           </Collection>
-          : <div className="grey ligthen-4" id="alert-msg">
+          : <div style={{backgroundColor: "rgb(239, 239, 239)"}} id="alert-msg">
             <span>There aren't any valid notices</span>
           </div>}
         </Row>

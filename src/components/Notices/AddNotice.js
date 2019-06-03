@@ -98,7 +98,7 @@ export class AddNotice extends Component {
     var obj = {...this.state};
     obj.id = this.nextNoticeId;
     obj.userId = this.state.CurrentUser.id;
-    obj.expireDate = obj.expireDate.getTime();
+    obj.expireDate = obj.expireDate ? obj.expireDate.getTime() : null;
     obj.createDate = new Date().getTime();
     obj.boardId = this.getBoardId() * 1;
     obj.name = obj.noticeName;
