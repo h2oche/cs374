@@ -7,6 +7,7 @@ import '../../css/Common.css'
 import {Button} from 'react-materialize'
 import { fire, getFireDB, pushMultipleDB, pushDB, setDB, deleteDB, download_picture} from '../../config/fire';
 import * as firebase from 'firebase'
+import { getLoginId } from '../../config/ID';
 export class StudentProfile extends Component {
     state={
         redirect:false,
@@ -60,14 +61,12 @@ export class StudentProfile extends Component {
     }
 
     redirectToClassRecord = () => {
-        this.setState({target:"/studentProfile/classRecord/"+this.props.match.params.instructor_id
-                                  + '/' +this.props.match.params.student_id,
+        this.setState({target:"/studentProfile/classRecord/"+this.props.match.params.student_id,
                         redirect:true});
     }
 
     redirectToInstructorsNote = () => {
-        this.setState({target:"/studentProfile/instructorsNote/"+this.props.match.params.instructor_id
-                                  +'/'+this.props.match.params.student_id,
+        this.setState({target:"/studentProfile/instructorsNote/"+this.props.match.params.student_id,
                         redirect:true});
     }
 
@@ -76,7 +75,7 @@ export class StudentProfile extends Component {
             return (<Redirect to={this.state.target}></Redirect>);
         return (
         <div style = {{width:"100%"}} className="content studentProfileContent">
-            <Topbar name="Profile" showBack={true} backTo = {"/BOBO/#/studentList/"+this.props.match.params.instructor_id}></Topbar>
+            <Topbar name="Profile" showBack={true} backTo = {"/BOBO/#/studentList/"}></Topbar>
             <hr style = {{width: "100%", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
             <Demographic Name={this.state.Name} Age={this.state.Age} Tel={this.state.Tel} Class={this.state.Class} ImageURL={this.state.url}/>
             <hr style = {{width: "100%", border:'none', backgroundColor:'darkgray', height:'2px'}}/>
