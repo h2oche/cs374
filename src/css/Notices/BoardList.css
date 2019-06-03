@@ -20,3 +20,25 @@
 #board-list-search-row i.material-icons.prefix.active {
   color: palevioletred;
 }
+
+#board-list-content {
+  display: flex;
+  flex-direction: column;
+}
+
+#board-list-content #topbar-row {
+  flex: 2 1;
+  width: 100%;
+}
+
+#board-list-content  #board-list-search-row {
+  flex: 2;
+  width: 100%;
+}
+
+#board-list-content #board-list-row {
+  flex: 30;
+  width: 100%;
+  margin-bottom: 0px;
+  overflow: scroll;
+}

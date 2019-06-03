@@ -77,10 +77,12 @@ export const pushDB = (dir, obj) => {
 export const pushDB_wait = (dir, obj,forwait,another) => {
   var prom;
   Array.prototype.forEach.call(obj.temparr, function(name) { 
+    
     obj.Studentname=name.split("\n")[0];
     var parent = obj.Users.find(_user => _user.name === name.split("\n")[0]);
     obj.StudentID=parent.id;
     prom = database.ref(dir).push(obj);
+    
   });
   
   return prom;

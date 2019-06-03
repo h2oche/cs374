@@ -151,7 +151,7 @@ class RecordListItem extends Component {
       for(var _url_key in this.props.data['photos'])
       {
         // console.log('url:', this.props.data['photos'][_url_key])
-        return <img className="RecordImage" src={this.props.data['photos'][_url_key]} alt="photo" width='150px' height='150px' align='center'></img>
+        return <img className="RecordImage" src={this.props.data['photos'][_url_key]} alt="photo"  align='center'></img>
       }
       }
     }
@@ -208,7 +208,7 @@ class MyRecordListItem extends Component {
       for(var _url_key in this.props.data['photos'])
       {
         // console.log('url:', this.props.data['photos'][_url_key])
-        return <img className="RecordImage" src={this.props.data['photos'][_url_key]} alt="photo" width='150px' height='150px' align='center'></img>
+        return <img className="RecordImage" src={this.props.data['photos'][_url_key]} alt="photo"  align='center'></img>
       }
       }
     }

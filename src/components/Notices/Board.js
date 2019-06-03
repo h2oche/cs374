@@ -165,6 +165,7 @@ export class Board extends Component {
   }
 
   render() {
+    let isNotice = this.state.displayNotices.length !== 0;
     return (
       <div className="content">
         <Topbar
@@ -181,16 +182,24 @@ export class Board extends Component {
                               href={"/BOBO/#/board/" + this.getBoardId() + "/addNotice"}/>}/>
         
         <Row id="board-notice-list">
+          {isNotice ?
           <Collection>
             {this.renderNoticeItems()}
           </Collection>
+          : <div style={{backgroundColor: "rgb(239, 239, 239)"}} id="alert-msg">
+            <span>There aren't any valid notices</span>
+          </div>}
         </Row>
         <div id="board-pagination-row">
+          {isNotice?
           <Pagination
             activePage={this.state.page}
             maxButtons={6}
             items={Math.ceil(this.state.validNotices.length / 10)}
             onSelect={this.onPageSelect}/>
+            :
+            <span></span>
+          }
         </div>
       </div>
     )

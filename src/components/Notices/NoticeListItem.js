@@ -39,10 +39,10 @@ export class NoticeListItem extends Component {
       <CollectionItem>
         {this.renderTypeBadge()}
         <div style={{width:"90%", display:"inline-block"}} onClick={this.onItemClick}>
-          <span className={this.props.data.important?"important" : "none"}></span>
+          <span className={this.props.data.important?"important" : "not-important"}></span>
           {this.props.data.name}
           <span className="notice-list-item-questions"><span>{this.props.data.questionCnt}</span></span>
-          <span className="notice-list-item-expire">Expired at {this.formatDate(this.props.data.expireDate)}</span>
+          <span className="notice-list-item-expire">Will expire at {this.formatDate(this.props.data.expireDate)}</span>
         </div>
       </CollectionItem>
     )

@@ -23,22 +23,6 @@ export class AddBoard extends Component {
   }
 
   componentDidMount = () => {
-    // var salt = []; var types = ["instructor", "parent"];
-    // for(var i = 0 ; i < 20; i++) salt.push(i);
-    // var id = 0;
-    // var users = [];
-    // types.forEach(_type => {
-    //   salt.forEach(_salt => {
-    //     users.push({
-    //       name:_type + " " + _salt,
-    //       id: id++,
-    //       type: _type
-    //     });
-    //   });
-    // });
-
-    // this.setState({Users: users});
-
     getFireDB()
     .then(_res => {
       let DB = _res.val();
@@ -69,6 +53,22 @@ export class AddBoard extends Component {
   }
 
   addBoard = () => {
+    console.log(this.state);
+    if(!this.state.boardName) {
+      window.M.toast({
+        html: "Please write name of notice board",
+        displayLength: 3000
+      });
+      return;
+    }
+    else if(!this.state.seletedUsers) {
+      window.M.toast({
+        html: "No one can see this notice board.<br/>Please select someone.",
+        displayLength: 3000
+      });
+      return;
+    }
+
     console.log(this.state.seletedUsers);
     console.log(this.state.boardName);
     var nextBoardId = this.state.nextBoardId;

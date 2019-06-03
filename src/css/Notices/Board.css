@@ -58,6 +58,17 @@
   font-size: 10px;
 }
 
+#board-notice-list .not-important {
+  background-color: grey;
+  color: white;
+  border-radius: 50%;
+  width: 7px;
+  height: 7px;
+  display: inline-block;
+  padding-left: 4px;
+  font-size: 10px;
+}
+
 .notice-list-item-expire {
   float: right;
   font-size: 10px;
@@ -72,4 +83,16 @@
 
 #board-pagination-row .pagination li.active {
   background-color: palevioletred;
+}
+
+#board-notice-list #alert-msg {
+  height: 100%;
+  text-align: center;
+  display: table;
+  width: 100%;
+}
+#board-notice-list #alert-msg span {
+  display: table-cell;
+  vertical-align: middle;
+  font-size: 1.6em;
 }
