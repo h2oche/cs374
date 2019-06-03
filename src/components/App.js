@@ -28,14 +28,14 @@ function App() {
   return (
     <Router>
       <div className="container">
-        <Route path="/studentList/:instructor_id" component={StudentList}/>
-        <Route path="/studentProfile/main/:instructor_id/:student_id" component={StudentProfile}/>
-        <Route path="/studentProfile/instructorsNote/:instructor_id/:student_id" component={InstructorsNote}/>
-        <Route path="/studentProfile/instructorsNoteAddModify/:instructor_id/:student_id" component={InstructorsNoteAddModify}/>
-        <Route path="/studentProfile/classRecord/:instructor_id/:student_id" component={ClassRecord}/>
-        <Route path="/studentProfile/classRecordFiltered/:instructor_id/:student_id/:hash" component={ClassRecordFiltered}/>
+        <Route path="/studentList/" component={StudentList}/>
+        <Route path="/studentProfile/main/:student_id" component={StudentProfile}/>
+        <Route path="/studentProfile/instructorsNote/:student_id" component={InstructorsNote}/>
+        <Route path="/studentProfile/instructorsNoteAddModify/:student_id" component={InstructorsNoteAddModify}/>
+        <Route path="/studentProfile/classRecord/:student_id" component={ClassRecord}/>
+        <Route path="/studentProfile/classRecordFiltered/:student_id/:hash" component={ClassRecordFiltered}/>
         <Route path="/studentProfile/editClassRecord/:key" component={EditClassRecord}/>
-        <Route path="/classRecord/:instructor_id" component={UploadClassRecord}/>
+        <Route path="/classRecord" component={UploadClassRecord}/>
         <Route exact path="/addBoard" component={AddBoard}/>
         <Route exact path="/board" component={NoticeBoard}/>
         <Route exact path="/board/:id/addNotice" component={AddNotice}/>

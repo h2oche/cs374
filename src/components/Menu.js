@@ -10,10 +10,10 @@ export class Menu extends Component {
   render() {
     return (
       <div className="menu">
-        <div className="menu-item"><Link to={"/studentList/"+getLoginId()}>
+        <div className="menu-item"><Link to={"/studentList/"}>
           <Icon className="menu-icon" medium={true}>assignment_ind</Icon>
           </Link></div>
-        <div className="menu-item"><Link to={"/classRecord/"+getLoginId()}>
+        <div className="menu-item"><Link to={"/classRecord/"}>
           <Icon className="menu-icon" medium={true}>add_box</Icon>
           </Link></div>
         <div className="menu-item"><Link to="/board">
