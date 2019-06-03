@@ -19,13 +19,13 @@ export const setLoginName = (name) => {
 }
 
 export const checkLogin = () => {
-  console.log('aaa');
-  console.log(cookies.get("LOGIN_ID"));
+  // console.log('aaa');
+  // console.log(cookies.get("LOGIN_ID"));
   if(!cookies.get("LOGIN_ID"))
     window.location.replace("/BOBO/#/");
 }
 
 export function logout() {
   cookies.remove("LOGIN_ID");
-  console.log(cookies.get("LOGIN_ID"));
+  // console.log(cookies.get("LOGIN_ID"));
 }

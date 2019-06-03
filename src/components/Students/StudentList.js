@@ -36,7 +36,6 @@ export class StudentList extends Component {
     
     getFireDB()
     .then(res =>{
-      // console.log("--- ", this.state.Students);
       let DB = res.val();
       var Users = [];
       for( var key in DB.User ) Users.push(DB.User[key]);
@@ -48,21 +47,17 @@ export class StudentList extends Component {
       var autocompleteData = Parents.reduce( (_acc, _user) => {
         return {..._acc, [_user]:null};
       }, {});
-      console.log("***", Users);
       this.setState({...this.state, Users, autocompleteData, showAutocomplete:true});
     });
 
     getFireDB('Class/').then (
       result => {
-        console.log("classtable: ",result.val())
-        var classtable = result.val();
         this.setState({ ...this.state, ClassTable: result.val() });
       }
     )
   }
 
   onAutocomplete = (_studentName) => {
-    console.log(this.state.Users);
 
     var student = this.state.Users.find(_student => _student.name === _studentName)
     this.setState({ ...this.state, redirect: true, redirectTo: "/studentProfile/main/"+this.state.curr_instructor+"/" +student.id  });
@@ -71,12 +66,9 @@ export class StudentList extends Component {
   onClassSelection = e => {
     var s = document.getElementById("selection")
     var selectedClass = s.options[s.selectedIndex].text
-    console.log("selected class: ",selectedClass)
     var StudentFiltered = this.state.Students.filter(_student => {
-      console.log("**", _student.name, _student.class)
       return _student.class === selectedClass
     })
-    console.log("filt:",StudentFiltered)
     this.setState({ ...this.state, selectedClass, StudentFiltered, showSelectClass: true });
   }
 
@@ -92,7 +84,6 @@ export class StudentList extends Component {
   }
 
   renderStudentFilteredList = () => {
-    console.log('renderfilter:', this.state.StudentFiltered)
     return this.state.StudentFiltered.map(_student => {
       return <StudentListItem data={_student} instructor={this.state.curr_instructor} />
     });
