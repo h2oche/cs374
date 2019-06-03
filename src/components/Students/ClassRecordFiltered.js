@@ -78,7 +78,7 @@ export class ClassRecordFiltered extends Component {
 
 
   renderRecordList = () => {
-    console.log('valid:', this.state.validRecords)
+    // console.log('valid:', this.state.validRecords)
     var validRecords = this.state.records.filter(_mapElem => {
       // console.log(_mapElem);
       // console.log("id:" , _mapElem.StudentID, this.props.match.params.student_id);
@@ -88,14 +88,10 @@ export class ClassRecordFiltered extends Component {
 
     return validRecords.map(_record => {
       if (_record.InstructorID === getLoginName() )
-        return <MyRecordListItem data={_record} test={this.passSetState} />
+        return <MyRecordListItem data={_record} />
       else
-        return <RecordListItem data={_record} test={this.passSetState} />
+        return <RecordListItem data={_record} />
     });
-  }
-
-  passSetState = () => {
-    console.log("test A");
   }
 
   render() {
@@ -165,8 +161,7 @@ class RecordListItem extends Component {
     }
 
   render() {
-    //console.log(this.props.data)
-    this.props.test();
+
     return (
       <CollectionItem>
         <Row s={12}>
@@ -222,8 +217,7 @@ class MyRecordListItem extends Component {
     }
 
   render() {
-    // console.log("data:", this.props.data)
-    //this.props.test();
+
     return (
       <CollectionItem id='class-record-item'>
         <Row s={12}>
