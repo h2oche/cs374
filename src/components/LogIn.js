@@ -28,6 +28,7 @@ export class LogIn extends Component {
   constructor(props) 
   {
     super(props);
+    setLoginId(null);
     getFireDB('/User').then(
       result => {
         this.userList = result.val();
