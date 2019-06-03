@@ -7,6 +7,7 @@ import { Row, Col, Collection, CollectionItem, Button, Icon, Checkbox } from 're
 import { fire, getFireDB, pushMultipleDB, pushDB, setDB, deleteDB, download_picture, getPictureURL } from '../../config/fire';
 import Topbar from '../Topbar';
 import Demographic from './Demographic'
+import { getLoginName, getLoginId } from '../../config/ID'
 //import RecordListItem from './RecordListItem';
 
 import '../../css/Students/StudentProfile.css'
@@ -86,7 +87,7 @@ export class ClassRecordFiltered extends Component {
     });
 
     return validRecords.map(_record => {
-      if (_record.InstructorID === 'teacher101') //FIXME: MyID
+      if (_record.InstructorID === getLoginName() ) //FIXME: MyID
         return <MyRecordListItem data={_record} test={this.passSetState} />
       else
         return <RecordListItem data={_record} test={this.passSetState} />
@@ -107,7 +108,7 @@ export class ClassRecordFiltered extends Component {
           <Topbar
             name="Class Record"
             showBack={true}
-            backTo={"/BOBO/#/studentProfile/classRecord/" + this.props.match.params.instructor_id+'/'+this.props.match.params.student_id}
+            backTo={"/BOBO/#/studentProfile/classRecord/" + getLoginId() +'/'+this.props.match.params.student_id}
             showOptional={true}
             optionalComponent={<Button
               id="board-list-add-btn"
