@@ -8,6 +8,7 @@ import Topbar from "../Topbar";
 //import StudentListItem from './StudentListItem';
 //import ClassListItem from './ClassListItem';
 import { fire, getFireDB_arr, getFireDB, download_picture, getPictureURL } from '../../config/fire'
+import { getLoginName, getLoginId, checkLogin } from '../../config/ID'
 import "../../css/Students/StudentList.css"
 import photo from './basic.png'
 
@@ -104,6 +105,7 @@ export class StudentList extends Component {
   }
 
   render() {
+    checkLogin()
     if (this.state.redirect)
       return <Redirect to={this.state.redirectTo} />
 

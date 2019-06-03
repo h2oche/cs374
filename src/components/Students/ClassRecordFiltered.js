@@ -7,7 +7,7 @@ import { Row, Col, Collection, CollectionItem, Button, Icon, Checkbox } from 're
 import { fire, getFireDB, pushMultipleDB, pushDB, setDB, deleteDB, download_picture, getPictureURL } from '../../config/fire';
 import Topbar from '../Topbar';
 import Demographic from './Demographic'
-import { getLoginName, getLoginId } from '../../config/ID'
+import { getLoginName, getLoginId, checkLogin } from '../../config/ID'
 //import RecordListItem from './RecordListItem';
 
 import '../../css/Students/StudentProfile.css'
@@ -94,6 +94,7 @@ export class ClassRecordFiltered extends Component {
   }
 
   render() {
+    checkLogin()
     if (this.state.redirect)
       return <Redirect to={this.state.redirectTo} />
 

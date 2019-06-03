@@ -14,7 +14,7 @@ import "../../css/Students/ClassRecord.css"
 import '../../css/Common.css'
 import { type } from 'os';
 import { tsConstructSignatureDeclaration, tsNamespaceExportDeclaration, tsImportEqualsDeclaration } from '@babel/types';
-import { getLoginName, getLoginId } from '../../config/ID';
+import { getLoginName, getLoginId, checkLogin } from '../../config/ID';
 
 export class ClassRecord extends Component {
 
@@ -153,7 +153,7 @@ class RecordListItem extends Component {
     }
 
   render() {
-
+    checkLogin()
     return (
       <CollectionItem>
         <Row s={12}>
