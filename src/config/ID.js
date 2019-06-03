@@ -1,9 +1,19 @@
-var LOGIN_ID
+import Cookies from 'universal-cookie';
+
+var cookies = new Cookies();
 
 export const getLoginId = () => {
-  return LOGIN_ID;
+  return cookies.get("LOGIN_ID");
+}
+
+export const getLoginName = () => {
+  return cookies.get("LOGIN_NAME");
 }
 
 export const setLoginId = (id) => {
-  LOGIN_ID = id;
+  cookies.set("LOGIN_ID", id);
+}
+
+export const setLoginName = (name) => {
+  cookies.set("LOGIN_NAME", name);
 }
