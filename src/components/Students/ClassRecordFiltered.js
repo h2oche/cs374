@@ -147,6 +147,7 @@ class RecordListItem extends Component {
   }
 
   renderPictures = () => {
+    var tmparr = []
     for(var key in this.props.data)
     {
       if(key == 'photos')
@@ -154,12 +155,17 @@ class RecordListItem extends Component {
       for(var _url_key in this.props.data['photos'])
       {
         // console.log('url:', this.props.data['photos'][_url_key])
-        return <img className="RecordImage" src={this.props.data['photos'][_url_key]} alt="photo" width='150px' height='150px' align='center'></img>
+        tmparr.push(this.props.data['photos'][_url_key])
+        // return <img className="RecordImage" src={this.props.data['photos'][_url_key]} alt="photo"  align='center'></img>
       }
       }
-    }
     }
 
+    return tmparr.map(_url => {
+      return <img className="RecordImage" src={_url} alt="photo"  align='center'></img>
+    })
+    }
+ 
   render() {
 
     return (
@@ -203,6 +209,7 @@ class MyRecordListItem extends Component {
   }
 
   renderPictures = () => {
+    var tmparr = []
     for(var key in this.props.data)
     {
       if(key == 'photos')
@@ -210,10 +217,15 @@ class MyRecordListItem extends Component {
       for(var _url_key in this.props.data['photos'])
       {
         // console.log('url:', this.props.data['photos'][_url_key])
-        return <img className="RecordImage" src={this.props.data['photos'][_url_key]} alt="photo" width='150px' height='150px' align='center'></img>
+        tmparr.push(this.props.data['photos'][_url_key])
+        // return <img className="RecordImage" src={this.props.data['photos'][_url_key]} alt="photo"  align='center'></img>
       }
       }
     }
+
+    return tmparr.map(_url => {
+      return <img className="RecordImage" src={_url} alt="photo"  align='center'></img>
+    })
     }
 
   render() {
