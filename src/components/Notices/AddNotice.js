@@ -4,11 +4,12 @@ import {TextInput, Row, Col, Textarea, Checkbox, RadioGroup, DatePicker, Button}
 import "../../css/Notices/AddNotice.css";
 import {Redirect} from 'react-router';
 import { fire, getFireDB, pushMultipleDB, pushDB} from '../../config/fire';
+import { getLoginId, checkLogin } from '../../config/ID';
 
 export class AddNotice extends Component {
   state = {
     CurrentUser: {
-      id: 1,
+      id: getLoginId() * 1,
     },
     important: false,
     persistent: false,
@@ -117,6 +118,8 @@ export class AddNotice extends Component {
   }
 
   render() {
+    checkLogin();
+
     if(this.state.redirect)
       return <Redirect to={this.state.redirectTo}/>
 
