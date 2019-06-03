@@ -14,6 +14,7 @@ import "../../css/Students/ClassRecord.css"
 import '../../css/Common.css'
 import { type } from 'os';
 import { tsConstructSignatureDeclaration } from '@babel/types';
+import { getLoginName, getLoginId } from '../../config/ID';
 
 export class ClassRecord extends Component {
 
@@ -80,7 +81,7 @@ export class ClassRecord extends Component {
 
 
     return this.state.validRecords.map(_record => {
-      if (_record.InstructorID === 'teacher101') //FIXME: MyID
+      if (_record.InstructorID === getLoginName() ) //FIXME: MyID
         return <MyRecordListItem data={_record} test={this.passSetState} />
       else
         return <RecordListItem data={_record} test={this.passSetState} />
@@ -101,7 +102,7 @@ export class ClassRecord extends Component {
           <Topbar
             name="Class Record"
             showBack={true}
-            backTo={"/BOBO/#/studentProfile/main/" + this.props.match.params.instructor_id+'/'+this.props.match.params.student_id}
+            backTo={"/BOBO/#/studentProfile/main/" + getLoginId +'/'+this.props.match.params.student_id}
             showOptional={true}
             optionalComponent={<Button
               id="board-list-add-btn"

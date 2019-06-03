@@ -65,6 +65,8 @@ export class ClassRecord extends Component {
   }
 
   componentDidMount = () => {
+    document.getElementById("inputcamera").value = "";
+    document.getElementById("inputgallery").value = "";
 
     getFireDB_arr('User/',this,'autocomplete_student','type','parent');
     getFireDB()
@@ -91,7 +93,7 @@ export class ClassRecord extends Component {
           if(Users[index].id===Number(temparray[1]))
           {
 
-            this.setState({...this.state,  temparr:[],Users, autocompleteData, showAutocomplete:true, Studentname:Users[index].name,StudentID:Number(temparray[1]),fromprofile:true}, function() {
+            this.setState({...this.state, Text:"",Hashtag:[],photos:[], temparr:[],Users, autocompleteData, showAutocomplete:true, Studentname:Users[index].name,StudentID:Number(temparray[1]),fromprofile:true}, function() {
 
               this.renderChips();
 
@@ -103,7 +105,7 @@ export class ClassRecord extends Component {
       }
       else
       {
-        this.setState({...this.state,  temparr:[],Users, autocompleteData, showAutocomplete:true});
+        this.setState({...this.state, Text:"", Hashtag:[],photos:[],temparr:[],Users, autocompleteData, showAutocomplete:true});
       }
     });
             
@@ -383,6 +385,9 @@ export class ClassRecord extends Component {
       }
 
       });
+    delete obj.showmodifiy;
+    delete obj.fromprofile;
+    delete obj.showpictures;
     pushDB_wait("Record", obj, forwait, another)
     .then(_res => {
       window.M.Toast.dismissAll();

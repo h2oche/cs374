@@ -10,6 +10,9 @@ import {Button} from 'react-materialize'
 import '../../css/Common.css'
 import { fire, getFireDB, pushMultipleDB, pushDB, setDB, deleteDB, updateChild, download_picture} from '../../config/fire';
 
+
+/* no use!!! */
+
 export class EditClassRecord extends Component {
 
   state = {
