@@ -21,10 +21,12 @@ import ClassRecordFiltered from "./Students/ClassRecordFiltered";
 import EditClassRecord from "./Students/EditClassRecord";
 import InstructorsNoteAddModify from './Students/InstructorsNoteAddModify';
 import LogIn from './LogIn';
+import {getLoginId} from "../config/ID";
 
 import { fire} from '../config/fire';
 function App() {
   fire();
+
   return (
     <Router>
       <div className="container">
@@ -45,9 +47,10 @@ function App() {
         <Switch>
           <Route exact path="/" component={LogIn}/>
           <Route exact path="*" component={Menu}/>
-        </Switch>   
+        </Switch>
       </div>
     </Router>
+
   );
 }
 

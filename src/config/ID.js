@@ -17,3 +17,8 @@ export const setLoginId = (id) => {
 export const setLoginName = (name) => {
   cookies.set("LOGIN_NAME", name);
 }
+
+export const checkLogin = () => {
+  if(!cookies.get("LOGIN_ID"))
+    window.location.replace("/BOBO/#/");
+}

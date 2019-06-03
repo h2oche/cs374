@@ -4,13 +4,14 @@ import {TextInput, Row, Col, Tabs, Tab, Checkbox, Button} from 'react-materializ
 import "../../css/Notices/AddBoard.css";
 import {Redirect} from 'react-router';
 import { fire, getFireDB, pushMultipleDB, pushDB} from '../../config/fire';
+import { getLoginId, getLoginName, checkLogin } from '../../config/ID';
 
 export class AddBoard extends Component {
   state = {
     Users: [],
     CurrentUser: {
-      id: 1,
-      name: "안승민"
+      id: getLoginId() * 1,
+      name: getLoginName(),
     },
     seletedUsers: new Set(),
     redirect: false,
@@ -93,6 +94,8 @@ export class AddBoard extends Component {
   }
 
   render() {
+    checkLogin();
+
     if(this.state.redirect)
       return <Redirect to={this.state.redirectTo}/>
 

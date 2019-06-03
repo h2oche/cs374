@@ -5,6 +5,7 @@ import "../../css/Notices/Notice.css";
 import QuestionListItem from './QuestionListItem';
 import * as firebase from 'firebase';
 import { fire, getFireDB, pushMultipleDB, pushDB, setDB, getstorage} from '../../config/fire';
+import { checkLogin, getLoginId, getLoginName } from '../../config/ID';
 
 export class Notice extends Component {
   state = {
@@ -16,8 +17,8 @@ export class Notice extends Component {
     persistent: Math.floor(Math.random() * 2) == 1,
     questions: [],
     CurrentUser: {
-      id: 1,
-      name: "Nawoo Kim"
+      id: getLoginId() * 1,
+      name: getLoginName()
     }
   }
 
@@ -135,6 +136,7 @@ export class Notice extends Component {
   }
 
   render() {
+    checkLogin();
     return (
       <div className="content" id="notice-content">
         <Topbar name="Notice" showBack={true} backTo={"/BOBO/#" + this.props.location.pathname.slice(0, this.props.location.pathname.indexOf("/notice"))}/>
@@ -145,7 +147,11 @@ export class Notice extends Component {
               <span className={this.state.important?"important" : "none"}></span>
               <span className="notice-name">{this.state.name}</span>
               {/* <span className="notice-list-item-questions"><span>{this.props.data.questionCnt}</span></span> */}
-              <span className="notice-expire">Will expire at {this.formatDate(this.state.expireDate)}</span>
+              <span className="notice-expire">{
+                this.state.persistent ? 
+                <span>Persistent</span> :
+                <span>Will expire at {this.formatDate(this.state.expireDate)}</span>
+              }</span>
             </div>
           </Col>
         </Row>

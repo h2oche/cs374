@@ -4,6 +4,7 @@ import Topbar from "../Topbar";
 import {Row, Col, Collection, Autocomplete, Button} from 'react-materialize';
 import {Redirect} from 'react-router';
 import { fire, getFireDB} from '../../config/fire';
+import { getLoginId, getLoginName,checkLogin } from "../../config/ID";
 
 import "../../css/Notices/BoardList.css";
 import "../../css/Common.css";
@@ -17,70 +18,14 @@ export class NoticeBoard extends Component {
     redirect: false,
     redirectTo: -1,
     CurrentUser: {
-      id: 1,
-      name: "안승민"
+      id: getLoginId() * 1,
+      name: getLoginName()
     }
   }
 
   constructor(props) {
     super(props);
     fire();
-    // this.state = {
-    //   Boards : [ {
-    //       id: 1,
-    //       name: "Class A",
-    //     },{
-    //       id: 2,
-    //       name: "Class B",
-    //     },{
-    //       id: 3,
-    //       name: "Class C"
-    //     },{
-    //       id: 4,
-    //       name: "Class D",
-    //     },{
-    //       id: 5,
-    //       name: "Class E",
-    //     },{
-    //       id: 6,
-    //       name: "Class F"
-    //     }
-    //   ],
-    //   BoardUserMap : [{
-    //     userId: 1,
-    //     boardId: 1
-    //   }, {
-    //     userId: 1,
-    //     boardId: 2
-    //   }, {
-    //     userId: 2,
-    //     boardId: 1
-    //   }, {
-    //     userId: 1,
-    //     boardId: 4
-    //   }],
-    //   CurrentUser : {
-    //     id: 1,
-    //     name: "안승민"
-    //   },
-    //   UnreadPosts : [{
-    //     userId: 1,
-    //     postId: 34,
-    //     boardId: 1 
-    //   }, {
-    //     userId: 1,
-    //     postId: 35,
-    //     boardId: 2
-    //   }, {
-    //     userId: 1,
-    //     postId: 36,
-    //     boardId: 1
-    //   }],
-    //   validBoards: [],
-    //   autocompleteData: {Test:null, Test2:null},
-    //   redirect: false,
-    //   redirectTo: -1,
-    // }
   }
 
   componentDidMount = () => {
@@ -120,6 +65,8 @@ export class NoticeBoard extends Component {
   }
 
   render() {
+    checkLogin();
+
     if(this.state.redirect)
       return <Redirect to={this.state.redirectTo}/>
 
