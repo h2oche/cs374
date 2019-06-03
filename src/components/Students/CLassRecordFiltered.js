@@ -25,6 +25,7 @@ export class ClassRecordFiltered extends Component {
     Age: "Loading...",
     Tel: "Loading...",
     url: "",
+    records: [],
     mount:true,
   }
 
@@ -69,7 +70,7 @@ export class ClassRecordFiltered extends Component {
         return String(_mapElem.StudentID) === this.props.match.params.student_id && _mapElem.Hashtag.indexOf(this.props.match.params.hash) != -1; //
       });
 
-        this.setState({ ...this.state, Records: result.val(), validRecords });
+        this.setState({ ...this.state, records : records ,Records: result.val(), validRecords });
       }
     )
   }
@@ -77,9 +78,14 @@ export class ClassRecordFiltered extends Component {
 
   renderRecordList = () => {
     console.log('valid:', this.state.validRecords)
+    var validRecords = this.state.records.filter(_mapElem => {
+      // console.log(_mapElem);
+      // console.log("id:" , _mapElem.StudentID, this.props.match.params.student_id);
+      // console.log(typeof(_mapElem.StudentID), typeof(this.props.match.params.student_id))
+      return String(_mapElem.StudentID) === this.props.match.params.student_id && _mapElem.Hashtag.indexOf(this.props.match.params.hash) != -1; //
+    });
 
-
-    return this.state.validRecords.map(_record => {
+    return validRecords.map(_record => {
       if (_record.InstructorID === 'teacher101') //FIXME: MyID
         return <MyRecordListItem data={_record} test={this.passSetState} />
       else
