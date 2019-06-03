@@ -8,7 +8,7 @@ import {Textarea, TextInput} from 'react-materialize';
 import "../css/login.css"
 import Table from 'react-materialize/lib/Table';
 import "../config/ID"
-import { LOGIN_ID, setLoginId, getLoginId } from '../config/ID';
+import { LOGIN_ID, setLoginId, getLoginId, setLoginName, getLoginName } from '../config/ID';
 
 
 export class LogIn extends Component {
@@ -54,7 +54,7 @@ export class LogIn extends Component {
       {
         if(user['login_id'] == typed_id && user['pw'] == typed_pw)
         {
-          this.loginSuccess(user['id']);
+          this.loginSuccess(user['id'], user['name']);
           return;
         }
       }
@@ -62,11 +62,10 @@ export class LogIn extends Component {
     this.setState({login_error: true});
   }
 
-  loginSuccess = (id) => {
+  loginSuccess = (id, name) => {
     setLoginId(id);
-    console.log(id);
-    console.log(getLoginId());
-    this.setState({target:'/studentList/' + id,
+    setLoginName(name);
+    this.setState({target:'/studentList/',
                     redirect:true});
   }
 
