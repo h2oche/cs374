@@ -140,7 +140,7 @@ class RecordListItem extends Component {
     // console.log("render hasH", this.props.data.Hashtag)
     if(this.props.data.Hashtag!=null)
       return this.props.data.Hashtag.map(_elem => {
-        return <Hashtag data={_elem} parent={this}/>
+        return <Hashtag data={_elem} student_id={this.props.data.StudentID} parent={this}/>
       })
   }
 
@@ -197,7 +197,7 @@ class MyRecordListItem extends Component {
     // console.log("MY render hasH", this.props.data.Hashtag)
     if(this.props.data.Hashtag!=null)
       return this.props.data.Hashtag.map(_elem => {
-        return <Hashtag data={_elem} instructor_id={this.props.data.InstructorID} student_id={this.props.data.StudentID}/>
+        return <Hashtag data={_elem} student_id={this.props.data.StudentID}/>
       })
   }
 
