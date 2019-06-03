@@ -102,7 +102,7 @@ export class ClassRecord extends Component {
           <Topbar
             name="Class Record"
             showBack={true}
-            backTo={"/BOBO/#/studentProfile/main/" + getLoginId +'/'+this.props.match.params.student_id}
+            backTo={"/BOBO/#/studentProfile/main/" +this.props.match.params.student_id}
             showOptional={true}
             optionalComponent={<Button
               id="board-list-add-btn"
