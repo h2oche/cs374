@@ -8,7 +8,7 @@ import {Textarea, TextInput} from 'react-materialize';
 import "../css/login.css"
 import Table from 'react-materialize/lib/Table';
 import "../config/ID"
-import { LOGIN_ID, setLoginId, getLoginId, setLoginName, getLoginName } from '../config/ID';
+import { LOGIN_ID, setLoginId, getLoginId, setLoginName, getLoginName, logout } from '../config/ID';
 
 
 export class LogIn extends Component {
@@ -28,7 +28,7 @@ export class LogIn extends Component {
   constructor(props) 
   {
     super(props);
-    setLoginId(null);
+    logout();
     getFireDB('/User').then(
       result => {
         this.userList = result.val();
