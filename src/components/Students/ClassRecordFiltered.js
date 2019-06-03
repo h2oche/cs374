@@ -7,6 +7,7 @@ import { Row, Col, Collection, CollectionItem, Button, Icon, Checkbox } from 're
 import { fire, getFireDB, pushMultipleDB, pushDB, setDB, deleteDB, download_picture, getPictureURL } from '../../config/fire';
 import Topbar from '../Topbar';
 import Demographic from './Demographic'
+import { getLoginName, getLoginId } from '../../config/ID'
 //import RecordListItem from './RecordListItem';
 
 import '../../css/Students/StudentProfile.css'
@@ -77,7 +78,7 @@ export class ClassRecordFiltered extends Component {
 
 
   renderRecordList = () => {
-    console.log('valid:', this.state.validRecords)
+    // console.log('valid:', this.state.validRecords)
     var validRecords = this.state.records.filter(_mapElem => {
       // console.log(_mapElem);
       // console.log("id:" , _mapElem.StudentID, this.props.match.params.student_id);
@@ -86,15 +87,11 @@ export class ClassRecordFiltered extends Component {
     });
 
     return validRecords.map(_record => {
-      if (_record.InstructorID === 'teacher101') //FIXME: MyID
-        return <MyRecordListItem data={_record} test={this.passSetState} />
+      if (_record.InstructorID === getLoginName() )
+        return <MyRecordListItem data={_record} />
       else
-        return <RecordListItem data={_record} test={this.passSetState} />
+        return <RecordListItem data={_record} />
     });
-  }
-
-  passSetState = () => {
-    console.log("test A");
   }
 
   render() {
@@ -107,7 +104,7 @@ export class ClassRecordFiltered extends Component {
           <Topbar
             name="Class Record"
             showBack={true}
-            backTo={"/BOBO/#/studentProfile/classRecord/" + this.props.match.params.instructor_id+'/'+this.props.match.params.student_id}
+            backTo={"/BOBO/#/studentProfile/classRecord/" +this.props.match.params.student_id}
             showOptional={true}
             optionalComponent={<Button
               id="board-list-add-btn"
@@ -115,7 +112,7 @@ export class ClassRecordFiltered extends Component {
               floating small
               waves="light"
               icon="add"
-              href={"/BOBO/#/classRecord/3?"+this.props.match.params.student_id} />}></Topbar>
+              href={"/BOBO/#/classRecord/"+this.props.match.params.student_id} />}></Topbar>
         </div>
 
         <div className="show-record-list-row">
@@ -145,7 +142,7 @@ class RecordListItem extends Component {
     // console.log("render hasH", this.props.data.Hashtag)
     if(this.props.data.Hashtag!=null)
       return this.props.data.Hashtag.map(_elem => {
-        return <Hashtag data={_elem} parent={this}/>
+        return <Hashtag data={_elem} student_id={this.props.data.StudentID} parent={this}/>
       })
   }
 
@@ -164,8 +161,7 @@ class RecordListItem extends Component {
     }
 
   render() {
-    //console.log(this.props.data)
-    this.props.test();
+
     return (
       <CollectionItem>
         <Row s={12}>
@@ -202,7 +198,7 @@ class MyRecordListItem extends Component {
     // console.log("MY render hasH", this.props.data.Hashtag)
     if(this.props.data.Hashtag!=null)
       return this.props.data.Hashtag.map(_elem => {
-        return <Hashtag data={_elem} instructor_id={this.props.data.InstructorID} student_id={this.props.data.StudentID}/>
+        return <Hashtag data={_elem} student_id={this.props.data.StudentID}/>
       })
   }
 
@@ -221,8 +217,7 @@ class MyRecordListItem extends Component {
     }
 
   render() {
-    // console.log("data:", this.props.data)
-    //this.props.test();
+
     return (
       <CollectionItem id='class-record-item'>
         <Row s={12}>
@@ -265,7 +260,7 @@ class Hashtag extends Component {
     return (
       <span id='hash-span'>
         {/* <option id = 'selectHash' onClick={this.onHashtagSelection}>{'#' + this.props.data + ' '}</option> */}
-        <Link id = 'selectHash' to={"/studentProfile/classRecordFiltered/" + this.props.instructor_id + '/'+this.props.student_id +'/'+this.props.data}>
+        <Link id = 'selectHash' to={"/studentProfile/classRecordFiltered/" +this.props.student_id +'/'+this.props.data}>
          {'#' + this.props.data + ' '}
         </Link>
       </span>

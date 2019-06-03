@@ -9,6 +9,7 @@ import {Link} from 'react-router-dom';
 import {Button} from 'react-materialize'
 import '../../css/Common.css'
 import { fire, getFireDB, pushMultipleDB, pushDB, setDB, deleteDB, updateChild, download_picture} from '../../config/fire';
+import { getLoginId } from '../../config/ID';
 
 export class InstructorsNoteAddModify extends Component {
 
@@ -41,7 +42,7 @@ export class InstructorsNoteAddModify extends Component {
         download_picture(args['picture'], this);
       }
     )
-    getFireDB('/Note/'+this.props.match.params.student_id+'/'+this.props.match.params.instructor_id).then(
+    getFireDB('/Note/'+this.props.match.params.student_id+'/'+getLoginId()).then(
       result => {
         console.log(result.val());
         this.setState({textcontent: result.val(), loaded: true})
@@ -56,12 +57,12 @@ export class InstructorsNoteAddModify extends Component {
   confirm = ()=> {
     if(this.state.textcontent == null || this.state.textcontent.length!=0)
     {
-      updateChild('/Note/'+this.props.match.params.student_id, this.props.match.params.instructor_id, this.state.textcontent);
+      updateChild('/Note/'+this.props.match.params.student_id, getLoginId(), this.state.textcontent);
       return;
     }
     else
     {
-      deleteDB('/Note/'+this.props.match.params.student_id+'/'+this.props.match.params.instructor_id);
+      deleteDB('/Note/'+this.props.match.params.student_id+'/'+getLoginId());
     }
   }
 
@@ -70,7 +71,7 @@ export class InstructorsNoteAddModify extends Component {
     <div style = {{width:"100%"}} className="content InstructorsNoteContent">
         <div>
             <Topbar name="Instructor's Note" showBack={true} 
-                  backTo = {"/BOBO/#/studentProfile/instructorsNote/"+this.props.match.params.instructor_id+"/"+
+                  backTo = {"/BOBO/#/studentProfile/instructorsNote/"+
                                 this.props.match.params.student_id}></Topbar>
         </div>
         <div className="NoteContainer">
@@ -83,7 +84,7 @@ export class InstructorsNoteAddModify extends Component {
                 <Textarea placeholder="Write note on this student" style={{width: "90%", display: "table-cell"}}
                   onChange={this.handlecontentChange} value={this.state.textcontent} />
               </div>
-              <Link to={"/studentProfile/instructorsNote/"+this.props.match.params.instructor_id+"/"+
+              <Link to={"/studentProfile/instructorsNote/"+
                           this.props.match.params.student_id}>
                 <Button className="CommonButton" style={{marginLeft: "20px"}} >
                   Cancel
