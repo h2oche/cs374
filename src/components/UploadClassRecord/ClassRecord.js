@@ -10,6 +10,8 @@ import {Redirect} from 'react-router';
 import * as firebase from 'firebase'
 import { resolve } from 'url';
 
+import {getLoginName} from '../../config/ID'
+
 
 
 const PopupExample =  () => (
@@ -32,7 +34,8 @@ const PopupExample =  () => (
 
 
 const INITIAL_STATE = {
-  InstructorID:'teacher101',
+  InstructorID:getLoginName(),
+  // InstructorID:'teacher101',
   StudentID: '',
   Studentname: '',
   Text:'',
@@ -93,7 +96,7 @@ export class ClassRecord extends Component {
           if(Users[index].id===Number(temparray[1]))
           {
 
-            this.setState({...this.state, Text:"",Hashtag:[],photos:[], temparr:[],Users, autocompleteData, showAutocomplete:true, Studentname:Users[index].name,StudentID:Number(temparray[1]),fromprofile:true}, function() {
+            this.setState({...this.state,InstructorID:getLoginName(), Text:"",Hashtag:[],photos:[], temparr:[],Users, autocompleteData, showAutocomplete:true, Studentname:Users[index].name,StudentID:Number(temparray[1]),fromprofile:true}, function() {
 
               this.renderChips();
 
@@ -105,7 +108,7 @@ export class ClassRecord extends Component {
       }
       else
       {
-        this.setState({...this.state, Text:"", Hashtag:[],photos:[],temparr:[],Users, autocompleteData, showAutocomplete:true});
+        this.setState({...this.state, InstructorID:getLoginName(),Text:"", Hashtag:[],photos:[],temparr:[],Users, autocompleteData, showAutocomplete:true});
       }
     });
             
