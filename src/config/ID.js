@@ -19,11 +19,13 @@ export const setLoginName = (name) => {
 }
 
 export const checkLogin = () => {
+  console.log(cookies.get("LOGIN_ID"));
   if(!cookies.get("LOGIN_ID"))
     window.location.replace("/BOBO/#/");
 }
 
-export function logout() {   
-  document.cookie = "LOGIN_ID"+'=; Max-Age=-99999999;';  
-  document.cookie = "LOGIN_NAME"+'=; Max-Age=-99999999;';  
+export function logout() {
+  console.log('logged out');
+  document.cookie = "LOGIN_ID"+'=; Max-Age=-99999999;';
+  document.cookie = "LOGIN_NAME"+'=; Max-Age=-99999999;';
 }
