@@ -406,7 +406,8 @@ export class ClassRecord extends Component {
       window.M.Toast.dismissAll();
       this.inputElementcontent.value= "";
       this.inputElementname.value="";
-      this.setState({...this.state,redirect: true, redirectTo: "/studentList/tommy11" });
+      this.setState({...this.state,redirect: true, redirectTo: "/studentProfile/classRecord/"+obj.StudentID });
+      // this.setState({...this.state,redirect: true, redirectTo: "/studentList/tommy11" });
     });
 
 
